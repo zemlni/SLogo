@@ -8,12 +8,14 @@ As the nature of this program’s design contains two separate components–front an
 
 Design Overview:
 ----------
+![](SlogoDesign.jpg)
 This graph shows our overall design. The program is separated into two parts, the frontend and the backend. The frontend directly controls what the users see and interact with the users. The backend is responsible for understanding the user input and remembering all the user defined commands and variables.<br/>
 The frontend external APIs are defined inside FrontendController, including methods that the backend calls to update the view. The backend external API is mainly just the evaluate(String input) method in BackendController, which parsers and executes the user input and udpates the frontend accordingly. The frontend internal APIs are methods that connects between FrontendController and all the sub controllers. The backend internal APIs are methods methods that parses the language and update the variable and command environment.<br/>
 When a user wants to evaluate a piece of input string in the frontend, the frontendController.evaluate(input) is called, which then calls backendController.evaluate(input) and the backend starts evaluating the input. Evaluating the input is performed in the parser, which generates a Command object that the backend controller can directly execute. When these command objects are executed, the variable table, the command table, and the properties of the turtle are modified accordingly. During the execution process, whenever an update (variable, command, or turtle) needs to be shown in the frontend, the corresponding method defined in the frontend is called.<br/>
 
 User Interface:
 -------------
+![](SlogoUI.jpg)
 There are four main windows that make us the user interface of the IDE: the Drawing Screen, the Console, the variable/function environment and the history/help window. We will allow for these windows to be resized to allow for maximum flexibility for the user.<br/>
 1) Drawing Screen: This screen is where the user will see the turtle drawing being displayed. This screen will be updated when a user enters a turtle-based command, allowing the user to effectively draw through commands. <br/>
 2) The Console: This window will have two tabs: the Console tab and the Script tab. The Console table will allow the user to enter commands one by one into the window and execute the command when they press enter. The result will be either returned to the console window or will be reflected in the Drawing screen. If there is an error in the command, the appropriate error will be returned. The Script tab allows the user to write a script of commands which can all be executed in series by the user. In the script tab, there will be new, load,save,step, and run buttons to help the user handles their command scripts.  In both of these tabs there will be a stop button which can stop execution of a user command when clicked. <br/>
