@@ -95,8 +95,10 @@ Class BackendController{
 
 class Variable{
 	String getKey();
-	update();
+	Object getValue();
+	update(Object newValue);
 }
+
 ```
 **Internal API for Back-End**
 ```java
@@ -117,10 +119,10 @@ class CommandTable{
 abstract class Command{
 	//how to instantiate arguments for commands - tuesday lecture	
 	public abstract void execute() //execute command, update variables and commands and update front end accordingly. Check variables if they were defined in the `VariableTable`
+	public String getKey()
 }
 abstract class UserCommand extends Command{
 	//for this execute, check if the command was already defined by the user. 
-	public String getKey()
 	public void update()
 }
 ```
