@@ -27,106 +27,113 @@ Errors output for the user: Invalid command, File Load error, Save error, functi
 
 API Details:
 ----------
-All of these methods listed in the APIs can be found in Java interface files in our src folder. We have set it up so that when we start implementing, the classes can simply implement these interfaces to ensure that these defined APIs are implemented. Additionally, while the exceptions are not listed in this file, exceptions are listed in the actual interfaces when they are thrown. <br/>
+All of these methods listed in the APIs can be found in Java interface files in our src folder. We have set it up so that when we start implementing, the classes can simply implement these interfaces to ensure that these defined APIs are implemented. Additionally, while the exceptions are not listed in this file, exceptions are listed in the actual interfaces when they are thrown. Front-end interfaces can be found in the src folder in the package frontend while back-end interfaces can be found in the src/backend folder and under the package slogo_team08<br/><br/>
 **External API for Front-end (Graphical Interface)**
-```java
-class FrontendController { // (one for each Session)
-	// methods to update the session variables and positions
-	void addVariable(Variable variable)
-	void updateVariable(Variable updatedVariable)
-	void removeVariable(Variable variable)
-	void addCommand(Command command)
-	void removeCommand(Command command)
-	// methods to respond to user input
-	void moveTurtleTo(double x, double y)
-	void drawLine(double x0, double y0, double x1, double y1)
-	void setTurtleAngle(double angle)
-	void clearScreen()
-	// methods for displaying response text
-	void showError(String error)
-	void showText(String text)
-}
-```
+The goal of this API is for the back-end to be able to call these methods which are methods
+of front-end classes to update the view of the IDE. The design is based around the back-end
+only having to have knowledge of the FrontEndController in order to update the view. Then
+the FrontEndController will call methods of its components that it controls to actually do
+the hard work. The main goal of this API is to ensure that the view is updated when state in the back-end is modified.<br/><br/>
+
+class FrontendController { // (one for each Session)<br/>
+	// methods to update the session variables and positions<br/>
+	void addVariable(Variable variable)<br/>
+	void updateVariable(Variable updatedVariable)<br/>
+	void removeVariable(Variable variable)<br/>
+	void addCommand(Command command)<br/>
+	void removeCommand(Command command)<br/>
+	// methods to respond to user input<br/>
+	void moveTurtleTo(double x, double y)<br/>
+	void drawLine(double x0, double y0, double x1, double y1)<br/>
+	void setTurtleAngle(double angle)<br/>
+	void clearScreen()<br/>
+	// methods for displaying response text<br/>
+	void showError(String error)<br/>
+	void showText(String text)<br/>
+}<br/>
+
 **Internal API for Front-end**
-```java
-class FrontendController {
-void evaluate(String input)
-}
-class ShellController {
-void showError(String error)
-void showText(String text)
-}
-class ScriptController {
-void showError(String error)
-void showText(String text)
-void load(String filename)
-void saveAs(String filename)
-}
-class VariablesController {
-	void addVariable(Variable variable)
-	void updateVariable(Variable updatedVariable)
-void removeVariable(Variable variable)
-}
-class CommandsController {
-	void addCommand(Command command)
-	void removeCommand(Command command)
-}
-class HistoryController {
-	void addHistory(String history)
-	void clearHistory()
-}
-class MainController {
-	void newSession()
-void loadSession(String filename)
-void saveSessionAs(String filename)
-}
-class TurtleController {
-	void moveTurtleTo(double x, double y)
-	void drawLine(double x0, double y0, double x1, double y1)
-	void setTurtleAngle(double angle)
-	void clearScreen()
-}
-```
+The goal of this API is to define the methods that front-end needs to be have in order to
+properly update, draw, and allow user interaction with the IDE. A lot of these methods are
+methods that are called directly from the FrontEndController from methods that are described
+in the above external API. These methods do the dirty work of displaying changes and results
+in the back-end in the front-end. The main goal of this API is to define the methods that will allow the front-end to update its view after it is told it needs to change. <br/><br/>
+class FrontendController {<br/>
+void evaluate(String input)<br/>
+}<br/><br/>
+class ShellController {<br/>
+void showError(String error)<br/>
+void showText(String text)<br/>
+}<br/><br/>
+class ScriptController {<br/>
+void showError(String error)<br/>
+void showText(String text)<br/>
+void load(String filename)<br/>
+void saveAs(String filename)v
+}<br/><br/>
+class VariablesController {<br/>
+	void addVariable(Variable variable)<br/>
+	void updateVariable(Variable updatedVariable)<br/>
+void removeVariable(Variable variable)<br/>
+}<br/><br/>
+class CommandsController {<br/>
+	void addCommand(Command command)<br/>
+	void removeCommand(Command command)<br/>
+}<br/><br/>
+class HistoryController {<br/>
+	void addHistory(String history)<br/>
+	void clearHistory()<br/>
+}<br/><br/>
+class MainController {<br/>
+	void newSession()<br/>
+void loadSession(String filename)<br/>
+void saveSessionAs(String filename)<br/>
+}<br/><br/>
+class TurtleController {<br/>
+	void moveTurtleTo(double x, double y)<br/>
+	void drawLine(double x0, double y0, double x1, double y1)<br/>
+	void setTurtleAngle(double angle)<br/>
+	void clearScreen()<br/>
+}<br/><br/>
+
 **External API for Back-end (Interpreter)**
-```java
-Class BackendController{
-	void evaluate(String command)  // parses the instruction received from the GUI and and evaluates the commands returned by parser one by one, updating UI on each step.
-	void stopExecution() // probably involves multithreading?
-}
+This API is responsible for handling the interaction between the front-end and back-end by allowing the front-end to call methods that are stored in back-end classes. This is a short API because the only real functionality that the front-end needs to directly call from the back-end is to be able to pass and stop String commands and to access variables that are stored in the back-end. The main goal of this API is to define the behavior that allows the front-end to communicate commands to the back-end and get the necessary information it needs to display needed information for the user.<br/><br/>
+Class BackendController{<br/>
+	void evaluate(String command)  // parses the instruction received from the GUI and and<br/> evaluates the commands returned by parser one by one, updating UI on each step.<br/>
+	void stopExecution() // probably involves multithreading?<br/>
+}<br/><br/>
 
-class Variable{
-	String getKey();
-	Object getValue();
-	update(Object newValue);
-}
+class Variable{<br/>
+	String getKey();<br/>
+	Object getValue();<br/>
+	update(Object newValue);<br/>
+}<br/><br/>
 
-```
 **Internal API for Back-End**
-```java
-class Parser{
-	Public List<Command> parse(String command) throws CommandError //parse the command, check if it exists. Check if variables are defined in variable table. Throws a CommandError if there was an offending command.
-}
-class variableTable{
-	//whenever table changes need to update frontend
-	Variable getVariable(String name)
-	void setVariable(String name, Object value)
-	void removeVariable(String name)
-}
-class CommandTable{
-	Command getCommand(String name)
-	void setCommand(Command command)
-	void removeCommand(String key)
-}
-abstract class Command{
-	//how to instantiate arguments for commands - tuesday lecture	
-	public abstract void execute() //execute command, update variables and commands and update front end accordingly. Check variables if they were defined in the `VariableTable`
-	public String getKey()
-}
-abstract class UserCommand extends Command{
-	//for this execute, check if the command was already defined by the user. 
-	public void update()
-}
-```
+This API defines the methods that are needed to create the inner-workings of the back-end. There are many components to the back-end which help define the state of the IDE. The back-end is mainly responsible for evaluating commands and storing variables and functions. The main goal for this API is to define the behavior of components that work together to hold the state of the IDE as well as successfully parse and evaluate commands after they are passed in to the back-end. <br/><br/>  
+class Parser{<br/>
+	Public List<Command> parse(String command) throws CommandError //parse the command, <br/>check if it exists. Check if variables are defined in variable table. <br/>Throws a CommandError if there was an offending command.
+}<br/><br/>
+class variableTable{<br/>
+	//whenever table changes need to update frontend<br/>
+	Variable getVariable(String name)<br/>
+	void setVariable(String name, Object value)<br/>
+	void removeVariable(String name)<br/>
+}<br/><br/>
+class CommandTable{<br/>
+	Command getCommand(String name)<br/>
+	void setCommand(Command command)<br/>
+	void removeCommand(String key)<br/>
+}<br/><br/>
+abstract class Command{<br/>
+	//how to instantiate arguments for commands - tuesday lecture	<br/>
+	public abstract void execute() //execute command, update variables and commands and <br/>update front end accordingly. Check variables if they were defined in the `VariableTable`<br/>
+	public String getKey()<br/>
+}<br/><br/>
+abstract class UserCommand extends Command{<br/>
+	//for this execute, check if the command was already defined by the user. <br/>
+	public void update()<br/>
+}<br/><br/>
 
 API Example Code:
 ------------
