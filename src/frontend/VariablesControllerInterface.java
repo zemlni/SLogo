@@ -16,13 +16,17 @@ public interface VariablesControllerInterface {
 	/**
 	 * Updates the value of a variable that is currently being shown in the Variables window.
 	 * @param updatedVariable
+	 * @throws Exception if variable that is trying to be updated does not currently
+	 * exist in the front-end. This exception will be more specifically defined.
 	 */
-	void updateVariable(Variable updatedVariable);
+	void updateVariable(Variable updatedVariable) throws Exception;
 	
 	/**
 	 * Removes a variable that is currently being shown in the Variables window.
 	 * @param variable
+	 * @throws Exception if variable that is trying to be removed does not currently
+	 * exist in the front-end. This exception will be more specifically defined.
 	 */
-	void removeVariable(Variable variable);
+	void removeVariable(Variable variable) throws Exception;
 
 }
