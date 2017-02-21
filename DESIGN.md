@@ -28,24 +28,24 @@ Errors output for the user: Invalid command, File Load error, Save error, functi
 API Details:
 ----------
 **External API for Front-end (Graphical Interface)**
-
-class FrontendController { // (one for each Session) <br/>
-	// methods to update the session variables and positions <br/>
-	void addVariable(Variable variable) <br/>
-	void updateVariable(Variable updatedVariable) <br/>
-	void removeVariable(Variable variable)<br/>
-	void addCommand(Command command)<br/>
-	void removeCommand(Command command)<br/>
-	// methods to respond to user input<br/>
-	void moveTurtleTo(double x, double y)<br/>
-	void drawLine(double x0, double y0, double x1, double y1)<br/>
-	void setTurtleAngle(double angle)<br/>
-	void clearScreen()<br/>
-	// methods for displaying response text<br/>
-	void showError(String error)<br/>
-	void showText(String text)<br/>
-}<br/>
-
+```java
+class FrontendController { // (one for each Session)
+	// methods to update the session variables and positions
+	void addVariable(Variable variable)
+	void updateVariable(Variable updatedVariable)
+	void removeVariable(Variable variable)
+	void addCommand(Command command)
+	void removeCommand(Command command)
+	// methods to respond to user input
+	void moveTurtleTo(double x, double y)
+	void drawLine(double x0, double y0, double x1, double y1)
+	void setTurtleAngle(double angle)
+	void clearScreen()
+	// methods for displaying response text
+	void showError(String error)
+	void showText(String text)
+}
+```
 **Internal API for Front-end**
 ```java
 class FrontendController {
