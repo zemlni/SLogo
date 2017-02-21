@@ -25,15 +25,19 @@ public interface FrontEndControllerInterface {
 		/**
 		 * Internal: Updates a variable that already is shown in the Variable window
 		 * @param updatedVariable
+		 * @throws Exception if variable that is trying to be updated does not currently
+		 * exist in the front-end. This exception will be more specifically defined.
 		 */
-		void updateVariable(Variable updatedVariable);
+		void updateVariable(Variable updatedVariable) throws Exception;
 		
 		/**
 		 * Internal: Removes the visual representation of a Variable that is currently shown 
 		 * in the Variable window
 		 * @param variable
+		 * @throws Exception if variable that is trying to be removed does not currently
+		 * exist in the front-end. This exception will be more specifically defined.
 		 */
-		void removeVariable(Variable variable);
+		void removeVariable(Variable variable) throws Exception;
 		
 		/**
 		 * Internal: Adds a command to the Commands Controller which keep tracks of Commands on the
@@ -46,8 +50,9 @@ public interface FrontEndControllerInterface {
 		 * Internal: Removes the command from the Commands Controller which keeps tracks of Commands on
 		 * the front-end
 		 * @param command
+		 * @throws Exception if command that is trying to be removed doesn't exist
 		 */
-		void removeCommand(Command command);
+		void removeCommand(Command command) throws Exception;
 		
 		// methods to respond to user input
 		/**

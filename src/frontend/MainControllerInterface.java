@@ -18,8 +18,10 @@ public interface MainControllerInterface {
 	/**
 	 * Loads a previously saved session and sets the windows' state to their saved state.
 	 * @param filename Name of Session to be opened
+	 * @throws Exception if the session that is trying to be loaded does not exist as a 
+	 * saved session. Exception will be more specifically defined in future.
 	 */
-	void loadSession(String filename);
+	void loadSession(String filename) throws Exception;
 	
 	/**
 	 * Saves the current session

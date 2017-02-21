@@ -22,8 +22,10 @@ public interface ScriptControllerInterface {
 	/**
 	 * Loads a previously saved script
 	 * @param filename Script name to be loaded
+	 * @throws Exception if script does not exist in saved state with current name. Exception
+	 * will be more specifically defined in the future.
 	 */
-	void load(String filename);
+	void load(String filename) throws Exception;
 	
 	/**
 	 * Saves the current script so it can be accessed at a later point

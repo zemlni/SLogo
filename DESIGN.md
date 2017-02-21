@@ -27,6 +27,7 @@ Errors output for the user: Invalid command, File Load error, Save error, functi
 
 API Details:
 ----------
+All of these methods listed in the APIs can be found in Java interface files in our src folder. We have set it up so that when we start implementing, the classes can simply implement these interfaces to ensure that these defined APIs are implemented. Additionally, while the exceptions are not listed in this file, exceptions are listed in the actual interfaces when they are thrown. <br/>
 **External API for Front-end (Graphical Interface)**
 ```java
 class FrontendController { // (one for each Session)
