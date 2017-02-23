@@ -12,13 +12,9 @@
 
 ### Part 2
 
-5.  Five use cases:
-  (1). To show returned text from command: the backend team evaluates the commands, and at the end of the last command show its return value by calling `frontEnd.showText(String value)`.
-  
-  (2). The pen shows or not: (team 6) in each state object there is a variable indicating whether the pen shows or not, and the frontend retrieves this information from the object and act accordingly. (team 8) The status of the pen is only remembered in the backend, and the backend calls different frontend methods `moveTo()` or `drawLine()` depends on the status.
-
-  (3). Execute a command from history by clicking: the history is stored only at the frontend, and the frontend runs the history by passing the command to backend for interpretation.
-
-  (4). foo...
-
+5.  Five use cases:  
+  (1). To show returned text from command: the backend team evaluates the commands, and at the end of the last command show its return value by calling `frontEnd.showText(String value)`.  
+  (2). The pen shows or not: (team 6) in each state object there is a variable indicating whether the pen shows or not, and the frontend retrieves this information from the object and act accordingly. (team 8) The status of the pen is only remembered in the backend, and the backend calls different frontend methods `moveTo()` or `drawLine()` depends on the status.  
+  (3). Execute a command from history by clicking: the history is stored only at the frontend, and the frontend runs the history by passing the command to backend for interpretation.  
+  (4). foo...  
   (5). bar...
