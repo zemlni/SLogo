@@ -9,8 +9,10 @@ public interface CommandInterface {
 	/**
 	 * execute command, update variables and commands and update front end
 	 * accordingly. Check variables if they were defined in the `VariableTable`
+	 * 
+	 * @return return value for this command
 	 */
-	public abstract void execute();
+	public abstract double execute();
 
 	/**
 	 * get the key (name) of this command
@@ -18,4 +20,11 @@ public interface CommandInterface {
 	 * @return the key(name) of the command
 	 */
 	public String getKey();
+
+	/**
+	 * get the amount of arguments this command takes
+	 * 
+	 * @return amount of arguments this command takes
+	 */
+	public int getNumArgs();
 }

@@ -20,12 +20,12 @@ public interface VariableInterface {
 	 * @param newValue
 	 *            the new value to be held by this variable
 	 */
-	public void update(Object newValue);
+	public void update(double newValue);
 
 	/**
 	 * get the value of this variable.
 	 * 
 	 * @return the value of this variable
 	 */
-	public Object getValue();
+	public double getValue();
 }

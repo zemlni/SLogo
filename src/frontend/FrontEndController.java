@@ -1,5 +1,7 @@
 package frontend;
 
+import backend.Command;
+
 public class FrontEndController implements FrontEndControllerInterface {
 	VariablesController variablesController;
 	CommandsController commandsController;

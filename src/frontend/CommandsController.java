@@ -1,5 +1,7 @@
 package frontend;
 
+import backend.Command;
+
 public class CommandsController implements CommandsControllerInterface {
 
 	@Override

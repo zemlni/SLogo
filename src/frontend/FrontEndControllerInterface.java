@@ -1,5 +1,7 @@
 package frontend;
 
+import backend.Command;
+
 /**
  * Interface for the front end controller. The role of this controller is to oversee
  * and direct all of the objects that make up the front-end of the SLogo program.

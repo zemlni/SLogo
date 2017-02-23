@@ -1,5 +1,7 @@
 package frontend;
 
+import backend.Command;
+
 /**
  * This interface sets forth the methods that must be implemented in the CommandsController
  * class. The goal of this class is to control the Commands window which show the 

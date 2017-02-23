@@ -1,7 +1,5 @@
 package backend;
 
-import java.util.List;
-
 /**
  * Interface for the parser. This is internal API. The parser will be called
  * from the BackendController class from the evaluate method. Additionally, the
@@ -17,5 +15,5 @@ public interface ParserInterface {
 	 *            the command(s) to be parsed
 	 * @return list of Command instances that resulted from the parsing.
 	 */
-	public List<Command> parse(String command) throws CommandError;
+	public double parse(String command) throws CommandError;
 }
