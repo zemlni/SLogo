@@ -1,10 +1,10 @@
-package slogo_team08;
+package backend;
 
 /**
  * interface for user defined commands. This is external API because update will
  * be called from the front end when it is updated by the user
  */
-public interface UserCommand extends Command {
+public interface UserCommandInterface extends CommandInterface {
 	/**
 	 * update the command from the front end when user changes it in the command
 	 * UI window.

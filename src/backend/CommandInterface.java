@@ -1,11 +1,11 @@
-package slogo_team08;
+package backend;
 
 /**
  * This will be the interface for the abstract class Command. All commands must
  * be of this format. This is only internal API. These will be subclassed for
  * every possible command
  */
-public interface Command {
+public interface CommandInterface {
 	/**
 	 * execute command, update variables and commands and update front end
 	 * accordingly. Check variables if they were defined in the `VariableTable`

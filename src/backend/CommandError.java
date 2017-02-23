@@ -1,4 +1,4 @@
-package slogo_team08;
+package backend;
 
 /**
  * This is what will be thrown in the case when the command is not found in the

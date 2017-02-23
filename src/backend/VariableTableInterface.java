@@ -1,4 +1,4 @@
-package slogo_team08;
+package backend;
 
 /**
  * This is the interface for the structure that will hold the variable table.
@@ -6,7 +6,7 @@ package slogo_team08;
  * variable window in the front end. This will contain all user defined
  * variables. This is only internal API.
  */
-public interface VariableTable {
+public interface VariableTableInterface {
 
 	/**
 	 * get a variable by its name

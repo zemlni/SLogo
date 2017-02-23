@@ -1,4 +1,4 @@
-package slogo_team08;
+package backend;
 
 /**
  * This is the interface that the command table will have to follow. This is
@@ -7,7 +7,7 @@ package slogo_team08;
  * commands. To the back end, it will contain all language and user defined
  * commands. This is only internal API.
  */
-public interface CommandTable {
+public interface CommandTableInterface {
 
 	/**
 	 * get a command by its name

@@ -1,4 +1,4 @@
-package slogo_team08;
+package backend;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * parser may have to be called when updating user defined commands and
  * variables.
  */
-public interface Parser {
+public interface ParserInterface {
 	/**
 	 * parse the command(s) and transform them into a list of Command instances.
 	 * Throws a CommandError if the command was not recognized.
