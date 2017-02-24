@@ -67,15 +67,15 @@ public class Parser implements ParserInterface {
 			Class<?> clazz = Class.forName("commands." + getCommandSymbol(split[0]) + "Command");
 			Constructor<?> ctor = clazz.getDeclaredConstructor();
 			Command cur = (Command) ctor.newInstance();
-			List<Variable> vars = new ArrayList<Variable>();
+			List<Double> vars = new ArrayList<Double>();
 			for (int i = 0; i < cur.getNumArgs(); i++) {
 				String symbol = getSyntaxSymbol(split[i + 1]);
 				if (symbol.equals("Constant")) {
-					vars.add(new Variable(Double.parseDouble(split[i + 1])));
+					vars.add(Double.parseDouble(split[i + 1]));
 				} else if (symbol.equals("Command"))
-					return parse(Arrays.copyOfRange(split, i + 1, split.length));
+					vars.add(parse(Arrays.copyOfRange(split, i + 1, split.length)));
 			}
-
+			cur.setArgs(vars);
 			return cur.execute();
 		} catch (Exception e) {
 			// TODO: do this
@@ -87,7 +87,7 @@ public class Parser implements ParserInterface {
 
 	public static void main(String[] args) {
 		Parser parser = new Parser("English");
-		String command = "fd fd 50";
+		String command = "fd fd fd 50";
 		System.out.println(parser.parse(command));
 	}
 

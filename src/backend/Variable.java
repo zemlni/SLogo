@@ -2,10 +2,7 @@ package backend;
 
 public class Variable implements VariableInterface {
 	private double value;
-
-	public Variable(double value) {
-		this.value = value;
-	}
+	private String key;
 
 	@Override
 	public String getKey() {

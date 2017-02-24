@@ -10,8 +10,9 @@ public class ForwardCommand extends Command{
 	@Override
 	public double execute() {
 		System.out.println("TEST");
-		// TODO Auto-generated method stub
-		return 0;
+		double forwardAmount = getArgs().get(0);
+		//do stuff for turtle.
+		return forwardAmount;
 		
 	}
 
