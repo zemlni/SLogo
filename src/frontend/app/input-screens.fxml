@@ -10,10 +10,10 @@
 	side="LEFT" tabClosingPolicy="UNAVAILABLE">
 	<tabs>
 		<Tab text="shell">
-			<fx:include source="shell-screen.fxml" />
+			<fx:include source="subscreens/shell-screen.fxml" />
 		</Tab>
 		<Tab text="script">
-			<fx:include source="script-screen.fxml" />
+			<fx:include source="subscreens/script-screen.fxml" />
 		</Tab>
 	</tabs>
 </TabPane>

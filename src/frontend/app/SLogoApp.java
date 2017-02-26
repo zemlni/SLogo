@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class SLogoApp extends Application {
@@ -25,10 +25,10 @@ public class SLogoApp extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_PAGE_RESOURCE));
         loader.setResources(getResourceBundle());
 
-        VBox root = (VBox) loader.load();
+        AnchorPane root = (AnchorPane) loader.load();
         scene = new Scene(root, WIDTH, HEIGHT);
         
-        stage.setResizable(false);
+//        stage.setResizable(false);
         stage.setTitle(resourceBundle.getString("Title"));
         stage.setScene(scene);
         stage.sizeToScene();
