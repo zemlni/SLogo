@@ -13,5 +13,6 @@
 		<Button text="New" onAction="#addNewSession" />
 		<Button text="Open" />
 		<Button text="Save" />
+		<Button text="Help" />
 	</children>
 </HBox>
