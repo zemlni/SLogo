@@ -1,5 +1,7 @@
 package backend;
 
+import java.util.List;
+
 /**
  * This will be the interface for the abstract class Command. All commands must
  * be of this format. This is only internal API. These will be subclassed for
@@ -15,16 +17,15 @@ public interface CommandInterface {
 	public abstract double execute();
 
 	/**
-	 * get the key (name) of this command
-	 * 
-	 * @return the key(name) of the command
-	 */
-	public String getKey();
-
-	/**
 	 * get the amount of arguments this command takes
 	 * 
 	 * @return amount of arguments this command takes
 	 */
 	public int getNumArgs();
+
+	public List<Variable> getArgs();
+
+	public void setArgs(List<Variable> vars);
+
+	public void setNumArgs(int numArgs);
 }

@@ -5,31 +5,25 @@ import java.util.List;
 public abstract class Command implements CommandInterface {
 
 	private int numArgs;
-	private List<Double> args;
+	private List<Variable> args;
 
 	@Override
 	public abstract double execute();
 
 	@Override
-	public String getKey() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getNumArgs() {
 		return numArgs;
 	}
-
-	protected void setNumArgs(int numArgs) {
+	@Override
+	public void setNumArgs(int numArgs) {
 		this.numArgs = numArgs;
 	}
-
-	public void setArgs(List<Double> vars) {
+	@Override
+	public void setArgs(List<Variable> vars) {
 		this.args = vars;
 	}
-
-	public List<Double> getArgs() {
+	@Override
+	public List<Variable> getArgs() {
 		return args;
 	}
 }

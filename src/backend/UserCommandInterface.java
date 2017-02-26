@@ -13,4 +13,11 @@ public interface UserCommandInterface extends CommandInterface {
 	 *            the new command that is now to be this command.
 	 */
 	public void update(String newCommand);
+
+	/**
+	 * get the key (name) of this command
+	 * 
+	 * @return the key(name) of the command
+	 */
+	public String getKey();
 }

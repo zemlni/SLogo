@@ -14,6 +14,9 @@ public class Parser implements ParserInterface {
 	private List<Entry<String, Pattern>> commandSymbols;
 	private List<Entry<String, Pattern>> syntaxSymbols;
 	private final String WHITESPACE = "\\s+";
+	// TODO: initialize these
+	private VariableTable variableTable;
+	private CommandTable commandTable;
 
 	public Parser(String language) {
 		ResourceBundle languageResources = ResourceBundle.getBundle(language);
@@ -57,23 +60,41 @@ public class Parser implements ParserInterface {
 
 	@Override
 	public double parse(String text) {
-		//also need to split by newlines (possibly)
+		// also need to split by newlines (possibly)
 		return parse(text.split(WHITESPACE));
 	}
 
-	private double parse(String[] split) {
+	private void complain(Exception e) {
 
+	}
+
+	private double parse(String[] split) {
+		Class<?> clazz = null;
+		Command cur = null;
 		try {
-			Class<?> clazz = Class.forName("commands." + getCommandSymbol(split[0]) + "Command");
+			clazz = Class.forName("commands." + getCommandSymbol(split[0]) + "Command");
 			Constructor<?> ctor = clazz.getDeclaredConstructor();
-			Command cur = (Command) ctor.newInstance();
-			List<Double> vars = new ArrayList<Double>();
+			cur = (Command) ctor.newInstance();
+		} catch (Exception e) {
+			try {
+				cur = commandTable.getCommand(split[0]);
+			} catch (Exception e1) {
+				complain(e1);
+			}
+		}
+		try {
+			List<Variable> vars = new ArrayList<Variable>();
 			for (int i = 0; i < cur.getNumArgs(); i++) {
 				String symbol = getSyntaxSymbol(split[i + 1]);
 				if (symbol.equals("Constant")) {
-					vars.add(Double.parseDouble(split[i + 1]));
-				} else if (symbol.equals("Command"))
-					vars.add(parse(Arrays.copyOfRange(split, i + 1, split.length)));
+					vars.add(new Variable(null, Double.parseDouble(split[i + 1])));
+				} else if (symbol.equals("Variable")) {
+					vars.add(new Variable(null, variableTable.getVariable(split[i + 1].substring(1)).getValue()));
+				} else if (symbol.equals("Command")){
+					vars.add(new Variable(null, parse(Arrays.copyOfRange(split, i + 1, split.length))));
+				} else if (symbol.equals("Symbol")){
+					vars.add(new Variable(split[i + 1].substring(1), 0));
+				}				
 			}
 			cur.setArgs(vars);
 			return cur.execute();
@@ -87,8 +108,12 @@ public class Parser implements ParserInterface {
 
 	public static void main(String[] args) {
 		Parser parser = new Parser("English");
-		String command = "fd fd fd 50";
-		System.out.println(parser.parse(command));
+		// String command = "fd fd fd 50";
+		String command = "\"test";
+		String regex = "(\"\\w+)";
+		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+		System.out.println(pattern.matcher(command).matches());
+		// System.out.println(parser.parse(command));
 	}
 
 }

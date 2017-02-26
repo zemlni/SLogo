@@ -16,7 +16,7 @@ public interface VariableTableInterface {
 	 * 
 	 * @return the Variable requested
 	 */
-	public Variable getVariable(String name);
+	public Variable getVariable(String name) throws CommandError;
 
 	/**
 	 * Set a new or existing variable to the given value
@@ -26,7 +26,7 @@ public interface VariableTableInterface {
 	 * @param value
 	 *            value to be set
 	 */
-	public void setVariable(String name, Object value);
+	public void setVariable(String name, double value);
 
 	/**
 	 * remove a variable from the variable table
