@@ -28,5 +28,8 @@ public class AppController {
 	public void addNewSession() throws IOException {
 		sessionsController.addNewSession();
 	}
+	public void changeLanguageTo(String language) {
+		System.out.println("I want to change language to: "+language);
+	}
 	
 }

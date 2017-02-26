@@ -14,5 +14,6 @@
 		<Button text="Open" />
 		<Button text="Save" />
 		<Button text="Help" />
+		<ComboBox fx:id="languageBox" />
 	</children>
 </HBox>
