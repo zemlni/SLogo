@@ -75,9 +75,10 @@ public class Parser implements ParserInterface {
 		Command cur = null;
 		try {
 			clazz = Class.forName("commands." + getCommandSymbol(split[0]) + "Command");
-			Constructor<?> ctor = clazz.getDeclaredConstructor();
-			cur = (Command) ctor.newInstance(variableTable, commandTable);
+			Constructor<?> ctor = clazz.getDeclaredConstructor(this.getClass());
+			cur = (Command) ctor.newInstance(this);
 		} catch (Exception e) {
+			e.printStackTrace();
 			try {
 				cur = commandTable.getCommand(split[0]);
 			} catch (Exception e1) {
@@ -101,6 +102,7 @@ public class Parser implements ParserInterface {
 			cur.setArgs(vars);
 			return cur.execute();
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO: do this
 			// FrontEndController.showError(String error)
 			// figure out what to return
@@ -110,12 +112,9 @@ public class Parser implements ParserInterface {
 
 	public static void main(String[] args) {
 		Parser parser = new Parser("English");
-		// String command = "fd fd fd 50";
-		String command = "\"test";
-		String regex = "(\"\\w+)";
-		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-		System.out.println(pattern.matcher(command).matches());
-		// System.out.println(parser.parse(command));
+		String command = "fd fd fd 50";
+
+		System.out.println(parser.parse(command));
 	}
 
 }
