@@ -28,19 +28,14 @@ public class UserCommand extends Command implements UserCommandInterface {
 	@Override
 	public double execute() {
 		List<Variable> vars = getArgs();
-		for (Variable var: vars){
-			
+		
+		for (int i = 0; i < vars.size(); i++){
+			vars.get(i).setKey(variables[i]);
 		}
-		double ret = 0;
-		for (Command command : commands) {
-			ret = command.execute();
-		}
+
 		return ret;
 	}
 	
-	private double execute(String commands){
-		return 0;
-	}
 
 	@Override
 	public void update(String newCommand) {

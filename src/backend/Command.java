@@ -31,4 +31,7 @@ public abstract class Command implements CommandInterface {
 	public List<Variable> getArgs() {
 		return args;
 	}
+	public Parser getParser(){
+		return parser;
+	}
 }
