@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- You have to import packages manually in FXML!!! -->
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<HBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
+	fx:controller="frontend.app.SessionsController">
+	<children>
+		<SplitPane orientation="HORIZONTAL" prefHeight="400"
+			prefWidth="400">
+			<items>
+				<SplitPane orientation="VERTICAL">
+					<items>
+						<fx:include source="subscreens/turtle-screen.fxml" />
+						<fx:include source="subscreens/input-screens.fxml" />
+					</items>
+				</SplitPane>
+
+				<VBox>
+					<children>
+						<TitledPane text="variables">
+							<content>
+								<fx:include source="subscreens/variables-screen.fxml" />
+							</content>
+						</TitledPane>
+						<TitledPane text="commands">
+							<content>
+								<fx:include source="subscreens/commands-screen.fxml" />
+							</content>
+						</TitledPane>
+						<TitledPane text="history">
+							<content>
+								<fx:include source="subscreens/history-screen.fxml" />
+							</content>
+						</TitledPane>
+					</children>
+				</VBox>
+
+			</items>
+		</SplitPane>
+	</children>
+</HBox>

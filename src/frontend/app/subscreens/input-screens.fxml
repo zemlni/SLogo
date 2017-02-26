@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- You have to import packages manually in FXML!!! -->
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
+	side="LEFT" tabClosingPolicy="UNAVAILABLE">
+	<tabs>
+		<Tab text="shell">
+			<fx:include source="shell-screen.fxml" />
+		</Tab>
+		<Tab text="script">
+			<fx:include source="script-screen.fxml" />
+		</Tab>
+	</tabs>
+</TabPane>
