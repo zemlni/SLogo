@@ -16,9 +16,6 @@ public class SessionsController {
 	private TabPane tabPane;
 	private AppController appController;
 	
-	public SessionsController() { }
-	@FXML
-	public void initialize() { }
 	public void setAppController(AppController appController) {
 		this.appController = appController;
 	}

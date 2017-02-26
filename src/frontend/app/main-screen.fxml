@@ -8,13 +8,22 @@
 
 
 <SplitPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
-	fx:controller="frontend.app.SessionsController" orientation="HORIZONTAL">
+	fx:controller="frontend.app.FrontEndController" orientation="HORIZONTAL">
 	<items>
-	
+
 		<SplitPane orientation="VERTICAL">
 			<items>
-				<fx:include source="subscreens/turtle-screen.fxml" />
-				<fx:include source="input-screens.fxml" />
+				<fx:include fx:id="turtle" source="/frontend/views/turtle-view.fxml" />
+				<TabPane side="LEFT" tabClosingPolicy="UNAVAILABLE">
+					<tabs>
+						<Tab text="shell">
+							<fx:include fx:id="shell" source="/frontend/views/shell-view.fxml" />
+						</Tab>
+						<Tab text="script">
+							<fx:include fx:id="script" source="/frontend/views/script-view.fxml" />
+						</Tab>
+					</tabs>
+				</TabPane>
 			</items>
 		</SplitPane>
 
@@ -22,17 +31,17 @@
 			<children>
 				<TitledPane text="variables">
 					<content>
-						<fx:include source="subscreens/variables-screen.fxml" />
+						<fx:include fx:id="variables" source="/frontend/views/variables-view.fxml" />
 					</content>
 				</TitledPane>
 				<TitledPane text="commands">
 					<content>
-						<fx:include source="subscreens/commands-screen.fxml" />
+						<fx:include fx:id="commands" source="/frontend/views/commands-view.fxml" />
 					</content>
 				</TitledPane>
 				<TitledPane text="history">
 					<content>
-						<fx:include source="subscreens/history-screen.fxml" />
+						<fx:include fx:id="history" source="/frontend/views/history-view.fxml" />
 					</content>
 				</TitledPane>
 			</children>

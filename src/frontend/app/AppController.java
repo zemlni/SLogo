@@ -12,10 +12,15 @@ public class AppController {
 	private SessionsController sessionsController;
 	
 	public AppController() {
-		// A controller must have a public no-args constructor.
+		// An fxml controller must have a public no-args constructor
+		// that does nothing.
+		// This controller can be omitted, but note that declaring one
+		// with-args constructor without explicitly declaring the no-args
+		// constructor will make the no-args constructor disappear.
 	}
 	@FXML
 	private void initialize() {
+		// Do the initialization here (instead of inside the no-args constructor).
 		topMenuController.setAppController(this);
 		sessionsController.setAppController(this);
 	}

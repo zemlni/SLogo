@@ -8,9 +8,6 @@ public class MenuController {
 	
 	private AppController appController;
 	
-	public MenuController() { }
-	@FXML
-	private void initialize() {	}
 	public void setAppController(AppController appController) {
 		this.appController = appController;
 	}

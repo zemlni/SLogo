@@ -6,8 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8">
+<VBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
+	fx:controller="frontend.views.ScriptController">
 	<children>
-		<Label text="Shell Screen" />
+		<Label text="Script Screen" />
 	</children>
 </VBox>
