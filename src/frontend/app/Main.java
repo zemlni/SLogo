@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class SLogoApp extends Application {
+public class Main extends Application {
 	public static final String MAIN_PAGE_RESOURCE = "/frontend/app/app.fxml";
     public static final String DEFAULT_RESOURCE_PACKAGE = "resources/ui/";
     public static final String LANGUAGE = "English";

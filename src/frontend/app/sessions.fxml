@@ -8,7 +8,7 @@
 
 
 <TabPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
-	fx:controller="frontend.app.SessionsController" side="TOP">
+	fx:controller="frontend.app.SessionsController" fx:id="tabPane" side="TOP">
 	<tabs>
 		<Tab text="tab1">
 			<fx:include source="main-screen.fxml" />
