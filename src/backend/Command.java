@@ -6,6 +6,11 @@ public abstract class Command implements CommandInterface {
 
 	private int numArgs;
 	private List<Variable> args;
+	private Parser parser;
+
+	public Command(Parser parser){
+		this.parser = parser;
+	}
 
 	@Override
 	public abstract double execute();

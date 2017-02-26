@@ -1,10 +1,12 @@
 package commands;
 
 import backend.Command;
+import backend.Parser;
 
 public class ForwardCommand extends Command{
 	
-	public ForwardCommand(){
+	public ForwardCommand(Parser parser){
+		super(parser);
 		setNumArgs(1);
 	}
 	@Override

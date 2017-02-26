@@ -14,4 +14,6 @@ public interface BackendControllerInterface {
 	 *            the command or script entered by the user
 	 */
 	public void evaluate(String command);
+	
+	public void setLanguage(String language);
 }

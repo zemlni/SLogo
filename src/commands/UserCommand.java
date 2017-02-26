@@ -3,15 +3,21 @@ package commands;
 import java.util.List;
 
 import backend.Command;
+import backend.Parser;
 import backend.UserCommandInterface;
 import backend.Variable;
 
 public class UserCommand extends Command implements UserCommandInterface {
 	private String name;
-	private List<Command> commands;
+	String commands;
+	String [] variables;
 
-	public UserCommand() {
-
+	public UserCommand(String name, String [] variables, String commands, Parser parser) {
+		//add command to CommandTable
+		super(parser);
+		this.name = name;
+		this.commands = commands;
+		this.variables = variables;
 	}
 
 	/**
@@ -21,22 +27,18 @@ public class UserCommand extends Command implements UserCommandInterface {
 	 */
 	@Override
 	public double execute() {
+		List<Variable> vars = getArgs();
+		for (Variable var: vars){
+			
+		}
 		double ret = 0;
 		for (Command command : commands) {
 			ret = command.execute();
 		}
 		return ret;
 	}
-
-	@Override
-	public String getKey() {
-		// TODO check if this is what we need
-		return name;
-	}
-
-	@Override
-	public int getNumArgs() {
-		// TODO Auto-generated method stub
+	
+	private double execute(String commands){
 		return 0;
 	}
 
@@ -47,21 +49,8 @@ public class UserCommand extends Command implements UserCommandInterface {
 	}
 
 	@Override
-	public List<Variable> getArgs() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setNumArgs(int numArgs) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setArgs(List<Variable> vars) {
-		// TODO Auto-generated method stub
-
+	public String getKey() {
+		return name;
 	}
 
 }

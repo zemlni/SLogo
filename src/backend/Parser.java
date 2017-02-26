@@ -25,6 +25,8 @@ public class Parser implements ParserInterface {
 		syntaxSymbols = new ArrayList<Entry<String, Pattern>>();
 		setUpSymbols(languageResources, commandSymbols);
 		setUpSymbols(syntaxResources, syntaxSymbols);
+		variableTable = new VariableTable();
+		commandTable = new CommandTable();
 	}
 
 	private void setUpSymbols(ResourceBundle rb, List<Entry<String, Pattern>> list) {
@@ -74,7 +76,7 @@ public class Parser implements ParserInterface {
 		try {
 			clazz = Class.forName("commands." + getCommandSymbol(split[0]) + "Command");
 			Constructor<?> ctor = clazz.getDeclaredConstructor();
-			cur = (Command) ctor.newInstance();
+			cur = (Command) ctor.newInstance(variableTable, commandTable);
 		} catch (Exception e) {
 			try {
 				cur = commandTable.getCommand(split[0]);
