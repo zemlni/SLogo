@@ -13,8 +13,6 @@ public class SumCommand extends Command{
 	@Override
 	public double execute() {
 		double sum = getArgs().get(0).getValue() + getArgs().get(1).getValue();
-		
-		System.out.println(sum);
 		return sum;
 	}
 
