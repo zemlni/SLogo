@@ -7,12 +7,14 @@ public class BackendController implements BackendControllerInterface {
 	private Parser parser;
 	private String language;
 	private TurtleModel turtle;
+	private FrontEndController fcontroller;
 
 	/**
 	 * english is default language
 	 */
 	public BackendController(FrontEndController fcontroller) {
 		setLanguage("English");
+		this.fcontroller = fcontroller;
 		turtle = new TurtleModel(fcontroller);
 	}
 	
@@ -38,6 +40,10 @@ public class BackendController implements BackendControllerInterface {
 	
 	public String getLanguage(){
 		return language;
+	}
+	
+	public FrontEndController getFrontEndController(){
+		return fcontroller;
 	}
 
 }

@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.Command;
+import backend.Variable;
 
 /**
  * Interface for the front end controller. The role of this controller is to oversee

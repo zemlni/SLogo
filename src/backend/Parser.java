@@ -103,18 +103,6 @@ public class Parser implements ParserInterface {
 		}
 		try {
 			List<Variable> vars = new ArrayList<Variable>();
-			/*
-			 * while (index < index + 1 + cur.getNumArgs() && index + 1 <
-			 * split.length) { index++; String symbol =
-			 * getSyntaxSymbol(split[index]); if (symbol.equals("Constant")) {
-			 * vars.add(new Variable(null, Double.parseDouble(split[index]))); }
-			 * else if (symbol.equals("Variable")) { vars.add(new Variable(null,
-			 * variableTable.getVariable(split[index].substring(1)).getValue()))
-			 * ; } else if (symbol.equals("Command")) { vars.add(new
-			 * Variable(null, parse(split, index)[0])); } else if
-			 * (symbol.equals("Symbol")) { vars.add(new
-			 * Variable(split[index].substring(1), 0)); } }
-			 */
 
 			for (int i = index; i < index + cur.getNumArgs(); i++) {
 				String symbol = getSyntaxSymbol(split[i + 1]);
@@ -130,10 +118,6 @@ public class Parser implements ParserInterface {
 				index = i;
 			}
 			cur.setArgs(vars);
-			/*
-			 * double ret = cur.execute(); return index + 1 < split.length ?
-			 * parse(split, index + 1): ret;
-			 */
 			double[] ret = { cur.execute(), index };
 			return ret;
 		} catch (Exception e) {
@@ -141,7 +125,8 @@ public class Parser implements ParserInterface {
 			// TODO: do this
 			// FrontEndController.showError(String error)
 			// figure out what to return
-			double[] ret = { 0, index };
+			//controller.getFrontEndController().showError("");
+			double[] ret = { retVal, index };
 			return ret;
 		}
 	}

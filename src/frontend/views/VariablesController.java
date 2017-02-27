@@ -1,6 +1,6 @@
 package frontend.views;
 
-import frontend.Variable;
+import backend.Variable;
 import frontend.app.FrontEndController;
 
 
