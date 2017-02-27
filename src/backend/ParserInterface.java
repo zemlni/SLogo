@@ -1,6 +1,4 @@
-package slogo_team08;
-
-import java.util.List;
+package backend;
 
 /**
  * Interface for the parser. This is internal API. The parser will be called
@@ -8,7 +6,7 @@ import java.util.List;
  * parser may have to be called when updating user defined commands and
  * variables.
  */
-public interface Parser {
+public interface ParserInterface {
 	/**
 	 * parse the command(s) and transform them into a list of Command instances.
 	 * Throws a CommandError if the command was not recognized.
@@ -17,5 +15,5 @@ public interface Parser {
 	 *            the command(s) to be parsed
 	 * @return list of Command instances that resulted from the parsing.
 	 */
-	public List<Command> parse(String command) throws CommandError;
+	public double parse(String command) throws CommandError;
 }
