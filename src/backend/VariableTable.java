@@ -16,7 +16,7 @@ public class VariableTable implements VariableTableInterface {
 	public Variable getVariable(String name) throws CommandException{
 		Variable ret = variables.get(name.toUpperCase());
 		if (ret == null)
-			throw new CommandException();
+			throw new CommandException(name);
 		return ret;
 	}
 

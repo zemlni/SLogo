@@ -59,7 +59,7 @@ public class Parser implements ParserInterface {
 				return e.getKey();
 			}
 		}
-		throw new CommandException();
+		throw new CommandException(text);
 	}
 
 	@Override
@@ -81,8 +81,9 @@ public class Parser implements ParserInterface {
 
 	private double parseIntermediate(String[] split, int index) {
 		double[] ret = parse(split, index, 0);
-		while (ret[1] < split.length)
+		while (ret[1] + 1 < split.length){
 			ret = parse(split, ((int) ret[1] + 1), ret[0]);
+		}
 		return ret[0];
 	}
 
@@ -94,7 +95,7 @@ public class Parser implements ParserInterface {
 			Constructor<?> ctor = clazz.getDeclaredConstructor(controller.getClass());
 			cur = (Command) ctor.newInstance(controller);
 		} catch (Exception e) {
-			// e.printStackTrace();
+			 e.printStackTrace();
 			try {
 				cur = commandTable.getCommand(split[index]);
 			} catch (Exception e1) {
@@ -106,8 +107,8 @@ public class Parser implements ParserInterface {
 		}
 		try {
 			List<Variable> vars = new ArrayList<Variable>();
-
-			for (int i = index; i < index + cur.getNumArgs(); i++) {
+			int i;
+			for (i = index; i < index + cur.getNumArgs(); i++) {
 				if (i + 1 < split.length) {
 					String symbol = getSyntaxSymbol(split[i + 1]);
 					if (symbol.equals("Constant")) {
@@ -119,14 +120,14 @@ public class Parser implements ParserInterface {
 					} else if (symbol.equals("Symbol")) {
 						vars.add(new Variable(split[i + 1].substring(1), 0));
 					}
-					index = i;
 				}
 			}
+			index = i;
 			cur.setArgs(vars);
 			double[] ret = { cur.execute(), index };
 			return ret;
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			// TODO: do this
 			// FrontEndController.showError(String error)
 			// figure out what to return

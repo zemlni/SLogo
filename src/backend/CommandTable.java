@@ -15,7 +15,7 @@ public class CommandTable implements CommandTableInterface {
 	public UserCommand getCommand(String name) throws CommandException {
 		UserCommand ret = commands.get(name.toUpperCase());
 		if (ret == null)
-			throw new CommandException();
+			throw new CommandException(name);
 		return ret;
 	}
 

@@ -6,6 +6,10 @@ package backend;
  */
 public class CommandException extends Exception {
 
+	public CommandException(String text) {
+		super(text);
+	}
+
 	/**
 	 * 
 	 */
