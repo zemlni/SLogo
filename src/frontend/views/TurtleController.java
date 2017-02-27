@@ -2,10 +2,11 @@ package frontend.views;
 
 import frontend.app.FrontEndController;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 
 
@@ -33,7 +34,7 @@ public class TurtleController {
 	@FXML
 	private void initialize() {
 		turtle = new TurtleImage(X_OFFSET, Y_OFFSET);
-		canvas = new Canvas();
+		canvas = new Canvas(500, 500);
 		gc = canvas.getGraphicsContext2D();
 		turtleScreen.getChildren().add(canvas);	
 		turtleScreen.getChildren().add(turtle.getImage());
@@ -44,11 +45,14 @@ public class TurtleController {
 	}
 	
 	public void moveTurtleTo(double x, double y) {
-		turtle.move(x + X_OFFSET, y + Y_OFFSET);
+		Point2D location = translateLocation(x,y);
+		turtle.move(location.getX(), location.getY());
 	}
 
 	public void drawLine(double x0, double y0, double x1, double y1) {
-		gc.strokeLine(x0 + X_OFFSET, y0 + Y_OFFSET, x1 + X_OFFSET, y1 + Y_OFFSET);
+		Point2D old = translateLocation(x0, y0);
+		Point2D end = translateLocation(x1, y1);
+		gc.strokeLine(old.getX(), old.getY(), end.getX(), end.getY());
 	}
 
 	public void setTurtleAngle(double angle) {
@@ -59,5 +63,10 @@ public class TurtleController {
 		gc.clearRect(0, 0, 200, 200);
 	}
 	
+	private Point2D translateLocation(double x, double y){
+		double newX = X_OFFSET + x;
+		double newY = Y_OFFSET - y;
+		return new Point2D(newX, newY);
+	}
 	
 }

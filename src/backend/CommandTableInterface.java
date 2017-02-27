@@ -18,7 +18,7 @@ public interface CommandTableInterface {
 	 *            name of command requester
 	 * @return command requested
 	 */
-	public UserCommand getCommand(String name) throws CommandError;
+	public UserCommand getCommand(String name) throws CommandException;
 
 	/**
 	 * add or reset a command in the variable table

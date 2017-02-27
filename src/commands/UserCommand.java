@@ -18,6 +18,7 @@ public class UserCommand extends Command implements UserCommandInterface {
 		this.name = name;
 		this.commands = commands;
 		this.variables = variables;
+		controller.getParser().getCommandTable().setCommand(this);
 	}
 
 	/**

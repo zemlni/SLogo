@@ -9,11 +9,11 @@ package backend;
 public interface ParserInterface {
 	/**
 	 * parse the command(s) and transform them into a list of Command instances.
-	 * Throws a CommandError if the command was not recognized.
+	 * Throws a CommandException if the command was not recognized.
 	 * 
 	 * @param command
 	 *            the command(s) to be parsed
 	 * @return list of Command instances that resulted from the parsing.
 	 */
-	public double parse(String command) throws CommandError;
+	public double parse(String command) throws CommandException;
 }
