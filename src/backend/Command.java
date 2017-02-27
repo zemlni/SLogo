@@ -7,9 +7,15 @@ public abstract class Command implements CommandInterface {
 	private int numArgs;
 	private List<Variable> args;
 	private Parser parser;
+	private BackendController bcontroller;
 
-	public Command(Parser parser){
+	public Command(Parser parser, BackendController controller){
 		this.parser = parser;
+		this.bcontroller = controller;
+	}
+	
+	public BackendController getBackendController(){
+		return bcontroller;
 	}
 
 	@Override

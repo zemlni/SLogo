@@ -1,12 +1,13 @@
 package commands;
 
+import backend.BackendController;
 import backend.Command;
 import backend.Parser;
 
 public class MakeCommand extends Command {
 
-	public MakeCommand(Parser parser){
-		super(parser);
+	public MakeCommand(Parser parser, BackendController controller){
+		super(parser, controller);
 		setNumArgs(2);
 	}
 	@Override

@@ -112,7 +112,7 @@ public class Parser implements ParserInterface {
 
 	public static void main(String[] args) {
 		Parser parser = new Parser("English");
-		String command = "fd fd fd 50";
+		String command = "sum 10 10";
 
 		System.out.println(parser.parse(command));
 	}

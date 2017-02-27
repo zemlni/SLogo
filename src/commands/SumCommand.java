@@ -1,12 +1,13 @@
 package commands;
 
+import backend.BackendController;
 import backend.Command;
 import backend.Parser;
 
 public class SumCommand extends Command{
 
-	public SumCommand(Parser parser) {
-		super(parser);
+	public SumCommand(Parser parser, BackendController controller) {
+		super(parser, controller);
 		setNumArgs(2);
 	}
 
