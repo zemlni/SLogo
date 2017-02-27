@@ -1,10 +1,16 @@
 package frontend;
 
+import frontend.views.TurtleImage;
+
 public class TurtleController implements TurtleControllerInterface {
+	private TurtleImage turtle;
+	
+	public TurtleController(){
+		turtle = new TurtleImage();
+	}
 
 	@Override
 	public void moveTurtleTo(double x, double y) {
-		// TODO Auto-generated method stub
 		
 	}
 
