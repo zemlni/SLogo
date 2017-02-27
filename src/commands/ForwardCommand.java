@@ -16,7 +16,6 @@ public class ForwardCommand extends TurtleCommand{
 	 */
 	@Override
 	public double execute() {
-		System.out.println("TEST");
 		double forwardAmount = getArgs().get(0).getValue();
 		
 		moveTurtle(forwardAmount);
