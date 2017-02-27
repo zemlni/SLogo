@@ -13,7 +13,7 @@
 
 		<SplitPane orientation="VERTICAL">
 			<items>
-				<fx:include fx:id="turtle" source="/frontend/views/turtle-view.fxml" />
+				<fx:include fx:id="turtleScreen" source="/frontend/views/turtle-view.fxml" />
 				<TabPane fx:id="inputTabPane" side="LEFT" tabClosingPolicy="UNAVAILABLE">
 					<tabs>
 						<Tab text="shell">
