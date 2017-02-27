@@ -1,21 +1,33 @@
 package frontend;
 
-import backend.Command;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class FrontEndController implements FrontEndControllerInterface {
-	VariablesController variablesController;
-	CommandsController commandsController;
-	TurtleController turtleController;
-	ShellController shellController;
-	ScriptController scriptController;
+	//Sub-controllers
+	private VariablesController variablesController;
+	private CommandsController commandsController;
+	private TurtleController turtleController;
+	private ShellController shellController;
+	private ScriptController scriptController;
 	
-
-	public FrontEndController(){
+	//Other Variables
+	private Boolean scriptTab = false;
+	private Group root;
+	public static final int SCENE_WIDTH = 1300;
+	public static final int SCENE_HEIGHT = 700;
+	
+	public FrontEndController(Stage stage){
 		variablesController = new VariablesController();
 		commandsController = new CommandsController();
 		turtleController = new TurtleController();
 		shellController = new ShellController();
 		scriptController = new ScriptController();
+		root = new Group();
+		display();
+		stage.setScene(new Scene(root, SCENE_WIDTH, SCENE_HEIGHT));
+		stage.show();
 	}
 	
 	@Override
@@ -72,12 +84,25 @@ public class FrontEndController implements FrontEndControllerInterface {
 
 	@Override
 	public void showError(String error) {
-		
+		if(scriptTab){
+			scriptController.showError(error);
+		}
+		else{
+			shellController.showError(error);
+		}
 	}
 
 	@Override
 	public void showText(String text) {
-		// TODO Auto-generated method stub
+		if(scriptTab){
+			scriptController.showText(text);
+		}
+		else{
+			shellController.showText(text);
+		}
+	}
+
+	private void display() {
 		
 	}
 

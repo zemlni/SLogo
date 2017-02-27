@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- You have to import packages manually in FXML!!! -->
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
+	fx:controller="frontend.views.ScriptController">
+	<children>
+		<TextArea fx:id="scriptArea" prefWidth="300" />
+		<VBox AnchorPane.rightAnchor="0" >
+			<children>
+				<Button text="run" />
+				<Button text="clear" />
+				<Button text="open" />
+				<Button text="save" />
+			</children>
+		</VBox>
+	</children>
+</AnchorPane>
