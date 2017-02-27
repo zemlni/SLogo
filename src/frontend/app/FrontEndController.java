@@ -10,7 +10,10 @@ import frontend.views.ShellController;
 import frontend.views.TurtleController;
 import frontend.views.VariablesController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TabPane;
+
 
 
 /**
@@ -147,6 +150,16 @@ public class FrontEndController {
 		} else {
 			return scriptController;
 		}
+	}
+	/**
+	 * Might be called in input controllers to show error in alert window.
+	 * @param errorMsg
+	 */
+	public void showErrorAlert(String errorMsg) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error Title");
+		alert.setContentText(errorMsg);
+		alert.showAndWait();
 	}
 	/**
 	 * Displays an error that has occurred during the processing of a certain command/function
