@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -18,8 +19,8 @@ public class TurtleScreenController {
 	@FXML
 	private Pane turtlePane;
 	private FrontEndController frontEnd;
-	public static final int X_OFFSET = 170;
-	public static final int Y_OFFSET = 125;
+	public static final int X_OFFSET = 200;
+	public static final int Y_OFFSET = 140;
 	
 	@FXML
 	private void initialize() {
@@ -29,6 +30,7 @@ public class TurtleScreenController {
 		gc = canvas.getGraphicsContext2D();
 		turtlePane.getChildren().add(canvas);	
 		turtlePane.getChildren().add(turtleControls.get(0).getImage());
+		createPreferencePanel();
 	}
 	
 	public void setFrontEndController(FrontEndController frontEnd) {
@@ -50,14 +52,26 @@ public class TurtleScreenController {
 		gc.setStroke(penColor);
 	}
 	
-	public void setBackground(String color){
-		turtlePane.setStyle("-fx-background-color: " + color);
+	public void setBackground(Color color){
+		turtlePane.setStyle("-fx-background-color: " + color.toString().substring(2));
 	}
 	
 	private Point2D translateLocation(double x, double y){
 		double newX = X_OFFSET + x;
 		double newY = Y_OFFSET - y;
 		return new Point2D(newX, newY);
+	}
+	
+	private void createPreferencePanel(){
+		HBox pref = new HBox();
+		ColorSelector penColor = new ColorSelector("Pen Color:");
+		penColor.getColorPicker().setOnAction(e -> setPenColor(penColor.getColorPicker().getValue()));
+		
+		ColorSelector backColor = new ColorSelector("Background:");
+		backColor.getColorPicker().setOnAction(e -> setBackground(backColor.getColorPicker().getValue()));
+		
+		pref.getChildren().addAll(penColor.getPanel(),backColor.getPanel());
+		turtlePane.getChildren().add(pref);
 	}
 
 	public void moveTurtleTo(double x, double y) {
