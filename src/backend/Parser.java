@@ -82,6 +82,7 @@ public class Parser implements ParserInterface {
 		double[] ret = parse(split, index, 0);
 		while (ret[1] + 1 < split.length) {
 			ret = parse(split, ((int) ret[1] + 1), ret[0]);
+			System.out.println("TEST1");
 		}
 		return ret[0];
 	}
@@ -98,7 +99,6 @@ public class Parser implements ParserInterface {
 			try {
 				cur = commandTable.getCommand(split[index]);
 			} catch (Exception e1) {
-				// System.out.println("test");
 				complain(e1);
 				double[] ret = { retVal, index };
 				return ret;
@@ -107,7 +107,6 @@ public class Parser implements ParserInterface {
 		try {
 			List<Variable> vars = new ArrayList<Variable>();
 			int i;
-			// while (numArgs >= 0){
 			for (i = index; i < index + cur.getNumArgs(); i++) {
 				if (i + 1 < split.length) {
 					String symbol = getSyntaxSymbol(split[i + 1]);
@@ -116,7 +115,11 @@ public class Parser implements ParserInterface {
 					} else if (symbol.equals("Variable")) {
 						vars.add(new Variable(null, variableTable.getVariable(split[i + 1].substring(1)).getValue()));
 					} else if (symbol.equals("Command")) {
-						vars.add(new Variable(null, parse(split, i + 1, retVal)[0]));
+						double [] recurse = parse(split, i + 1, retVal);
+						vars.add(new Variable(null, recurse[0]));
+						double diff = recurse[1] - (i + 1);
+						i += diff;
+						index += diff;
 					} else if (symbol.equals("Symbol")) {
 						vars.add(new Variable(split[i + 1].substring(1), 0));
 					} else if (symbol.equals("ListStart")) {
