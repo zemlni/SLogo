@@ -6,9 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
+<Pane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
 	fx:controller="frontend.views.TurtleController" fx:id="turtleScreen">
 	<children>
-		<Label text="Turtle" />
+		
 	</children>
-</HBox>
+</Pane>
