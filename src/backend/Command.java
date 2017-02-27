@@ -8,7 +8,7 @@ public abstract class Command implements CommandInterface {
 	private List<Variable> args;
 	private BackendController controller;
 
-	public Command(BackendController controller){
+	public Command(BackendController controller) {
 		this.controller = controller;
 	}
 
@@ -19,19 +19,23 @@ public abstract class Command implements CommandInterface {
 	public int getNumArgs() {
 		return numArgs;
 	}
+
 	@Override
 	public void setNumArgs(int numArgs) {
 		this.numArgs = numArgs;
 	}
+
 	@Override
 	public void setArgs(List<Variable> vars) {
 		this.args = vars;
 	}
+
 	@Override
 	public List<Variable> getArgs() {
 		return args;
 	}
-	public Parser getParser(){
+
+	public Parser getParser() {
 		return controller.getParser();
 	}
 }

@@ -75,11 +75,11 @@ public class Parser implements ParserInterface {
 	private void complain(Exception e) {
 
 	}
-	
-	private double parseIntermediate(String [] split, int index){
-		double [] ret = parse(split, index, 0);
+
+	private double parseIntermediate(String[] split, int index) {
+		double[] ret = parse(split, index, 0);
 		while (ret[1] < split.length)
-			ret = parse(split, ((int)ret[1] + 1), ret[0]);
+			ret = parse(split, ((int) ret[1] + 1), ret[0]);
 		return ret[0];
 	}
 
@@ -91,67 +91,58 @@ public class Parser implements ParserInterface {
 			Constructor<?> ctor = clazz.getDeclaredConstructor(controller.getClass());
 			cur = (Command) ctor.newInstance(controller);
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			try {
 				cur = commandTable.getCommand(split[index]);
 			} catch (Exception e1) {
-				//System.out.println("test");
+				// System.out.println("test");
 				complain(e1);
-				double [] ret = {retVal, index};
+				double[] ret = { retVal, index };
 				return ret;
 			}
 		}
 		try {
 			List<Variable> vars = new ArrayList<Variable>();
-			/*while (index < index + 1 + cur.getNumArgs() && index + 1 < split.length) {
-				index++;
-				String symbol = getSyntaxSymbol(split[index]);
-				if (symbol.equals("Constant")) {
-					vars.add(new Variable(null, Double.parseDouble(split[index])));
-				} else if (symbol.equals("Variable")) {
-					vars.add(new Variable(null, variableTable.getVariable(split[index].substring(1)).getValue()));
-				} else if (symbol.equals("Command")) {
-					vars.add(new Variable(null, parse(split, index)[0]));
-				} else if (symbol.equals("Symbol")) {
-					vars.add(new Variable(split[index].substring(1), 0));
-				}
-			}*/
-			
+			/*
+			 * while (index < index + 1 + cur.getNumArgs() && index + 1 <
+			 * split.length) { index++; String symbol =
+			 * getSyntaxSymbol(split[index]); if (symbol.equals("Constant")) {
+			 * vars.add(new Variable(null, Double.parseDouble(split[index]))); }
+			 * else if (symbol.equals("Variable")) { vars.add(new Variable(null,
+			 * variableTable.getVariable(split[index].substring(1)).getValue()))
+			 * ; } else if (symbol.equals("Command")) { vars.add(new
+			 * Variable(null, parse(split, index)[0])); } else if
+			 * (symbol.equals("Symbol")) { vars.add(new
+			 * Variable(split[index].substring(1), 0)); } }
+			 */
+
 			for (int i = index; i < index + cur.getNumArgs(); i++) {
 				String symbol = getSyntaxSymbol(split[i + 1]);
 				if (symbol.equals("Constant")) {
 					vars.add(new Variable(null, Double.parseDouble(split[i + 1])));
 				} else if (symbol.equals("Variable")) {
 					vars.add(new Variable(null, variableTable.getVariable(split[i + 1].substring(1)).getValue()));
-				} else if (symbol.equals("Command")){
+				} else if (symbol.equals("Command")) {
 					vars.add(new Variable(null, parse(split, index, retVal)[0]));
-				} else if (symbol.equals("Symbol")){
+				} else if (symbol.equals("Symbol")) {
 					vars.add(new Variable(split[i + 1].substring(1), 0));
 				}
 				index = i;
 			}
 			cur.setArgs(vars);
-			/*double ret = cur.execute();
-			return index + 1 < split.length ? parse(split, index + 1): ret;
-			*/
-			double [] ret = {cur.execute(), index};
+			/*
+			 * double ret = cur.execute(); return index + 1 < split.length ?
+			 * parse(split, index + 1): ret;
+			 */
+			double[] ret = { cur.execute(), index };
 			return ret;
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			// TODO: do this
 			// FrontEndController.showError(String error)
 			// figure out what to return
-			double [] ret = {0, index};
+			double[] ret = { 0, index };
 			return ret;
 		}
 	}
-
-	public static void main(String[] args) {
-		BackendController controller = new BackendController();
-		Parser parser = controller.getParser();
-		String command = "fd 10 fd 20 fd 50";
-
-		System.out.println(parser.parse(command));
-	}
-
 }

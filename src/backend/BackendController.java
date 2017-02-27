@@ -1,15 +1,23 @@
 package backend;
 
+import frontend.FrontEndController;
+
 public class BackendController implements BackendControllerInterface {
 
 	private Parser parser;
 	private String language;
+	private TurtleModel turtle;
 
 	/**
 	 * english is default language
 	 */
-	public BackendController() {
+	public BackendController(FrontEndController fcontroller) {
 		setLanguage("English");
+		turtle = new TurtleModel(fcontroller);
+	}
+	
+	public TurtleModel getTurtleModel(){
+		return turtle;
 	}
 
 	@Override
