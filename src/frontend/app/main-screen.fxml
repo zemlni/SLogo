@@ -27,6 +27,7 @@
 			</items>
 		</SplitPane>
 
+
 		<VBox>
 			<children>
 				<TitledPane text="variables">

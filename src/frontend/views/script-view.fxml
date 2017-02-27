@@ -6,9 +6,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
 	fx:controller="frontend.views.ScriptController">
 	<children>
-		<Label text="Script Screen" />
+		<TextArea fx:id="scriptArea" prefWidth="300" />
+		<VBox AnchorPane.rightAnchor="0" >
+			<children>
+				<Button text="run" />
+				<Button text="clear" />
+				<Button text="open" />
+				<Button text="save" />
+			</children>
+		</VBox>
 	</children>
-</VBox>
+</AnchorPane>
