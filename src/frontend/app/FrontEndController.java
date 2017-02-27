@@ -8,7 +8,7 @@ import frontend.views.HistoryController;
 import frontend.views.InputController;
 import frontend.views.ScriptController;
 import frontend.views.ShellController;
-import frontend.views.TurtleController;
+import frontend.views.TurtleScreenController;
 import frontend.views.VariablesController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -25,7 +25,7 @@ import javafx.scene.control.TabPane;
 public class FrontEndController {
 	
 	@FXML
-	private TurtleController turtleController;
+	private TurtleScreenController turtleScreenController;
 	@FXML
 	private ShellController shellController;
 	@FXML
@@ -43,7 +43,7 @@ public class FrontEndController {
 	
 	@FXML
 	private void initialize() {
-		turtleController.setFrontEndController(this);
+		turtleScreenController.setFrontEndController(this);
 		shellController.setFrontEndController(this);
 		scriptController.setFrontEndController(this);
 		variablesController.setFrontEndController(this);
@@ -116,7 +116,7 @@ public class FrontEndController {
 	 * @param y new y-coordinate
 	 */
 	public void moveTurtleTo(double x, double y) {
-		turtleController.moveTurtleTo(x, y);
+		turtleScreenController.moveTurtleTo(x, y);
 	}
 	/**
 	 * Draws a line which is useful for tracking the turtle's/pen's movement
@@ -126,7 +126,7 @@ public class FrontEndController {
 	 * @param y1 ending y
 	 */
 	public void drawLine(double x0, double y0, double x1, double y1) {
-		turtleController.drawLine(x0, y0, x1, y1);
+		turtleScreenController.drawLine(x0, y0, x1, y1);
 	}
 	/**
 	 * Sets the new angle of the turtle/pen. This determines how the turtle/pen will move
@@ -134,14 +134,14 @@ public class FrontEndController {
 	 * @param angle Angle specified in degrees
 	 */
 	public void setTurtleAngle(double angle) {
-		turtleController.setTurtleAngle(angle);
+		turtleScreenController.setTurtleAngle(angle);
 	}
 	/**
 	 * Clears the drawing screen, resets the turtle back to initial position and gets
 	 * rid of all drawn lines
 	 */
 	public void clearScreen() {
-		turtleController.clearScreen();
+		turtleScreenController.clearScreen();
 	}
 
 	// user input view: shell view and script view
