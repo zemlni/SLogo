@@ -1,4 +1,4 @@
-package slogo_team08;
+package backend;
 
 /**
  * This is the interface for the structure that will hold the variable table.
@@ -6,7 +6,7 @@ package slogo_team08;
  * variable window in the front end. This will contain all user defined
  * variables. This is only internal API.
  */
-public interface VariableTable {
+public interface VariableTableInterface {
 
 	/**
 	 * get a variable by its name
@@ -16,7 +16,7 @@ public interface VariableTable {
 	 * 
 	 * @return the Variable requested
 	 */
-	public Variable getVariable(String name);
+	public Variable getVariable(String name) throws CommandError;
 
 	/**
 	 * Set a new or existing variable to the given value
@@ -26,7 +26,7 @@ public interface VariableTable {
 	 * @param value
 	 *            value to be set
 	 */
-	public void setVariable(String name, Object value);
+	public void setVariable(String name, double value);
 
 	/**
 	 * remove a variable from the variable table

@@ -1,5 +1,7 @@
 package frontend;
 
+import backend.Variable;
+
 public class VariablesController implements VariablesControllerInterface{
 
 	@Override

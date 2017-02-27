@@ -1,4 +1,6 @@
-package slogo_team08;
+package backend;
+
+import commands.UserCommand;
 
 /**
  * This is the interface that the command table will have to follow. This is
@@ -7,7 +9,7 @@ package slogo_team08;
  * commands. To the back end, it will contain all language and user defined
  * commands. This is only internal API.
  */
-public interface CommandTable {
+public interface CommandTableInterface {
 
 	/**
 	 * get a command by its name
@@ -16,7 +18,7 @@ public interface CommandTable {
 	 *            name of command requester
 	 * @return command requested
 	 */
-	public Command getCommand(String name);
+	public UserCommand getCommand(String name) throws CommandError;
 
 	/**
 	 * add or reset a command in the variable table
@@ -24,7 +26,7 @@ public interface CommandTable {
 	 * @param command
 	 *            the new command to be added or to be reset
 	 */
-	public void setCommand(Command command);
+	public void setCommand(UserCommand command);
 
 	/**
 	 * remove a command with requested name from the command table

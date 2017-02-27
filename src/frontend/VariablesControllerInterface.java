@@ -1,5 +1,7 @@
 package frontend;
 
+import backend.Variable;
+
 /**
 	 * This interface sets forth the methods that must be implemented in the VariablesController
 	 * class. The goal of the VariablesController class is to handle the front-end needs for

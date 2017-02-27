@@ -1,5 +1,7 @@
 package frontend;
 
+import backend.Command;
+import backend.Variable;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

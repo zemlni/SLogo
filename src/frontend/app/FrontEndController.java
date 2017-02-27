@@ -1,7 +1,7 @@
 package frontend.app;
 
-import frontend.Command;
-import frontend.Variable;
+import backend.Command;
+import backend.Variable;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
