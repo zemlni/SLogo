@@ -6,3 +6,13 @@ HBox {
 VBox {
 	-fx-background: #FFFFFF;
 }
+
+.history-entry {
+	-fx-background-color: #FFFFFF;
+	-fx-border-width: 1 0 0 0;
+	-fx-border-color: black;
+	-fx-border-style: dashed;
+}
+.history-entry:hover {
+  	-fx-background-color: #D3D3D3;
+}
