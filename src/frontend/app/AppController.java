@@ -3,9 +3,12 @@ package frontend.app;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
+import javafx.scene.layout.AnchorPane;
 
 public class AppController {
 
+	@FXML
+	private AnchorPane anchorPane;
 	@FXML
 	private MenuController topMenuController;
 	@FXML

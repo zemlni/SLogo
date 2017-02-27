@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
-	fx:controller="frontend.app.AppController" stylesheets="@app-style.css">
+	fx:controller="frontend.app.AppController" stylesheets="@app-style.css" fx:id="anchorPane">
 	<children>
 		<fx:include fx:id="topMenu" source="top-menu.fxml" /> 
 		<!-- This top anchor value is currently hard coded,

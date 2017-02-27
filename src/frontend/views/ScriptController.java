@@ -4,7 +4,13 @@ import frontend.app.FrontEndController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
-public class ScriptController {
+
+/**
+ * The ScriptController is in charge of the Script tab where the user
+ * can write scripts of SLogo commands that can be executed.
+ * @author Matthew Tribby
+ */
+public class ScriptController implements InputController {
 
 	@FXML
 	private TextArea scriptArea;
@@ -13,5 +19,28 @@ public class ScriptController {
 	public void setFrontEndController(FrontEndController frontEnd) {
 		this.frontEnd = frontEnd;
 	}
+	
+	@Override
+	public void showError(String error) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showText(String text) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void load(String filename) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void saveAs(String filename) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
