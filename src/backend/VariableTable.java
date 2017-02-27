@@ -13,10 +13,10 @@ public class VariableTable implements VariableTableInterface {
 		setVariable("turtleAngle", 0);*/
 	}
 	@Override
-	public Variable getVariable(String name) throws CommandError{
+	public Variable getVariable(String name) throws CommandException{
 		Variable ret = variables.get(name.toUpperCase());
 		if (ret == null)
-			throw new CommandError();
+			throw new CommandException();
 		return ret;
 	}
 

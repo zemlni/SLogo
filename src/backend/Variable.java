@@ -11,6 +11,7 @@ public class Variable implements VariableInterface {
 			this.key = name.toUpperCase();
 		}
 		this.value = value;
+		
 		//may have to change when we are dealing with scope.
 			
 	}

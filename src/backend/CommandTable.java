@@ -12,10 +12,10 @@ public class CommandTable implements CommandTableInterface {
 	}
 
 	@Override
-	public UserCommand getCommand(String name) throws CommandError {
+	public UserCommand getCommand(String name) throws CommandException {
 		UserCommand ret = commands.get(name.toUpperCase());
 		if (ret == null)
-			throw new CommandError();
+			throw new CommandException();
 		return ret;
 	}
 

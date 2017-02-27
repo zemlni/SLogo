@@ -13,7 +13,7 @@ import java.util.Map.Entry;
 public class Parser implements ParserInterface {
 	private List<Entry<String, Pattern>> commandSymbols;
 	private List<Entry<String, Pattern>> syntaxSymbols;
-	private final String WHITESPACE = "\\s+";
+	private final String WHITESPACE_NEWLINE = "\\s+|\\n";
 	// TODO: initialize these
 	private VariableTable variableTable;
 	private CommandTable commandTable;
@@ -45,31 +45,34 @@ public class Parser implements ParserInterface {
 	}
 
 	// fix throw
-	private String getSyntaxSymbol(String text) throws CommandError {
+	private String getSyntaxSymbol(String text) throws CommandException {
 		return getSymbol(text, syntaxSymbols);
 	}
 
-	private String getCommandSymbol(String text) throws CommandError {
+	private String getCommandSymbol(String text) throws CommandException {
 		return getSymbol(text, commandSymbols);
 	}
 
-	private String getSymbol(String text, List<Entry<String, Pattern>> list) throws CommandError {
+	private String getSymbol(String text, List<Entry<String, Pattern>> list) throws CommandException {
 		for (Entry<String, Pattern> e : list) {
 			if (match(text, e.getValue())) {
 				return e.getKey();
 			}
 		}
-		throw new CommandError();
+		throw new CommandException();
 	}
 
 	@Override
 	public double parse(String text) {
-		// also need to split by newlines (possibly)
-		return parseIntermediate(text.split(WHITESPACE), 0);
+		return parseIntermediate(text.split(WHITESPACE_NEWLINE), 0);
 	}
 
 	public VariableTable getVariableTable() {
 		return variableTable;
+	}
+	
+	public CommandTable getCommandTable(){
+		return commandTable;
 	}
 
 	private void complain(Exception e) {
