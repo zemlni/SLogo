@@ -7,11 +7,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.HBox;
 
 public class MenuController {
 
 	@FXML
 	private ComboBox<String> languageBox;
+	@FXML
+	private HBox penPick;
 	private AppController appController;
 
 	public void setAppController(AppController appController) {
@@ -38,7 +41,7 @@ public class MenuController {
 			}
 		});
 	}
-
+	
 
 	@FXML
 	private void addNewSession() throws IOException {
@@ -58,5 +61,7 @@ public class MenuController {
 	private void changeLanguageTo(String language) {
 		appController.changeLanguageTo(language);
 	}
+	
+	
 
 }

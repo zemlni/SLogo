@@ -43,6 +43,9 @@ public class FrontEndController implements FrontEndControllerInterface {
 		variablesController.addVariable(variable);	
 	}
 
+	/**
+	 * THIS DOESNT EXIST ANYMORE
+	 */
 	@Override
 	public void updateVariable(Variable updatedVariable) throws Exception {
 		variablesController.updateVariable(updatedVariable);
