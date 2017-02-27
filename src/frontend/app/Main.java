@@ -1,6 +1,5 @@
 package frontend.app;
 
-import java.awt.Toolkit;
 import java.util.ResourceBundle;
 
 import javafx.application.Application;
@@ -27,7 +26,6 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_PAGE_RESOURCE));
         loader.setResources(getResourceBundle());
 
-        
         AnchorPane root = (AnchorPane) loader.load();
         scene = new Scene(root, WIDTH, HEIGHT);
         
