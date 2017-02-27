@@ -13,7 +13,7 @@
 		<Button text="New" onAction="#addNewSession" />
 		<Button text="Open" />
 		<Button text="Save" />
-		<Button text="Help" />
+		<Button text="Help" onAction="#openHelpPage" />
 		<ComboBox fx:id="languageBox" />
 	</children>
 </HBox>

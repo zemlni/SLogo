@@ -2,6 +2,7 @@ package frontend.app;
 
 import java.io.IOException;
 
+import frontend.help.BrowserWindow;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -44,6 +45,16 @@ public class MenuController {
 		appController.addNewSession();
 	}
 
+	@FXML
+	private void openHelpPage() {
+		try {
+			BrowserWindow helpPage = new BrowserWindow("http://kepingwang.com");
+			helpPage.show();
+		} catch (IOException e) {
+			System.out.println("Sorry Cannot show help page :(");
+		}
+	}
+	
 	private void changeLanguageTo(String language) {
 		appController.changeLanguageTo(language);
 	}
