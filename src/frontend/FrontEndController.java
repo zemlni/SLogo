@@ -15,8 +15,8 @@ public class FrontEndController implements FrontEndControllerInterface {
 	//Other Variables
 	private Boolean scriptTab = false;
 	private Group root;
-	public static final int SCENE_WIDTH = 1300;
-	public static final int SCENE_HEIGHT = 700;
+	public static final int SCENE_WIDTH = 1000;
+	public static final int SCENE_HEIGHT = 500;
 	
 	public FrontEndController(Stage stage){
 		variablesController = new VariablesController();
@@ -103,7 +103,7 @@ public class FrontEndController implements FrontEndControllerInterface {
 	}
 
 	private void display() {
-		
+		root = variablesController.display(root);
 	}
 
 }
