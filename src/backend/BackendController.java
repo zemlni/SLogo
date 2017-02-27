@@ -20,8 +20,16 @@ public class BackendController implements BackendControllerInterface {
 
 	@Override
 	public void setLanguage(String language) {
-		parser = new Parser(language);
+		this.language = language;
+		parser = new Parser(this);
 
+	}
+	public Parser getParser(){
+		return parser;
+	}
+	
+	public String getLanguage(){
+		return language;
 	}
 
 }

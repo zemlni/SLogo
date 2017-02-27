@@ -6,10 +6,10 @@ public abstract class Command implements CommandInterface {
 
 	private int numArgs;
 	private List<Variable> args;
-	private Parser parser;
+	private BackendController controller;
 
-	public Command(Parser parser){
-		this.parser = parser;
+	public Command(BackendController controller){
+		this.controller = controller;
 	}
 
 	@Override
@@ -32,6 +32,6 @@ public abstract class Command implements CommandInterface {
 		return args;
 	}
 	public Parser getParser(){
-		return parser;
+		return controller.getParser();
 	}
 }

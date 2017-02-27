@@ -8,9 +8,9 @@ public class VariableTable implements VariableTableInterface {
 	
 	public VariableTable(){
 		variables = new HashMap<String, Variable>();
-		setVariable("turtleLocationX", 0);
+		/*setVariable("turtleLocationX", 0);
 		setVariable("turtleLocationY", 0);
-		setVariable("turtleAngle", 0);
+		setVariable("turtleAngle", 0);*/
 	}
 	@Override
 	public Variable getVariable(String name) throws CommandError{
@@ -24,7 +24,10 @@ public class VariableTable implements VariableTableInterface {
 	public void setVariable(String name, double value) {
 		variables.remove(name.toUpperCase());
 		variables.put(name.toUpperCase(), new Variable(name, value));
-
+	}
+	
+	public void setVariable(Variable var){
+		setVariable(var.getKey(), var.getValue());
 	}
 
 	@Override

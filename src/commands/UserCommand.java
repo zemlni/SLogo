@@ -2,8 +2,8 @@ package commands;
 
 import java.util.List;
 
+import backend.BackendController;
 import backend.Command;
-import backend.Parser;
 import backend.UserCommandInterface;
 import backend.Variable;
 
@@ -12,9 +12,9 @@ public class UserCommand extends Command implements UserCommandInterface {
 	String commands;
 	String [] variables;
 
-	public UserCommand(String name, String [] variables, String commands, Parser parser) {
+	public UserCommand(String name, String [] variables, String commands, BackendController controller) {
 		//add command to CommandTable
-		super(parser);
+		super(controller);
 		this.name = name;
 		this.commands = commands;
 		this.variables = variables;
@@ -31,16 +31,15 @@ public class UserCommand extends Command implements UserCommandInterface {
 		
 		for (int i = 0; i < vars.size(); i++){
 			vars.get(i).setKey(variables[i]);
+			getParser().getVariableTable().setVariable(vars.get(i));
 		}
-
-		return ret;
+		return getParser().parse(commands);
 	}
 	
 
 	@Override
 	public void update(String newCommand) {
-		// TODO Auto-generated method stub
-
+		this.commands = newCommand;
 	}
 
 	@Override

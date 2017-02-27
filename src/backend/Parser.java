@@ -17,9 +17,11 @@ public class Parser implements ParserInterface {
 	// TODO: initialize these
 	private VariableTable variableTable;
 	private CommandTable commandTable;
+	private BackendController controller;
 
-	public Parser(String language) {
-		ResourceBundle languageResources = ResourceBundle.getBundle(language);
+	public Parser(BackendController controller) {
+		this.controller = controller;
+		ResourceBundle languageResources = ResourceBundle.getBundle(controller.getLanguage());
 		ResourceBundle syntaxResources = ResourceBundle.getBundle("Syntax");
 		commandSymbols = new ArrayList<Entry<String, Pattern>>();
 		syntaxSymbols = new ArrayList<Entry<String, Pattern>>();
@@ -63,56 +65,91 @@ public class Parser implements ParserInterface {
 	@Override
 	public double parse(String text) {
 		// also need to split by newlines (possibly)
-		return parse(text.split(WHITESPACE));
+		return parseIntermediate(text.split(WHITESPACE), 0);
+	}
+
+	public VariableTable getVariableTable() {
+		return variableTable;
 	}
 
 	private void complain(Exception e) {
 
 	}
+	
+	private double parseIntermediate(String [] split, int index){
+		double [] ret = parse(split, index, 0);
+		while (ret[1] < split.length)
+			ret = parse(split, ((int)ret[1] + 1), ret[0]);
+		return ret[0];
+	}
 
-	private double parse(String[] split) {
+	private double[] parse(String[] split, int index, double retVal) {
 		Class<?> clazz = null;
 		Command cur = null;
 		try {
-			clazz = Class.forName("commands." + getCommandSymbol(split[0]) + "Command");
-			Constructor<?> ctor = clazz.getDeclaredConstructor(this.getClass());
-			cur = (Command) ctor.newInstance(this);
+			clazz = Class.forName("commands." + getCommandSymbol(split[index]) + "Command");
+			Constructor<?> ctor = clazz.getDeclaredConstructor(controller.getClass());
+			cur = (Command) ctor.newInstance(controller);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			try {
-				cur = commandTable.getCommand(split[0]);
+				cur = commandTable.getCommand(split[index]);
 			} catch (Exception e1) {
+				//System.out.println("test");
 				complain(e1);
+				double [] ret = {retVal, index};
+				return ret;
 			}
 		}
 		try {
 			List<Variable> vars = new ArrayList<Variable>();
-			for (int i = 0; i < cur.getNumArgs(); i++) {
+			/*while (index < index + 1 + cur.getNumArgs() && index + 1 < split.length) {
+				index++;
+				String symbol = getSyntaxSymbol(split[index]);
+				if (symbol.equals("Constant")) {
+					vars.add(new Variable(null, Double.parseDouble(split[index])));
+				} else if (symbol.equals("Variable")) {
+					vars.add(new Variable(null, variableTable.getVariable(split[index].substring(1)).getValue()));
+				} else if (symbol.equals("Command")) {
+					vars.add(new Variable(null, parse(split, index)[0]));
+				} else if (symbol.equals("Symbol")) {
+					vars.add(new Variable(split[index].substring(1), 0));
+				}
+			}*/
+			
+			for (int i = index; i < index + cur.getNumArgs(); i++) {
 				String symbol = getSyntaxSymbol(split[i + 1]);
 				if (symbol.equals("Constant")) {
 					vars.add(new Variable(null, Double.parseDouble(split[i + 1])));
 				} else if (symbol.equals("Variable")) {
 					vars.add(new Variable(null, variableTable.getVariable(split[i + 1].substring(1)).getValue()));
 				} else if (symbol.equals("Command")){
-					vars.add(new Variable(null, parse(Arrays.copyOfRange(split, i + 1, split.length))));
+					vars.add(new Variable(null, parse(split, index, retVal)[0]));
 				} else if (symbol.equals("Symbol")){
 					vars.add(new Variable(split[i + 1].substring(1), 0));
-				}				
+				}
+				index = i;
 			}
 			cur.setArgs(vars);
-			return cur.execute();
+			/*double ret = cur.execute();
+			return index + 1 < split.length ? parse(split, index + 1): ret;
+			*/
+			double [] ret = {cur.execute(), index};
+			return ret;
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			// TODO: do this
 			// FrontEndController.showError(String error)
 			// figure out what to return
-			return 0;
+			double [] ret = {0, index};
+			return ret;
 		}
 	}
 
 	public static void main(String[] args) {
-		Parser parser = new Parser("English");
-		String command = "fd fd fd 50";
+		BackendController controller = new BackendController();
+		Parser parser = controller.getParser();
+		String command = "fd 10 fd 20 fd 50";
 
 		System.out.println(parser.parse(command));
 	}
