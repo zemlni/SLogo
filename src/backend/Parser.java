@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import java.lang.reflect.Constructor;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map.Entry;
 
 public class Parser implements ParserInterface {
@@ -27,8 +26,8 @@ public class Parser implements ParserInterface {
 		syntaxSymbols = new ArrayList<Entry<String, Pattern>>();
 		setUpSymbols(languageResources, commandSymbols);
 		setUpSymbols(syntaxResources, syntaxSymbols);
-		variableTable = new VariableTable();
-		commandTable = new CommandTable();
+		variableTable = new VariableTable(controller.getFrontEndController());
+		commandTable = new CommandTable(controller.getFrontEndController());
 	}
 
 	private void setUpSymbols(ResourceBundle rb, List<Entry<String, Pattern>> list) {
@@ -81,7 +80,7 @@ public class Parser implements ParserInterface {
 
 	private double parseIntermediate(String[] split, int index) {
 		double[] ret = parse(split, index, 0);
-		while (ret[1] + 1 < split.length){
+		while (ret[1] + 1 < split.length) {
 			ret = parse(split, ((int) ret[1] + 1), ret[0]);
 		}
 		return ret[0];
@@ -95,7 +94,7 @@ public class Parser implements ParserInterface {
 			Constructor<?> ctor = clazz.getDeclaredConstructor(controller.getClass());
 			cur = (Command) ctor.newInstance(controller);
 		} catch (Exception e) {
-			 e.printStackTrace();
+			//e.printStackTrace();
 			try {
 				cur = commandTable.getCommand(split[index]);
 			} catch (Exception e1) {
@@ -108,6 +107,7 @@ public class Parser implements ParserInterface {
 		try {
 			List<Variable> vars = new ArrayList<Variable>();
 			int i;
+			// while (numArgs >= 0){
 			for (i = index; i < index + cur.getNumArgs(); i++) {
 				if (i + 1 < split.length) {
 					String symbol = getSyntaxSymbol(split[i + 1]);
@@ -119,9 +119,23 @@ public class Parser implements ParserInterface {
 						vars.add(new Variable(null, parse(split, i + 1, retVal)[0]));
 					} else if (symbol.equals("Symbol")) {
 						vars.add(new Variable(split[i + 1].substring(1), 0));
+					} else if (symbol.equals("ListStart")) {
+						int temp = 1;
+						symbol = getSyntaxSymbol(split[i + 1 + temp]);
+						String arg = "";
+						while (!symbol.equals("ListEnd")) {
+							arg += split[i + 1 + temp] + " ";
+							temp++;
+							symbol = getSyntaxSymbol(split[i + 1 + temp]);
+
+						}
+						index += temp;
+						i += temp;
+						vars.add(new Variable(arg, 0));
 					}
 				}
 			}
+			
 			index = i;
 			cur.setArgs(vars);
 			double[] ret = { cur.execute(), index };

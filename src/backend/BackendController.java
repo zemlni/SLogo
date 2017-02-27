@@ -13,9 +13,11 @@ public class BackendController implements BackendControllerInterface {
 	 * english is default language
 	 */
 	public BackendController(FrontEndController frontEndController) {
-		setLanguage("English");
+		//System.out.println(frontEndController);
 		this.fcontroller = frontEndController;
+		setLanguage("English");
 		turtle = new TurtleModel(frontEndController);
+		
 	}
 	
 	public TurtleModel getTurtleModel(){

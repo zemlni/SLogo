@@ -18,21 +18,13 @@ public interface VariableTableInterface {
 	 */
 	public Variable getVariable(String name) throws CommandException;
 
-	/**
-	 * Set a new or existing variable to the given value
-	 * 
-	 * @param name
-	 *            name of variable
-	 * @param value
-	 *            value to be set
-	 */
-	public void setVariable(String name, double value);
+	public void setVariable(Variable var);
 
 	/**
 	 * remove a variable from the variable table
 	 * 
-	 * @param name
-	 *            name of variable to be removed
+	 * @param var
+	 *            variable to be removed
 	 */
-	public void removeVariable(String name);
+	void removeVariable(Variable var);
 }

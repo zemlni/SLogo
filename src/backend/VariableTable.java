@@ -2,18 +2,20 @@ package backend;
 
 import java.util.HashMap;
 
+import frontend.app.FrontEndController;
+
 public class VariableTable implements VariableTableInterface {
-	
+
 	private HashMap<String, Variable> variables;
-	
-	public VariableTable(){
+	private FrontEndController frontEndController;
+
+	public VariableTable(FrontEndController frontEndController) {
 		variables = new HashMap<String, Variable>();
-		/*setVariable("turtleLocationX", 0);
-		setVariable("turtleLocationY", 0);
-		setVariable("turtleAngle", 0);*/
+		this.frontEndController = frontEndController;
 	}
+
 	@Override
-	public Variable getVariable(String name) throws CommandException{
+	public Variable getVariable(String name) throws CommandException {
 		Variable ret = variables.get(name.toUpperCase());
 		if (ret == null)
 			throw new CommandException(name);
@@ -21,19 +23,21 @@ public class VariableTable implements VariableTableInterface {
 	}
 
 	@Override
-	public void setVariable(String name, double value) {
-		variables.remove(name.toUpperCase());
-		variables.put(name.toUpperCase(), new Variable(name, value));
-	}
-	
-	public void setVariable(Variable var){
-		setVariable(var.getKey(), var.getValue());
+	public void setVariable(Variable var) {
+		variables.remove(var.getKey().toUpperCase());
+		variables.put(var.getKey().toUpperCase(), var);
+		frontEndController.addVariable(var);
 	}
 
 	@Override
-	public void removeVariable(String name) {
-		variables.remove(name.toUpperCase());
-
+	public void removeVariable(Variable var) {
+		variables.remove(var.getKey().toUpperCase());
+		try {
+			frontEndController.removeVariable(var);
+		} catch (Exception e) {
+			// TODO: make this query a resources file. talk to keping.
+			frontEndController.showError("Variable requested was not found!");
+		}
 	}
 
 }

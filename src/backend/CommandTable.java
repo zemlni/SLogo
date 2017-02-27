@@ -3,12 +3,15 @@ package backend;
 import java.util.HashMap;
 
 import commands.UserCommand;
+import frontend.app.FrontEndController;
 
 public class CommandTable implements CommandTableInterface {
 	private HashMap<String, UserCommand> commands;
+	private FrontEndController frontEndController;
 
-	public CommandTable() {
+	public CommandTable(FrontEndController frontEndController) {
 		commands = new HashMap<String, UserCommand>();
+		this.frontEndController = frontEndController;
 	}
 
 	@Override
