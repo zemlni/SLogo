@@ -85,5 +85,9 @@ public class ScriptController implements InputController {
 	public void showText(String text) {
 		
 	}
+	@Override
+	public void appendText(String text) {
+		setText(getText()+text+System.lineSeparator());
+	}
 	
 }

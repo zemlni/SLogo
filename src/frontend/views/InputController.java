@@ -9,5 +9,5 @@ public interface InputController {
 	
 	public void showText(String text);
 	public void showError(String errorMsg);
-
+	public void appendText(String text);
 }

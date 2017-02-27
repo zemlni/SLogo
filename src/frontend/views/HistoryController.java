@@ -1,6 +1,9 @@
 package frontend.views;
 
 import frontend.app.FrontEndController;
+import frontend.history.HistoryEntry;
+import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
 
 
 /**
@@ -11,19 +14,20 @@ import frontend.app.FrontEndController;
  */
 public class HistoryController {
 
+	@FXML
+	private VBox historyBox;
+	
 	private FrontEndController frontEnd;
 	public void setFrontEndController(FrontEndController frontEnd) {
 		this.frontEnd = frontEnd;
 	}
 	
 	public void addHistory(String history) {
-		// TODO Auto-generated method stub
-		
+		historyBox.getChildren().add(new HistoryEntry(frontEnd, history));
 	}
 
 	public void clearHistory() {
-		// TODO Auto-generated method stub
-		
+		historyBox.getChildren().clear();
 	}
 	
 }

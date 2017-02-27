@@ -26,6 +26,12 @@ public class ShellController implements InputController {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void appendText(String text) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

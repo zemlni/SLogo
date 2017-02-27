@@ -59,6 +59,7 @@ public class FrontEndController {
 	 */
 	public void evaluate(String input) {
 		System.out.println("evaluate called for input: "+input);
+		historyController.addHistory(input);
 		backendController.evaluate(input);
 	}
 
@@ -178,6 +179,13 @@ public class FrontEndController {
 	public void showText(String text) {
 		System.out.println("show text: "+text);
 		inputController().showText(text);
+	}
+	/**
+	 * Append text to the input view
+	 * @param text
+	 */
+	public void appendText(String text) {
+		inputController().appendText(text);
 	}
 	
 }
