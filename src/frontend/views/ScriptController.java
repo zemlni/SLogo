@@ -31,16 +31,20 @@ public class ScriptController implements InputController {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	
 	public void load(String filename) throws Exception {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void saveAs(String filename) {
-		// TODO Auto-generated method stub
 		
 	}
 
+	@FXML
+	private void run() {
+		frontEnd.evaluate(scriptArea.getText());
+	}
+	
 	
 }

@@ -52,8 +52,8 @@ public class FrontEndController {
 	 * @param input
 	 */
 	public void evaluate(String input) {
+		System.out.println("evaluate called for input: "+input);
 		// TODO Auto-generated method stub
-		
 	}
 
 	// variables view
