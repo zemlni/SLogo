@@ -2,6 +2,7 @@ package frontend.app;
 
 import backend.Command;
 import backend.Variable;
+import backend.BackendController;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
@@ -10,7 +11,10 @@ import frontend.views.ShellController;
 import frontend.views.TurtleController;
 import frontend.views.VariablesController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TabPane;
+
 
 
 /**
@@ -32,6 +36,7 @@ public class FrontEndController {
 	private CommandsController commandsController;
 	@FXML
 	private HistoryController historyController;
+	private BackendController backendController;
 	
 	@FXML
 	private TabPane inputTabPane;
@@ -44,6 +49,7 @@ public class FrontEndController {
 		variablesController.setFrontEndController(this);
 		commandsController.setFrontEndController(this);
 		historyController.setFrontEndController(this);
+		backendController = new BackendController(this);
 	}
 	
 	/**
@@ -53,7 +59,7 @@ public class FrontEndController {
 	 */
 	public void evaluate(String input) {
 		System.out.println("evaluate called for input: "+input);
-		// TODO Auto-generated method stub
+		backendController.evaluate(input);
 	}
 
 	// variables view
@@ -149,6 +155,16 @@ public class FrontEndController {
 		}
 	}
 	/**
+	 * Might be called in input controllers to show error in alert window.
+	 * @param errorMsg
+	 */
+	public void showErrorAlert(String errorMsg) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error Title");
+		alert.setContentText(errorMsg);
+		alert.showAndWait();
+	}
+	/**
 	 * Displays an error that has occurred during the processing of a certain command/function
 	 * @param errorMsg String representation of error
 	 */
@@ -160,6 +176,7 @@ public class FrontEndController {
 	 * @param text
 	 */
 	public void showText(String text) {
+		System.out.println("show text: "+text);
 		inputController().showText(text);
 	}
 	

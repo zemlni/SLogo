@@ -12,10 +12,10 @@
 		<TextArea fx:id="scriptArea" prefWidth="300" />
 		<VBox AnchorPane.rightAnchor="0" >
 			<children>
-				<Button text="run" />
-				<Button text="clear" />
-				<Button text="open" />
-				<Button text="save" />
+				<Button text="run" onAction="#run" />
+				<Button text="clear" onAction="#clearArea" />
+				<Button text="open" onAction="#openFile" />
+				<Button text="save" onAction="#saveFile" />
 			</children>
 		</VBox>
 	</children>
