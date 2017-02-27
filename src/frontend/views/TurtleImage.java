@@ -1,6 +1,5 @@
 package frontend.views;
 
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -8,15 +7,10 @@ public class TurtleImage {
 	public static final int TURTLE_HEIGHT = 30;
 	public static final int TURTLE_WIDTH = 30;
 	private ImageView turtleImage;
-	private double x;
-	private double y;
 	
 	public TurtleImage(double startingX, double startingY){
 		setInitialImage();
-		x = startingX;
-		y = startingY;
-		turtleImage.setX(x);
-		turtleImage.setY(y);
+		move(startingX, startingY);
 		turtleImage.setFitWidth(TURTLE_WIDTH);
 		turtleImage.setFitHeight(TURTLE_HEIGHT);
 	}
@@ -38,14 +32,14 @@ public class TurtleImage {
 	public void setAngle(double angle){
 		turtleImage.setRotate(-(turtleImage.getRotate()) + angle);
 	}
-	
-	public void move(double x, double y){
-		turtleImage.setX(x);
-		turtleImage.setY(y);
-	}
 
 	public ImageView getImage() {
 		return turtleImage;
+	}
+	
+	public void move(double x, double y){
+		turtleImage.setX(x - TURTLE_WIDTH/2);
+		turtleImage.setY(y - TURTLE_HEIGHT/2);
 	}
 	
 	
