@@ -2,6 +2,7 @@ package frontend.app;
 
 import backend.Command;
 import backend.Variable;
+import backend.BackendController;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
@@ -35,6 +36,7 @@ public class FrontEndController {
 	private CommandsController commandsController;
 	@FXML
 	private HistoryController historyController;
+	private BackendController backendController;
 	
 	@FXML
 	private TabPane inputTabPane;
@@ -47,6 +49,7 @@ public class FrontEndController {
 		variablesController.setFrontEndController(this);
 		commandsController.setFrontEndController(this);
 		historyController.setFrontEndController(this);
+		backendController = new BackendController(this);
 	}
 	
 	/**
@@ -56,7 +59,7 @@ public class FrontEndController {
 	 */
 	public void evaluate(String input) {
 		System.out.println("evaluate called for input: "+input);
-		// TODO Auto-generated method stub
+		backendController.evaluate(input);
 	}
 
 	// variables view
@@ -173,6 +176,7 @@ public class FrontEndController {
 	 * @param text
 	 */
 	public void showText(String text) {
+		System.out.println("show text: "+text);
 		inputController().showText(text);
 	}
 	

@@ -2,7 +2,7 @@ package commands;
 
 import backend.BackendController;
 import backend.TurtleModel;
-import frontend.FrontEndController;
+import frontend.app.FrontEndController;
 
 public class ForwardCommand extends TurtleCommand{
 	

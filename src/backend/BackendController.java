@@ -1,6 +1,6 @@
 package backend;
 
-import frontend.FrontEndController;
+import frontend.app.FrontEndController;
 
 public class BackendController implements BackendControllerInterface {
 
@@ -12,10 +12,10 @@ public class BackendController implements BackendControllerInterface {
 	/**
 	 * english is default language
 	 */
-	public BackendController(FrontEndController fcontroller) {
+	public BackendController(FrontEndController frontEndController) {
 		setLanguage("English");
-		this.fcontroller = fcontroller;
-		turtle = new TurtleModel(fcontroller);
+		this.fcontroller = frontEndController;
+		turtle = new TurtleModel(frontEndController);
 	}
 	
 	public TurtleModel getTurtleModel(){
