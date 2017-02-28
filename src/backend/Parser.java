@@ -7,13 +7,12 @@ import java.util.regex.Pattern;
 import java.lang.reflect.Constructor;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map.Entry;
 
 public class Parser implements ParserInterface {
 	private List<Entry<String, Pattern>> commandSymbols;
 	private List<Entry<String, Pattern>> syntaxSymbols;
-	private final String WHITESPACE_NEWLINE = "\\s+|\\n";
+	public static final String WHITESPACE_NEWLINE = "\\s+|\\n";
 	// TODO: initialize these
 	private VariableTable variableTable;
 	private CommandTable commandTable;
@@ -27,8 +26,8 @@ public class Parser implements ParserInterface {
 		syntaxSymbols = new ArrayList<Entry<String, Pattern>>();
 		setUpSymbols(languageResources, commandSymbols);
 		setUpSymbols(syntaxResources, syntaxSymbols);
-		variableTable = new VariableTable();
-		commandTable = new CommandTable();
+		variableTable = new VariableTable(controller.getFrontEndController());
+		commandTable = new CommandTable(controller.getFrontEndController());
 	}
 
 	private void setUpSymbols(ResourceBundle rb, List<Entry<String, Pattern>> list) {
@@ -59,7 +58,7 @@ public class Parser implements ParserInterface {
 				return e.getKey();
 			}
 		}
-		throw new CommandException();
+		throw new CommandException(text);
 	}
 
 	@Override
@@ -76,13 +75,17 @@ public class Parser implements ParserInterface {
 	}
 
 	private void complain(Exception e) {
-
+		// TODO: do this
+		// FrontEndController.showError(String error)
+		// controller.getFrontEndController().showError("");
 	}
 
 	private double parseIntermediate(String[] split, int index) {
 		double[] ret = parse(split, index, 0);
-		while (ret[1] < split.length)
+		while (ret[1] + 1 < split.length) {
 			ret = parse(split, ((int) ret[1] + 1), ret[0]);
+			//System.out.println("TEST1");
+		}
 		return ret[0];
 	}
 
@@ -94,11 +97,10 @@ public class Parser implements ParserInterface {
 			Constructor<?> ctor = clazz.getDeclaredConstructor(controller.getClass());
 			cur = (Command) ctor.newInstance(controller);
 		} catch (Exception e) {
-			// e.printStackTrace();
+			//e.printStackTrace();
 			try {
 				cur = commandTable.getCommand(split[index]);
 			} catch (Exception e1) {
-				// System.out.println("test");
 				complain(e1);
 				double[] ret = { retVal, index };
 				return ret;
@@ -106,31 +108,50 @@ public class Parser implements ParserInterface {
 		}
 		try {
 			List<Variable> vars = new ArrayList<Variable>();
-
-			for (int i = index; i < index + cur.getNumArgs(); i++) {
+			int i;
+			for (i = index; i < index + cur.getNumArgs(); i++) {
 				if (i + 1 < split.length) {
 					String symbol = getSyntaxSymbol(split[i + 1]);
 					if (symbol.equals("Constant")) {
 						vars.add(new Variable(null, Double.parseDouble(split[i + 1])));
 					} else if (symbol.equals("Variable")) {
-						vars.add(new Variable(null, variableTable.getVariable(split[i + 1].substring(1)).getValue()));
+						String varName = split[i + 1].substring(1);
+						if (variableTable.contains(varName))
+							vars.add(variableTable.getVariable(varName));
+						else 
+							vars.add(new Variable(varName, 0));
 					} else if (symbol.equals("Command")) {
-						vars.add(new Variable(null, parse(split, i + 1, retVal)[0]));
-					} else if (symbol.equals("Symbol")) {
+						double [] recurse = parse(split, i + 1, retVal);
+						vars.add(new Variable(null, recurse[0]));
+						double diff = recurse[1] - (i + 1);
+						i += diff;
+						index += diff;
+					} /*else if (symbol.equals("Symbol")) {
 						vars.add(new Variable(split[i + 1].substring(1), 0));
+					}*/ else if (symbol.equals("ListStart")) {
+						int temp = 1;
+						symbol = getSyntaxSymbol(split[i + 1 + temp]);
+						String arg = "";
+						while (!symbol.equals("ListEnd")) {
+							arg += split[i + 1 + temp] + " ";
+							temp++;
+							symbol = getSyntaxSymbol(split[i + 1 + temp]);
+
+						}
+						index += temp;
+						i += temp;
+						vars.add(new Variable(arg, 0));
 					}
-					index = i;
 				}
 			}
+			
+			index = i;
 			cur.setArgs(vars);
 			double[] ret = { cur.execute(), index };
 			return ret;
 		} catch (Exception e) {
 			//e.printStackTrace();
-			// TODO: do this
-			// FrontEndController.showError(String error)
-			// figure out what to return
-			// controller.getFrontEndController().showError("");
+			complain(e);
 			double[] ret = { retVal, index };
 			return ret;
 		}

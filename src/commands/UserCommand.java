@@ -18,8 +18,8 @@ public class UserCommand extends Command implements UserCommandInterface {
 		this.name = name;
 		this.commands = commands;
 		this.variables = variables;
-		controller.getParser().getCommandTable().setCommand(this);
 	}
+
 
 	/**
 	 * execute this user defined command
@@ -29,12 +29,11 @@ public class UserCommand extends Command implements UserCommandInterface {
 	@Override
 	public double execute() {
 		List<Variable> vars = getArgs();
-		
 		for (int i = 0; i < vars.size(); i++){
-			vars.get(i).setKey(variables[i]);
-			getParser().getVariableTable().setVariable(vars.get(i));
+			vars.get(i).setKey(variables[i].substring(1));
+			getBackendController().setVariable(vars.get(i));
 		}
-		return getParser().parse(commands);
+		return getBackendController().getParser().parse(commands);
 	}
 	
 

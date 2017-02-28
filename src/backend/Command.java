@@ -35,7 +35,7 @@ public abstract class Command implements CommandInterface {
 		return args;
 	}
 
-	public Parser getParser() {
-		return controller.getParser();
+	public BackendController getBackendController(){
+		return controller;
 	}
 }
