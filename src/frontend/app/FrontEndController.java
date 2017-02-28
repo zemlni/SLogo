@@ -1,8 +1,8 @@
 package frontend.app;
 
+import backend.BackendController;
 import backend.Command;
 import backend.Variable;
-import backend.BackendController;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
@@ -13,6 +13,7 @@ import frontend.views.VariablesController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 
 
@@ -41,6 +42,7 @@ public class FrontEndController {
 	@FXML
 	private TabPane inputTabPane;
 	
+	
 	@FXML
 	private void initialize() {
 		turtleScreenController.setFrontEndController(this);
@@ -50,6 +52,7 @@ public class FrontEndController {
 		commandsController.setFrontEndController(this);
 		historyController.setFrontEndController(this);
 		backendController = new BackendController(this);
+		
 	}
 	
 	/**
