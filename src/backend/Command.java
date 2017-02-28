@@ -12,6 +12,11 @@ public abstract class Command implements CommandInterface {
 		this.controller = controller;
 	}
 
+	public Command(BackendController controller, int i) {
+		this(controller);
+		this.numArgs = i;
+	}
+
 	@Override
 	public abstract double execute();
 

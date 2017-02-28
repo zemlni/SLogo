@@ -6,8 +6,7 @@ import backend.Command;
 public class NaturalLogCommand extends Command {
 
 	public NaturalLogCommand(BackendController controller) {
-		super(controller);
-		setNumArgs(1);
+		super(controller, 1);
 	}
 
 	@Override

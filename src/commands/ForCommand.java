@@ -10,14 +10,13 @@ import backend.Variable;
 public class ForCommand extends Command {
 
 	public ForCommand(BackendController controller) {
-		super(controller);
-		setNumArgs(2);
+		super(controller, 2);
 	}
 
 	@Override
 	public double execute() {
 		List<Variable> args = getArgs();
-		String[] info = args.get(0).getKey().split(Parser.WHITESPACE_NEWLINE);
+		String[] info = args.get(0).getInfo().split(Parser.WHITESPACE_NEWLINE);
 		int start = Integer.parseInt(info[1]);
 		int end = Integer.parseInt(info[2]);
 		int increment = Integer.parseInt(info[3]);
@@ -26,7 +25,7 @@ public class ForCommand extends Command {
 		while ((increment >= 0 && i < end) || (increment < 0 && i > end)) {
 			Variable counter = new Variable(info[0].substring(1), i);
 			getBackendController().setVariable(counter);
-			ret = getBackendController().getParser().parse(args.get(1).getKey());
+			ret = getBackendController().getParser().parse(args.get(1).getInfo());
 			i += increment;
 		}
 		return ret;

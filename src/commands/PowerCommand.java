@@ -6,8 +6,7 @@ import backend.Command;
 public class PowerCommand extends Command {
 
 	public PowerCommand(BackendController controller) {
-		super(controller);
-		setNumArgs(2);
+		super(controller, 2);
 	}
 
 	@Override

@@ -6,8 +6,7 @@ import backend.Command;
 public class RandomCommand extends Command {
 
 	public RandomCommand(BackendController controller) {
-		super(controller);
-		setNumArgs(1);
+		super(controller, 1);
 	}
 
 	@Override

@@ -9,8 +9,7 @@ import backend.Variable;
 public class RepeatCommand extends Command {
 
 	public RepeatCommand(BackendController controller) {
-		super(controller);
-		setNumArgs(2);
+		super(controller, 2);
 	}
 
 	@Override
@@ -21,7 +20,7 @@ public class RepeatCommand extends Command {
 		double ret = 0;
 		while (i < amount) {
 			getBackendController().setVariable(new Variable("repcount", i));
-			ret = getBackendController().getParser().parse(args.get(1).getKey());
+			ret = getBackendController().getParser().parse(args.get(1).getInfo());
 			i++;
 		}
 		return ret;

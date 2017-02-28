@@ -9,8 +9,7 @@ import backend.Variable;
 public class IfCommand extends Command {
 
 	public IfCommand(BackendController controller) {
-		super(controller);
-		setNumArgs(2);
+		super(controller, 2);
 	}
 
 	@Override
@@ -18,7 +17,7 @@ public class IfCommand extends Command {
 		List<Variable> args = getArgs();
 		double ret = 0;
 		if (args.get(0).getValue() != 0) {
-			ret = getBackendController().getParser().parse(args.get(1).getKey());
+			ret = getBackendController().getParser().parse(args.get(1).getInfo());
 		}
 		return ret;
 	}

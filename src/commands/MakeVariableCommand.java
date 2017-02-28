@@ -9,8 +9,7 @@ import backend.Variable;
 public class MakeVariableCommand extends Command {
 
 	public MakeVariableCommand(BackendController controller) {
-		super(controller);
-		setNumArgs(2);
+		super(controller, 2);
 	}
 
 	@Override

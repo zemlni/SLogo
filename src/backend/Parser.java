@@ -13,7 +13,7 @@ public class Parser implements ParserInterface {
 	private List<Entry<String, Pattern>> commandSymbols;
 	private List<Entry<String, Pattern>> syntaxSymbols;
 	public static final String WHITESPACE_NEWLINE = "\\s+|\\n";
-	// TODO: initialize these
+	public static final String WHITESPACE_NEWLINE_COMMENT = WHITESPACE_NEWLINE + "|#.*\\n";
 	private VariableTable variableTable;
 	private CommandTable commandTable;
 	private BackendController controller;
@@ -52,6 +52,28 @@ public class Parser implements ParserInterface {
 		return getSymbol(text, commandSymbols);
 	}
 
+	private boolean isDefinedLangCommand(String name) {
+		try {
+			getCommandSymbol(name);
+			return true;
+		} catch (CommandException e) {
+			return false;
+		}
+	}
+
+	private boolean isDefinedUserCommand(String name) {
+		try {
+			commandTable.getCommand(name);
+			return true;
+		} catch (CommandException e) {
+			return false;
+		}
+	}
+
+	private boolean isDefinedCommand(String name) {
+		return isDefinedUserCommand(name) || isDefinedLangCommand(name);
+	}
+
 	private String getSymbol(String text, List<Entry<String, Pattern>> list) throws CommandException {
 		for (Entry<String, Pattern> e : list) {
 			if (match(text, e.getValue())) {
@@ -63,7 +85,7 @@ public class Parser implements ParserInterface {
 
 	@Override
 	public double parse(String text) {
-		return parseIntermediate(text.split(WHITESPACE_NEWLINE), 0);
+		return parseIntermediate(text.split(WHITESPACE_NEWLINE_COMMENT), 0);
 	}
 
 	public VariableTable getVariableTable() {
@@ -84,27 +106,35 @@ public class Parser implements ParserInterface {
 		double[] ret = parse(split, index, 0);
 		while (ret[1] + 1 < split.length) {
 			ret = parse(split, ((int) ret[1] + 1), ret[0]);
-			//System.out.println("TEST1");
 		}
 		return ret[0];
 	}
 
-	private double[] parse(String[] split, int index, double retVal) {
-		Class<?> clazz = null;
+	private Command makeCommand(String name) throws CommandException {
 		Command cur = null;
 		try {
-			clazz = Class.forName("commands." + getCommandSymbol(split[index]) + "Command");
+			Class<?> clazz = Class.forName("commands." + getCommandSymbol(name) + "Command");
 			Constructor<?> ctor = clazz.getDeclaredConstructor(controller.getClass());
 			cur = (Command) ctor.newInstance(controller);
+			return cur;
 		} catch (Exception e) {
-			//e.printStackTrace();
 			try {
-				cur = commandTable.getCommand(split[index]);
+				cur = commandTable.getCommand(name);
+				return cur;
 			} catch (Exception e1) {
-				complain(e1);
-				double[] ret = { retVal, index };
-				return ret;
+				throw e1;
 			}
+		}
+	}
+
+	private double[] parse(String[] split, int index, double retVal) {
+		Command cur = null;
+		try {
+			cur = makeCommand(split[index]);
+		} catch (Exception e) {
+			complain(e);
+			double[] ret = { retVal, index };
+			return ret;
 		}
 		try {
 			List<Variable> vars = new ArrayList<Variable>();
@@ -118,17 +148,19 @@ public class Parser implements ParserInterface {
 						String varName = split[i + 1].substring(1);
 						if (variableTable.contains(varName))
 							vars.add(variableTable.getVariable(varName));
-						else 
+						else
 							vars.add(new Variable(varName, 0));
 					} else if (symbol.equals("Command")) {
-						double [] recurse = parse(split, i + 1, retVal);
-						vars.add(new Variable(null, recurse[0]));
-						double diff = recurse[1] - (i + 1);
-						i += diff;
-						index += diff;
-					} /*else if (symbol.equals("Symbol")) {
-						vars.add(new Variable(split[i + 1].substring(1), 0));
-					}*/ else if (symbol.equals("ListStart")) {
+						if (isDefinedCommand(split[i + 1])) {
+							double[] recurse = parse(split, i + 1, retVal);
+							vars.add(new Variable(null, recurse[0]));
+							double diff = recurse[1] - (i + 1);
+							i += diff;
+							index += diff;
+						} else {
+							vars.add(new Variable(split[i + 1], 0));
+						}
+					} else if (symbol.equals("ListStart")) {
 						int temp = 1;
 						symbol = getSyntaxSymbol(split[i + 1 + temp]);
 						String arg = "";
@@ -136,21 +168,18 @@ public class Parser implements ParserInterface {
 							arg += split[i + 1 + temp] + " ";
 							temp++;
 							symbol = getSyntaxSymbol(split[i + 1 + temp]);
-
 						}
 						index += temp;
 						i += temp;
-						vars.add(new Variable(arg, 0));
+						vars.add(new Variable(arg));
 					}
 				}
 			}
-			
 			index = i;
 			cur.setArgs(vars);
 			double[] ret = { cur.execute(), index };
 			return ret;
 		} catch (Exception e) {
-			//e.printStackTrace();
 			complain(e);
 			double[] ret = { retVal, index };
 			return ret;

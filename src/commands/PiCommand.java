@@ -6,8 +6,7 @@ import backend.Command;
 public class PiCommand extends Command {
 
 	public PiCommand(BackendController controller) {
-		super(controller);
-		setNumArgs(0);
+		super(controller, 0);
 	}
 
 	@Override

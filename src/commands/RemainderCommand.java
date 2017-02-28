@@ -6,8 +6,7 @@ import backend.Command;
 public class RemainderCommand extends Command {
 
 	public RemainderCommand(BackendController controller) {
-		super(controller);
-		setNumArgs(2);
+		super(controller, 2);
 	}
 
 	@Override

@@ -7,8 +7,7 @@ import frontend.app.FrontEndController;
 public class ForwardCommand extends TurtleCommand{
 	
 	public ForwardCommand(BackendController controller){
-		super(controller);
-		setNumArgs(1);
+		super(controller, 1);
 	}
 	
 	/*
