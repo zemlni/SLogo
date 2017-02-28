@@ -1,9 +1,13 @@
 package backend;
 
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
+
+import expressions.Expression;
+
 import java.lang.reflect.Constructor;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -28,6 +32,7 @@ public class Parser implements ParserInterface {
 		setUpSymbols(syntaxResources, syntaxSymbols);
 		variableTable = new VariableTable(controller.getFrontEndController());
 		commandTable = new CommandTable(controller.getFrontEndController());
+
 	}
 
 	private void setUpSymbols(ResourceBundle rb, List<Entry<String, Pattern>> list) {
@@ -70,7 +75,7 @@ public class Parser implements ParserInterface {
 		}
 	}
 
-	private boolean isDefinedCommand(String name) {
+	public boolean isDefinedCommand(String name) {
 		return isDefinedUserCommand(name) || isDefinedLangCommand(name);
 	}
 
@@ -100,6 +105,7 @@ public class Parser implements ParserInterface {
 		// TODO: do this
 		// FrontEndController.showError(String error)
 		// controller.getFrontEndController().showError("");
+		e.printStackTrace();
 	}
 
 	private double parseIntermediate(String[] split, int index) {
@@ -118,70 +124,84 @@ public class Parser implements ParserInterface {
 			cur = (Command) ctor.newInstance(controller);
 			return cur;
 		} catch (Exception e) {
-			try {
-				cur = commandTable.getCommand(name);
-				return cur;
-			} catch (Exception e1) {
-				throw e1;
+			cur = commandTable.getCommand(name);
+			return cur;
+		}
+	}
+
+	private List<Variable> parseArgs(String[] split, int index, double retVal, int numArgs) throws CommandException {
+		List<Variable> vars = new ArrayList<Variable>();
+		int i;
+		for (i = index; i < index + numArgs; i++) {
+			if (i + 1 < split.length) {
+				Expression expr = null;
+
+				try {
+					Class<?> clazz = Class.forName("expressions." + getSyntaxSymbol(split[i + 1]) + "Expression");
+					Constructor<?> ctor = clazz.getDeclaredConstructor(getClass());
+					expr = (Expression) ctor.newInstance(this);
+				} catch (Exception e) {
+
+				}
+				List<Variable> tempVars = expr.parse(split, i + 1, retVal);
+				vars.add(tempVars.get(0));
+				
+				String symbol = getSyntaxSymbol(split[i + 1]);
+				if (symbol.equals("Constant")) {
+					vars.add(new Variable(null, Double.parseDouble(split[i + 1])));
+				} else if (symbol.equals("Variable")) {
+					String varName = split[i + 1].substring(1);
+					if (variableTable.contains(varName))
+						vars.add(variableTable.getVariable(varName));
+					else
+						vars.add(new Variable(varName, 0));
+				} else if (symbol.equals("Command")) {
+					if (isDefinedCommand(split[i + 1])) {
+						double[] recurse = parse(split, i + 1, retVal);
+						vars.add(new Variable(null, recurse[0]));
+						double diff = recurse[1] - (i + 1);
+						i += diff;
+						index += diff;
+					} else {
+						vars.add(new Variable(split[i + 1], 0));
+					}
+				} else if (symbol.equals("ListStart")) {
+					int temp = 1;
+					symbol = getSyntaxSymbol(split[i + 1 + temp]);
+					String arg = "";
+					while (!symbol.equals("ListEnd")) {
+						arg += split[i + 1 + temp] + " ";
+						temp++;
+						symbol = getSyntaxSymbol(split[i + 1 + temp]);
+					}
+					index += temp;
+					i += temp;
+					vars.add(new Variable(arg));
+				}
 			}
 		}
+		vars.add(new Variable(null, i));
+		return vars;
 	}
 
 	private double[] parse(String[] split, int index, double retVal) {
 		Command cur = null;
+		double[] ret = { retVal, index };
 		try {
 			cur = makeCommand(split[index]);
 		} catch (Exception e) {
 			complain(e);
-			double[] ret = { retVal, index };
 			return ret;
 		}
 		try {
-			List<Variable> vars = new ArrayList<Variable>();
-			int i;
-			for (i = index; i < index + cur.getNumArgs(); i++) {
-				if (i + 1 < split.length) {
-					String symbol = getSyntaxSymbol(split[i + 1]);
-					if (symbol.equals("Constant")) {
-						vars.add(new Variable(null, Double.parseDouble(split[i + 1])));
-					} else if (symbol.equals("Variable")) {
-						String varName = split[i + 1].substring(1);
-						if (variableTable.contains(varName))
-							vars.add(variableTable.getVariable(varName));
-						else
-							vars.add(new Variable(varName, 0));
-					} else if (symbol.equals("Command")) {
-						if (isDefinedCommand(split[i + 1])) {
-							double[] recurse = parse(split, i + 1, retVal);
-							vars.add(new Variable(null, recurse[0]));
-							double diff = recurse[1] - (i + 1);
-							i += diff;
-							index += diff;
-						} else {
-							vars.add(new Variable(split[i + 1], 0));
-						}
-					} else if (symbol.equals("ListStart")) {
-						int temp = 1;
-						symbol = getSyntaxSymbol(split[i + 1 + temp]);
-						String arg = "";
-						while (!symbol.equals("ListEnd")) {
-							arg += split[i + 1 + temp] + " ";
-							temp++;
-							symbol = getSyntaxSymbol(split[i + 1 + temp]);
-						}
-						index += temp;
-						i += temp;
-						vars.add(new Variable(arg));
-					}
-				}
-			}
-			index = i;
+			List<Variable> vars = parseArgs(split, index, retVal, cur.getNumArgs());
+			ret[1] = (int) vars.get(vars.size() - 1).getValue();
+			vars.remove(vars.size() - 1);
 			cur.setArgs(vars);
-			double[] ret = { cur.execute(), index };
+			ret[0] = cur.execute();
 			return ret;
 		} catch (Exception e) {
 			complain(e);
-			double[] ret = { retVal, index };
 			return ret;
 		}
 	}
