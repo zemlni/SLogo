@@ -31,7 +31,7 @@ public class UserCommand extends Command implements UserCommandInterface {
 		List<Variable> vars = getArgs();
 		for (int i = 0; i < vars.size(); i++){
 			vars.get(i).setKey(variables[i].substring(1));
-			getBackendController().getParser().getVariableTable().setVariable(vars.get(i));
+			getBackendController().setVariable(vars.get(i));
 		}
 		return getBackendController().getParser().parse(commands);
 	}

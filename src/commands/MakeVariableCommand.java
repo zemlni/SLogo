@@ -17,7 +17,7 @@ public class MakeVariableCommand extends Command {
 	public double execute() {
 		List<Variable> args = getArgs();
 		Variable newVar = new Variable(args.get(0).getKey(), args.get(1).getValue());
-		getBackendController().getParser().getVariableTable().setVariable(newVar);
+		getBackendController().setVariable(newVar);
 		return newVar.getValue();
 	}
 

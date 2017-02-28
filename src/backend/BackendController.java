@@ -47,5 +47,9 @@ public class BackendController implements BackendControllerInterface {
 	public FrontEndController getFrontEndController(){
 		return fcontroller;
 	}
+	
+	public void setVariable(Variable var){
+		parser.getVariableTable().setVariable(var);
+	}
 
 }

@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 public class Parser implements ParserInterface {
 	private List<Entry<String, Pattern>> commandSymbols;
 	private List<Entry<String, Pattern>> syntaxSymbols;
-	private final String WHITESPACE_NEWLINE = "\\s+|\\n";
+	public static final String WHITESPACE_NEWLINE = "\\s+|\\n";
 	// TODO: initialize these
 	private VariableTable variableTable;
 	private CommandTable commandTable;
