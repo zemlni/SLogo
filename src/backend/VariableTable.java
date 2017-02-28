@@ -39,5 +39,9 @@ public class VariableTable implements VariableTableInterface {
 			frontEndController.showError("Variable requested was not found!");
 		}
 	}
+	
+	public boolean contains(String name){
+		return variables.keySet().contains(name.toUpperCase());
+	}
 
 }

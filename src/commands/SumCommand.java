@@ -4,7 +4,7 @@ import backend.BackendController;
 import backend.Command;
 import backend.Parser;
 
-public class SumCommand extends Command{
+public class SumCommand extends Command {
 
 	public SumCommand(BackendController controller) {
 		super(controller);
@@ -13,8 +13,7 @@ public class SumCommand extends Command{
 
 	@Override
 	public double execute() {
-		double sum = getArgs().get(0).getValue() + getArgs().get(1).getValue();
-		return sum;
+		return getArgs().get(0).getValue() + getArgs().get(1).getValue();
 	}
 
 }

@@ -115,16 +115,20 @@ public class Parser implements ParserInterface {
 					if (symbol.equals("Constant")) {
 						vars.add(new Variable(null, Double.parseDouble(split[i + 1])));
 					} else if (symbol.equals("Variable")) {
-						vars.add(new Variable(null, variableTable.getVariable(split[i + 1].substring(1)).getValue()));
+						String varName = split[i + 1].substring(1);
+						if (variableTable.contains(varName))
+							vars.add(variableTable.getVariable(varName));
+						else 
+							vars.add(new Variable(varName, 0));
 					} else if (symbol.equals("Command")) {
 						double [] recurse = parse(split, i + 1, retVal);
 						vars.add(new Variable(null, recurse[0]));
 						double diff = recurse[1] - (i + 1);
 						i += diff;
 						index += diff;
-					} else if (symbol.equals("Symbol")) {
+					} /*else if (symbol.equals("Symbol")) {
 						vars.add(new Variable(split[i + 1].substring(1), 0));
-					} else if (symbol.equals("ListStart")) {
+					}*/ else if (symbol.equals("ListStart")) {
 						int temp = 1;
 						symbol = getSyntaxSymbol(split[i + 1 + temp]);
 						String arg = "";
