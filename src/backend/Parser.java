@@ -75,14 +75,16 @@ public class Parser implements ParserInterface {
 	}
 
 	private void complain(Exception e) {
-
+		// TODO: do this
+		// FrontEndController.showError(String error)
+		// controller.getFrontEndController().showError("");
 	}
 
 	private double parseIntermediate(String[] split, int index) {
 		double[] ret = parse(split, index, 0);
 		while (ret[1] + 1 < split.length) {
 			ret = parse(split, ((int) ret[1] + 1), ret[0]);
-			System.out.println("TEST1");
+			//System.out.println("TEST1");
 		}
 		return ret[0];
 	}
@@ -144,11 +146,8 @@ public class Parser implements ParserInterface {
 			double[] ret = { cur.execute(), index };
 			return ret;
 		} catch (Exception e) {
-			e.printStackTrace();
-			// TODO: do this
-			// FrontEndController.showError(String error)
-			// figure out what to return
-			// controller.getFrontEndController().showError("");
+			//e.printStackTrace();
+			complain(e);
 			double[] ret = { retVal, index };
 			return ret;
 		}
