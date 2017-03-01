@@ -3,11 +3,14 @@ package backend;
 public class Variable implements VariableInterface {
 	private double value;
 	private String key;
-	private String name;
+	private String info;
 
+	public Variable(String info){
+		this(null, 0);
+		this.info = info;
+	}
 	public Variable(String name, double value){
 		if (name != null){
-			this.name = name.toUpperCase();
 			this.key = name.toUpperCase();
 		}
 		this.value = value;
@@ -22,7 +25,6 @@ public class Variable implements VariableInterface {
 
 	public void setKey(String key){
 		this.key = key;
-		this.name = key;
 	}
 	@Override
 	public void update(double newValue) {
@@ -33,5 +35,7 @@ public class Variable implements VariableInterface {
 	public double getValue() {
 		return value;
 	}
-
+	public String getInfo(){
+		return info;
+	}
 }
