@@ -1,6 +1,6 @@
 package backend;
 
-import commands.UserCommand;
+import backend.commands.UserCommand;
 
 /**
  * This is the interface that the command table will have to follow. This is

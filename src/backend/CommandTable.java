@@ -2,7 +2,7 @@ package backend;
 
 import java.util.HashMap;
 
-import commands.UserCommand;
+import backend.commands.UserCommand;
 import frontend.app.FrontEndController;
 
 public class CommandTable implements CommandTableInterface {
