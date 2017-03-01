@@ -26,6 +26,9 @@ public class TurtleController {
 		yOff = yOffset;
 	}
 	
+	public TurtleController(){
+		this(0,0);
+	}
 	
 	public void moveTurtleTo(double x, double y) {
 		Point2D location = translateLocation(x,y);

@@ -57,7 +57,7 @@ public class BackwardCommand extends TurtleCommand{
 	 * calculate the new x coordinate by calc deltaX then add to oldX
 	 */
 	private double calcNewXCoor(double direction, double oldX, double traveled){
-		double deltaX = traveled * Math.sin(direction);
+		double deltaX = traveled * Math.sin(Math.toRadians(direction));
 		return oldX - deltaX;
 	}
 
@@ -65,7 +65,7 @@ public class BackwardCommand extends TurtleCommand{
 	 * calculate the new y coordinate by calc deltaY then add to oldY
 	 */
 	private double calcNewYCoor(double direction, double oldY, double traveled){
-		double deltaY = traveled * Math.cos(direction);
+		double deltaY = traveled * Math.cos(Math.toRadians(direction));
 		return oldY - deltaY;
 	}
 
