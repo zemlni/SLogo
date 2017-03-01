@@ -32,7 +32,6 @@ public class LeftCommand extends TurtleCommand{
 	
 	public void rotateTurtleView(double newDir, TurtleModel turtle){
 		FrontEndController fcontroller = turtle.getFrontController();
-		System.out.println("Rotate Turtle " + newDir);
 		fcontroller.setTurtleAngle(newDir);
 	};
 	

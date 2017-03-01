@@ -77,7 +77,6 @@ public class TurtleModel {
 	
 	public void setDir(double newDir){
 		direction = newDir;
-		System.out.println("Set Turtle Model Direction " + direction);
 	}
 	public void setInvis(){
 		visible = false;
