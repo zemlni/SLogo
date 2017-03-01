@@ -9,7 +9,6 @@ import backend.Variable;
 import frontend.app.FrontEndController;
 import frontend.variables.VariableEntry;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 
 /**
@@ -18,8 +17,8 @@ import javafx.scene.text.Text;
  * @author Matthew Tribby
  */
 public class VariablesController {
-	private FrontEndController frontEnd;
 	private Map<String, VariableEntry> variableEntries;
+	FrontEndController frontEnd;
 
 	@FXML
 	private VBox variablesBox;
@@ -28,8 +27,8 @@ public class VariablesController {
 		variableEntries = new HashMap<String, VariableEntry>();
 	}
 	
-	public void setFrontEndController(FrontEndController frontEnd) {
-		this.frontEnd = frontEnd;
+	public void setFrontEndController(FrontEndController frontEndController){
+		frontEnd =frontEndController;
 	}
 	
 	public void addVariable(Variable variable) {
@@ -43,22 +42,10 @@ public class VariablesController {
 		}
 	}
 
+	//Currently there is no need for this method so not implemented. Might remove from the 
+	//API, will decide based on second set of implementation goals
 	public void removeVariable(Variable variable) throws Exception {
-		if(variableEntries.containsKey(variable.getKey())){
-			variableEntries.remove(variable.getKey());
-			for(int i = 0; i < variablesBox.getChildren().size(); i++){
-				if(variablesBox.getChildren().get(i) instanceof Text){
-					String varName = ((Text) variablesBox.getChildren().get(i)).getText();
-					varName = varName.substring(0, varName.indexOf(" "));
-					if(varName.equals(variable.getKey())){
-						variablesBox.getChildren().remove(i);
-					}
-				}
-			}
-		}
-		else{
-			throw new Exception();
-		}
+		
 	}
 	
 }

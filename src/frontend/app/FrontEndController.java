@@ -13,7 +13,6 @@ import frontend.views.VariablesController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 
 
@@ -68,21 +67,14 @@ public class FrontEndController {
 
 	// variables view
 	/**
-	 * Will ensure that a variable is added visually to the Variable window
+	 * Will ensure that a variable is added visually to the Variable window. If the variable
+	 * is already present then it will update the current variable to reflect the new value
 	 * @param variable the Variable instance to be added
 	 */
 	public void addVariable(Variable variable) {
 		variablesController.addVariable(variable);	
 	}
-	/**
-	 * Updates a variable that already is shown in the Variable window
-	 * @param updatedVariable
-	 * @throws Exception if variable that is trying to be updated does not currently
-	 * exist in the front-end. This exception will be more specifically defined.
-	 */
-	//public void updateVariable(Variable updatedVariable) throws Exception {
-		//variablesController.updateVariable(updatedVariable);	
-//	}
+
 	/**
 	 * Removes the visual representation of a Variable that is currently shown 
 	 * in the Variable window
@@ -130,7 +122,8 @@ public class FrontEndController {
 	 * @param y1 ending y
 	 */
 	public void drawLine(double x0, double y0, double x1, double y1) {
-		backendController.setVariable(new Variable("test", 15 ));
+		//Test line:
+		//backendController.setVariable(new Variable("test", 15 ));
 		turtleScreenController.drawLine(x0, y0, x1, y1);
 	}
 	/**
@@ -141,6 +134,24 @@ public class FrontEndController {
 	public void setTurtleAngle(double angle) {
 		turtleScreenController.setTurtleAngle(angle);
 	}
+	
+	/**
+	 * Shows the turtle image visibly. If the turtle is already showing, this will 
+	 * have no effect
+	 */
+	public void showTurtle(){
+		turtleScreenController.showTurtle();
+	}
+	
+	/**
+	 * Hides the turtle image visibly. If the turtle is already hidden, this will
+	 * have no effect
+	 */
+	public void hideTurtle(){
+		turtleScreenController.hideTurtle();
+	}
+	
+	
 	/**
 	 * Clears the drawing screen, resets the turtle back to initial position and gets
 	 * rid of all drawn lines

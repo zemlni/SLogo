@@ -13,8 +13,6 @@ public class MenuController {
 
 	@FXML
 	private ComboBox<String> languageBox;
-	@FXML
-	private HBox penPick;
 	private AppController appController;
 
 	public void setAppController(AppController appController) {

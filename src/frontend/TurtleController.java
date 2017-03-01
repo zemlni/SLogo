@@ -1,6 +1,6 @@
 package frontend;
 
-import frontend.views.TurtleImage;
+import frontend.turtles.TurtleImage;
 
 public class TurtleController implements TurtleControllerInterface {
 	private TurtleImage turtle;

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import frontend.app.FrontEndController;
+import frontend.turtles.ColorSelector;
+import frontend.turtles.ImageSelector;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
@@ -14,7 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 public class TurtleScreenController {
 	private Canvas canvas;
@@ -22,23 +23,27 @@ public class TurtleScreenController {
 	private List<TurtleController> turtleControls; 
 	@FXML
 	private Pane turtlePane;
-	private FrontEndController frontEnd;
+	@FXML
+	private HBox prefButtons;
 	public static final int X_OFFSET = 200;
 	public static final int Y_OFFSET = 140;
+	public static final int CANVAS_WIDTH = 400;
+	public static final int CANVAS_HEIGHT = 400;
+	private FrontEndController frontEnd;
 	
 	@FXML
 	private void initialize() {
 		turtleControls = new ArrayList<TurtleController>();
 		turtleControls.add(new TurtleController(X_OFFSET, Y_OFFSET));
-		canvas = new Canvas(500, 500);
+		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = canvas.getGraphicsContext2D();
 		turtlePane.getChildren().add(canvas);	
 		turtlePane.getChildren().add(turtleControls.get(0).getImage());
 		createPreferencePanel();
 	}
 	
-	public void setFrontEndController(FrontEndController frontEnd) {
-		this.frontEnd = frontEnd;
+	public void setFrontEndController(FrontEndController frontEndController){
+		frontEnd =frontEndController;
 	}
 	
 	public void drawLine(double x0, double y0, double x1, double y1) {
@@ -68,16 +73,14 @@ public class TurtleScreenController {
 	
 	private void createPreferencePanel(){
 		HBox pref = new HBox();
-		ColorSelector penColor = new ColorSelector("Pen Color:");
+		ColorSelector penColor = new ColorSelector("Pen Color: ");
 		penColor.getColorPicker().setOnAction(e -> setPenColor(penColor.getColorPicker().getValue()));
 		
-		ColorSelector backColor = new ColorSelector("Background:");
+		ColorSelector backColor = new ColorSelector("Background: ");
 		backColor.getColorPicker().setOnAction(e -> setBackground(backColor.getColorPicker().getValue()));
 		
-		Button imageSelect = new Button("Image Select");
-		imageSelect.setFont(new Font("Times", 15));
+		Button imageSelect = new Button("Image Select ");
 		imageSelect.setOnAction(e -> changeTurtleImage());
-		
 		
 		pref.getChildren().addAll(penColor.getPanel(),backColor.getPanel(), imageSelect);
 		turtlePane.getChildren().add(pref);
@@ -100,5 +103,13 @@ public class TurtleScreenController {
 
 	public void setTurtleAngle(double angle) {
 		turtleControls.get(0).setTurtleAngle(angle);
+	}
+	
+	public void showTurtle(){
+		turtleControls.get(0).showTurtle();
+	}
+	
+	public void hideTurtle(){
+		turtleControls.get(0).hideTurtle();
 	}
 }
