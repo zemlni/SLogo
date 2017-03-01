@@ -80,9 +80,9 @@ public class FrontEndController {
 	 * @throws Exception if variable that is trying to be updated does not currently
 	 * exist in the front-end. This exception will be more specifically defined.
 	 */
-	public void updateVariable(Variable updatedVariable) throws Exception {
-		variablesController.updateVariable(updatedVariable);	
-	}
+	//public void updateVariable(Variable updatedVariable) throws Exception {
+		//variablesController.updateVariable(updatedVariable);	
+//	}
 	/**
 	 * Removes the visual representation of a Variable that is currently shown 
 	 * in the Variable window
@@ -130,6 +130,7 @@ public class FrontEndController {
 	 * @param y1 ending y
 	 */
 	public void drawLine(double x0, double y0, double x1, double y1) {
+		//backendController.setVariable(new Variable("test", 15 ));
 		turtleScreenController.drawLine(x0, y0, x1, y1);
 	}
 	/**
