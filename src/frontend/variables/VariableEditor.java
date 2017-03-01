@@ -1,4 +1,4 @@
-package frontend.views;
+package frontend.variables;
 
 import java.util.Optional;
 

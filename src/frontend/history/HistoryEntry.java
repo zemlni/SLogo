@@ -8,7 +8,7 @@ public class HistoryEntry extends Button {
 	public HistoryEntry(FrontEndController frontEnd, String text) {
 		super(text);
 		this.setMaxWidth(10000); // hard coded.
-		this.getStyleClass().add("history-entry");
+		this.getStyleClass().add("table-entry");
 		this.setOnAction(e -> frontEnd.appendText(this.getText()));
 	}
 

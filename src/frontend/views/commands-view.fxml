@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.*?>
 
 
-<HBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
+<ScrollPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8"
 	fx:controller="frontend.views.CommandsController">
-	<children>
-		<Label text="Commands" />
-	</children>
-</HBox>
+	<content>
+		<VBox fx:id="commandsBox"> </VBox>
+	</content>
+</ScrollPane>

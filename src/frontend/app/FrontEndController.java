@@ -130,7 +130,7 @@ public class FrontEndController {
 	 * @param y1 ending y
 	 */
 	public void drawLine(double x0, double y0, double x1, double y1) {
-		//backendController.setVariable(new Variable("test", 15 ));
+		backendController.setVariable(new Variable("test", 15 ));
 		turtleScreenController.drawLine(x0, y0, x1, y1);
 	}
 	/**
