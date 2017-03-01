@@ -1,5 +1,6 @@
 package frontend.views;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +9,12 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class TurtleScreenController {
 	private Canvas canvas;
@@ -53,7 +57,7 @@ public class TurtleScreenController {
 	}
 	
 	public void setBackground(Color color){
-		turtlePane.setStyle("-fx-background-color: " + color.toString().substring(2));
+		turtlePane.setStyle("-fx-background-color: #" + color.toString().substring(2));
 	}
 	
 	private Point2D translateLocation(double x, double y){
@@ -70,8 +74,24 @@ public class TurtleScreenController {
 		ColorSelector backColor = new ColorSelector("Background:");
 		backColor.getColorPicker().setOnAction(e -> setBackground(backColor.getColorPicker().getValue()));
 		
-		pref.getChildren().addAll(penColor.getPanel(),backColor.getPanel());
+		Button imageSelect = new Button("Image Select");
+		imageSelect.setFont(new Font("Times", 15));
+		imageSelect.setOnAction(e -> changeTurtleImage());
+		
+		
+		pref.getChildren().addAll(penColor.getPanel(),backColor.getPanel(), imageSelect);
 		turtlePane.getChildren().add(pref);
+	}
+	
+	private void changeTurtleImage(){
+		ImageSelector imageSelector = new ImageSelector("Turtle Image");
+		imageSelector.setInitialDirectory("images");
+			File imageFile = imageSelector.getFile();
+		if(imageFile != null){
+			//http://stackoverflow.com/questions/7830951/how-can-i-load-computer-directory-images-in-javafx
+			Image turtleImage = new Image(imageFile.toURI().toString());
+			turtleControls.get(0).setTurtleImage(turtleImage);
+		}
 	}
 
 	public void moveTurtleTo(double x, double y) {
