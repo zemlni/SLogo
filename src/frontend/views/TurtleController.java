@@ -1,8 +1,7 @@
 package frontend.views;
 
-import java.io.File;
-
 import frontend.app.FrontEndController;
+import frontend.turtles.TurtleImage;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -56,6 +55,14 @@ public class TurtleController {
 
 	public void setTurtleImage(Image newImage) {
 		turtle.setImage(newImage);
+	}
+	
+	public void showTurtle(){
+		turtle.showImage();
+	}
+	
+	public void hideTurtle(){
+		turtle.hideImage();
 	}
 	
 }

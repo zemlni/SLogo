@@ -1,6 +1,7 @@
 HBox {
 	-fx-background: #FFFFFF;
-	-fx-font: 20.0px "Serif";
+	-fx-font: 15.0px "Serif";
+	-fx-padding: 10;
 }
 
 VBox {

@@ -1,4 +1,4 @@
-package frontend.views;
+package frontend.turtles;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -42,5 +42,12 @@ public class TurtleImage {
 		turtleImage.setY(y - TURTLE_HEIGHT/2);
 	}
 	
+	public void showImage(){
+		turtleImage.setVisible(true);
+	}
+	
+	public void hideImage(){
+		turtleImage.setVisible(false);
+	}
 	
 }
