@@ -19,4 +19,5 @@ public abstract class TurtleCommand extends Command {
 	public TurtleModel getTurtle() {
 		return turtle;
 	}
+	
 }

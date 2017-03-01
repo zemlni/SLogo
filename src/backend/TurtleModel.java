@@ -10,6 +10,7 @@ public class TurtleModel {
 	private double yCoor;
 	// direction is in degrees. 0 points up.
 	private double direction;
+	private boolean visible;
 	
 	public TurtleModel(FrontEndController controller){
 		frontController = controller;
@@ -20,6 +21,7 @@ public class TurtleModel {
 		xCoor = 0;
 		yCoor = 0;
 		penDown = true;
+		visible = true;
 	}
 	
 	public FrontEndController getFrontController(){
@@ -71,5 +73,18 @@ public class TurtleModel {
 	
 	public void setYCoor(double newY){
 		yCoor = newY;
+	}
+	
+	public void setDir(double newDir){
+		direction = newDir;
+	}
+	public void setInvis(){
+		visible = false;
+	}
+	public void setVis(){
+		visible = true;
+	}
+	public boolean isVis(){
+		return visible;
 	}
 }
