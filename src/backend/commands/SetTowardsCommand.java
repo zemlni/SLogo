@@ -56,7 +56,7 @@ public class SetTowardsCommand extends TurtleCommand{
 			return 180 + Math.atan((currX-towX)/(currY-towY));
 		} else
 		if(towX < currX && towY < currY){
-			return 0 - Math.atan((currX-towX)/(currY-towY));
+			return 360 - Math.atan((currX-towX)/(currY-towY));
 		} else {
 			return getTurtle().getDirection();
 		}
