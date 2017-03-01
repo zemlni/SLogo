@@ -26,6 +26,7 @@ public class CommandTable implements CommandTableInterface {
 	public void setCommand(UserCommand command) {
 		commands.remove(command.getKey().toUpperCase());
 		commands.put(command.getKey().toUpperCase(), command);
+		frontEndController.addCommand(command);
 	}
 
 	@Override
