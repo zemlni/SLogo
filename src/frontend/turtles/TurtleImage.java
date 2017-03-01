@@ -30,7 +30,8 @@ public class TurtleImage {
 	}
 	
 	public void setAngle(double angle){
-		turtleImage.setRotate(-(turtleImage.getRotate()) + angle);
+		//double val = -(turtleImage.getRotate()) + angle;
+		turtleImage.setRotate(angle);
 	}
 
 	public ImageView getImage() {

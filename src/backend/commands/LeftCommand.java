@@ -20,7 +20,6 @@ public class LeftCommand extends TurtleCommand{
 	public void rotateTurtle(double degrees){
 		TurtleModel turtle = getTurtle();
 		double oldDir = turtle.getDirection();
-		
 		double newDir = calculateNewDir(oldDir, degrees);
 		
 		rotateTurtleModel(newDir, turtle);
