@@ -36,7 +36,7 @@ public class VariableTable implements VariableTableInterface {
 			frontEndController.removeVariable(var);
 		} catch (Exception e) {
 			// TODO: make this query a resources file. talk to keping.
-			frontEndController.showError("Variable requested was not found!");
+			frontEndController.showError("VariableError", var.getKey());
 		}
 	}
 	

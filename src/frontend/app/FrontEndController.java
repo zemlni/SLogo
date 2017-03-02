@@ -184,7 +184,7 @@ public class FrontEndController {
 	 * Displays an error that has occurred during the processing of a certain command/function
 	 * @param errorMsg String representation of error
 	 */
-	public void showError(String errorMsg) {
+	public void showError(String errorMsg, String bad) {
 		inputController().showError(errorMsg);
 	}
 	/**

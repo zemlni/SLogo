@@ -1,5 +1,8 @@
 package backend;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+
 import frontend.app.FrontEndController;
 
 public class BackendController implements BackendControllerInterface {
@@ -13,21 +16,21 @@ public class BackendController implements BackendControllerInterface {
 	 * english is default language
 	 */
 	public BackendController(FrontEndController frontEndController) {
-		//System.out.println(frontEndController);
+		// System.out.println(frontEndController);
 		this.fcontroller = frontEndController;
 		setLanguage("English");
 		turtle = new TurtleModel(frontEndController);
-		
+
 	}
-	
-	public TurtleModel getTurtleModel(){
+
+	public TurtleModel getTurtleModel() {
 		return turtle;
 	}
 
 	@Override
 	public void evaluate(String command) {
 		double ret = parser.parse(command);
-		//notify front end of return value
+		fcontroller.showText(String.valueOf(ret));
 	}
 
 	@Override
@@ -36,19 +39,20 @@ public class BackendController implements BackendControllerInterface {
 		parser = new Parser(this);
 
 	}
-	public Parser getParser(){
+
+	public Parser getParser() {
 		return parser;
 	}
-	
-	public String getLanguage(){
+
+	public String getLanguage() {
 		return language;
 	}
-	
-	public FrontEndController getFrontEndController(){
+
+	public FrontEndController getFrontEndController() {
 		return fcontroller;
 	}
-	
-	public void setVariable(Variable var){
+
+	public void setVariable(Variable var) {
 		parser.getVariableTable().setVariable(var);
 	}
 

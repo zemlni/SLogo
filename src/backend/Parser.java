@@ -69,8 +69,9 @@ public class Parser implements ParserInterface {
 	public double parse(String text) {
 		String[] split = text.split(WHITESPACE_NEWLINE_COMMENT);
 		double[] ret = parse(split, 0, 0);
-		while (ret[1] + 1 < split.length)
+		while (ret[1] + 1 < split.length){
 			ret = parse(split, ((int) ret[1] + 1), ret[0]);
+		}
 		return ret[0];
 	}
 
@@ -82,11 +83,10 @@ public class Parser implements ParserInterface {
 		return commandTable;
 	}
 
-	private void complain(Exception e) {
+	private void complain(String error) {
 		// TODO: do this
 		// FrontEndController.showError(String error)
-		// controller.getFrontEndController().showError("");
-		e.printStackTrace();
+		controller.getFrontEndController().showError("CommandError", error);
 	}
 
 	private Command makeCommand(String name) throws CommandException {
@@ -103,6 +103,8 @@ public class Parser implements ParserInterface {
 	}
 
 	private List<Variable> parseArgs(String[] split, int index, double retVal, Command cur) throws CommandException {
+		while (split[index].length() == 0)
+			index++;
 		List<Variable> vars = new ArrayList<Variable>();
 		int i;
 		for (i = index; i < index + cur.getNumArgs(); i++) {
@@ -114,7 +116,6 @@ public class Parser implements ParserInterface {
 					Constructor<?> ctor = clazz.getDeclaredConstructor(getClass(), Command.class);
 					expr = (Expression) ctor.newInstance(this, cur);
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw new CommandException(split[i + 1]);
 				}
 				List<Variable> tempVars = expr.parse(split, i + 1, retVal);
@@ -135,7 +136,7 @@ public class Parser implements ParserInterface {
 		try {
 			cur = makeCommand(split[index]);
 		} catch (Exception e) {
-			complain(e);
+			complain(split[index]);
 			return ret;
 		}
 		try {
@@ -146,7 +147,7 @@ public class Parser implements ParserInterface {
 			ret[0] = cur.execute();
 			return ret;
 		} catch (Exception e) {
-			complain(e);
+			complain(split[index + 1]);
 			return ret;
 		}
 	}
