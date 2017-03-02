@@ -23,23 +23,25 @@ public class TurtleScreenController {
 	private List<TurtleController> turtleControls; 
 	@FXML
 	private Pane turtlePane;
-	@FXML
-	private HBox prefButtons;
 	public static final int X_OFFSET = 200;
 	public static final int Y_OFFSET = 140;
-	public static final int CANVAS_WIDTH = 400;
-	public static final int CANVAS_HEIGHT = 400;
+	public static final int CANVAS_WIDTH = 4000;
+	public static final int CANVAS_HEIGHT = 4000;
 	private FrontEndController frontEnd;
+	private LocationTransformer locTransformer;
+	
 	
 	@FXML
 	private void initialize() {
+		locTransformer = new LocationTransformer(X_OFFSET, Y_OFFSET);
 		turtleControls = new ArrayList<TurtleController>();
-		turtleControls.add(new TurtleController(X_OFFSET, Y_OFFSET));
+		turtleControls.add(new TurtleController(X_OFFSET, Y_OFFSET, locTransformer));
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = canvas.getGraphicsContext2D();
 		turtlePane.getChildren().add(canvas);	
 		turtlePane.getChildren().add(turtleControls.get(0).getImage());
-		createPreferencePanel();
+		createPreferencePanel();	
+		
 	}
 	
 	public void setFrontEndController(FrontEndController frontEndController){
@@ -47,9 +49,9 @@ public class TurtleScreenController {
 	}
 	
 	public void drawLine(double x0, double y0, double x1, double y1) {
-		Point2D old = translateLocation(x0, y0);
-		Point2D end = translateLocation(x1, y1);
-		gc.strokeLine(old.getX(), old.getY(), end.getX(), end.getY());
+		Point2D original = locTransformer.translateLoc(x0, y0);
+		Point2D end = locTransformer.translateLoc(x1, y1);
+		gc.strokeLine(original.getX(), original.getY(), end.getX(), end.getY());
 	}
 	
 	public void clearScreen() {
@@ -65,21 +67,15 @@ public class TurtleScreenController {
 		turtlePane.setStyle("-fx-background-color: #" + color.toString().substring(2));
 	}
 	
-	private Point2D translateLocation(double x, double y){
-		double newX = X_OFFSET + x;
-		double newY = Y_OFFSET - y;
-		return new Point2D(newX, newY);
-	}
-	
 	private void createPreferencePanel(){
 		HBox pref = new HBox();
-		ColorSelector penColor = new ColorSelector("Pen Color: ");
+		ColorSelector penColor = new ColorSelector("Pen Color");
 		penColor.getColorPicker().setOnAction(e -> setPenColor(penColor.getColorPicker().getValue()));
 		
-		ColorSelector backColor = new ColorSelector("Background: ");
+		ColorSelector backColor = new ColorSelector("Background");
 		backColor.getColorPicker().setOnAction(e -> setBackground(backColor.getColorPicker().getValue()));
 		
-		Button imageSelect = new Button("Image Select ");
+		Button imageSelect = new Button("Image Select");
 		imageSelect.setOnAction(e -> changeTurtleImage());
 		
 		pref.getChildren().addAll(penColor.getPanel(),backColor.getPanel(), imageSelect);
