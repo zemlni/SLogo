@@ -1,8 +1,13 @@
 package frontend.app;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import backend.BackendController;
 import backend.Command;
 import backend.Variable;
+import frontend.animation.AnimatedAction;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
@@ -10,6 +15,7 @@ import frontend.views.ScriptController;
 import frontend.views.ShellController;
 import frontend.views.TurtleScreenController;
 import frontend.views.VariablesController;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -45,6 +51,17 @@ public class FrontEndController {
 	@FXML
 	private TabPane inputTabPane;
 	
+	// animation
+	private AnimationTimer timer;
+	private LinkedList<AnimatedAction> actionsQueue;
+	
+	public void drawLine(double x0, double y0, double x1, double y1) {
+		Double[] params = new Double[] {x0, y0, x1, y1};
+		AnimatedAction action = new AnimatedAction(this, "drawLineImpl", params);
+		actionsQueue.addLast(action);
+		System.out.println("draw line added to actionsQueue");
+	}
+	
 	@FXML
 	private void initialize() {
 		sessionLanguage = Language.getLanguage();
@@ -55,6 +72,20 @@ public class FrontEndController {
 		commandsController.setFrontEndController(this);
 		historyController.setFrontEndController(this);
 		backendController = new BackendController(this);
+		initAnimation();
+		actionsQueue = new LinkedList<>();
+		timer.start();
+	}
+	
+	private void initAnimation() {
+		timer = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				if (!actionsQueue.isEmpty()) {
+					actionsQueue.pollLast().execute();
+				}
+			}
+		};
 	}
 	
 	/**
@@ -127,7 +158,7 @@ public class FrontEndController {
 	 * @param x1 ending x
 	 * @param y1 ending y
 	 */
-	public void drawLine(double x0, double y0, double x1, double y1) {
+	public void drawLineImpl(double x0, double y0, double x1, double y1) {
 		//Test line:
 		//backendController.setVariable(new Variable("test", 15 ));
 		turtleScreenController.drawLine(x0, y0, x1, y1);
