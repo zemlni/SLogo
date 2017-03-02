@@ -5,9 +5,11 @@ import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import language.Language;
 
 public class Main extends Application {
 	public static final String MAIN_PAGE_RESOURCE = "/frontend/app/app.fxml";
@@ -30,11 +32,12 @@ public class Main extends Application {
         scene = new Scene(root, WIDTH, HEIGHT);
         
 //        stage.setResizable(false);
-        stage.setTitle(resourceBundle.getString("Title"));
+//        stage.setTitle(resourceBundle.getString("Title"));
+        stage.titleProperty().bind(Language.createStringBinding("Title"));
         stage.setScene(scene);
         stage.sizeToScene();
         stage.getIcons().add(new Image("turtle.png"));
-        stage.show();
+        stage.show();  
 	}
 	
 	public static ResourceBundle getResourceBundle() {

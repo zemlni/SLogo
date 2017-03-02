@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 
 import frontend.app.FrontEndController;
+import javafx.beans.property.ObjectProperty;
 
 public class BackendController implements BackendControllerInterface {
 
@@ -20,7 +21,6 @@ public class BackendController implements BackendControllerInterface {
 		this.fcontroller = frontEndController;
 		setLanguage("English");
 		turtle = new TurtleModel(frontEndController);
-
 	}
 
 	public TurtleModel getTurtleModel() {

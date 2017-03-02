@@ -17,11 +17,11 @@
 				<fx:include fx:id="turtleScreen" source="/frontend/views/turtle-view.fxml" />
 				<TabPane fx:id="inputTabPane" side="LEFT" tabClosingPolicy="UNAVAILABLE">
 					<tabs>
-						<Tab text="shell">
-							<fx:include fx:id="shell" source="/frontend/views/shell-view.fxml" />
-						</Tab>
 						<Tab text="script">
 							<fx:include fx:id="script" source="/frontend/views/script-view.fxml" />
+						</Tab>
+						<Tab text="shell">
+							<fx:include fx:id="shell" source="/frontend/views/shell-view.fxml" />
 						</Tab>
 					</tabs>
 				</TabPane>

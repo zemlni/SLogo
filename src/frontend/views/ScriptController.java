@@ -79,7 +79,7 @@ public class ScriptController implements InputController {
 	
 	@Override
 	public void showError(String error) {
-		
+		frontEnd.showErrorAlert(error);
 	}
 	@Override
 	public void showText(String text) {

@@ -18,32 +18,27 @@ public class TurtleController {
 	private TurtleImage turtle;
 	private double xOff;
 	private double yOff;
+	private LocationTransformer locTransformer;
 	
 	
-	public TurtleController(double xOffset, double yOffset){
+	public TurtleController(double xOffset, double yOffset, LocationTransformer locationTransformer){
 		turtle = new TurtleImage(xOffset, yOffset);
 		xOff = xOffset;
 		yOff = yOffset;
+		locTransformer = locationTransformer;
 	}
 	
-	public TurtleController(){
-		this(0,0);
+	public TurtleController(LocationTransformer locationTransformer){
+		this(0,0, locationTransformer);
 	}
 	
 	public void moveTurtleTo(double x, double y) {
-		Point2D location = translateLocation(x,y);
+		Point2D location = locTransformer.translateLoc(x, y);
 		turtle.move(location.getX(), location.getY());
 	}
 
 	public void setTurtleAngle(double angle) {
 		turtle.setAngle(angle);
-	}
-
-	
-	private Point2D translateLocation(double x, double y){
-		double newX = xOff + x;
-		double newY = yOff - y;
-		return new Point2D(newX, newY);
 	}
 	
 	public ImageView getImage(){
