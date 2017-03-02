@@ -15,10 +15,10 @@ public class VariableTable implements VariableTableInterface {
 	}
 
 	@Override
-	public Variable getVariable(String name) throws CommandException {
+	public Variable getVariable(String name) throws VariableException {
 		Variable ret = variables.get(name.toUpperCase());
 		if (ret == null)
-			throw new CommandException(name);
+			throw new VariableException(name);
 		return ret;
 	}
 
@@ -36,7 +36,7 @@ public class VariableTable implements VariableTableInterface {
 			frontEndController.removeVariable(var);
 		} catch (Exception e) {
 			// TODO: make this query a resources file. talk to keping.
-			frontEndController.showError("Variable requested was not found!");
+			frontEndController.showError("VariableError", var.getKey());
 		}
 	}
 	

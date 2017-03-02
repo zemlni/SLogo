@@ -4,6 +4,7 @@ import frontend.app.FrontEndController;
 import frontend.shell.Shell;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
+import language.Language;
 
 
 /**
@@ -30,10 +31,10 @@ public class ShellController implements InputController {
 	}
 	
 	@Override
-	public void showError(String error) {
-		shell.appendToLabel(error);
+	public void showError(String error, String bad) {
+		shell.appendToLabel(Language.getWord(error)+bad);
 	}
-
+	
 	@Override
 	public void showText(String text) {
 		shell.appendToLabel(text);

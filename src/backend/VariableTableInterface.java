@@ -15,8 +15,9 @@ public interface VariableTableInterface {
 	 *            the name of the variable requested
 	 * 
 	 * @return the Variable requested
+	 * @throws VariableException 
 	 */
-	public Variable getVariable(String name) throws CommandException;
+	public Variable getVariable(String name) throws VariableException;
 
 	public void setVariable(Variable var);
 

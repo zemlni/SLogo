@@ -69,8 +69,11 @@ public class Parser implements ParserInterface {
 	public double parse(String text) {
 		String[] split = text.split(WHITESPACE_NEWLINE_COMMENT);
 		double[] ret = parse(split, 0, 0);
-		while (ret[1] + 1 < split.length)
+		while (ret[1] + 1 < split.length){
+			if (ret[1] == -1)
+				return 0;
 			ret = parse(split, ((int) ret[1] + 1), ret[0]);
+		}
 		return ret[0];
 	}
 
@@ -83,10 +86,7 @@ public class Parser implements ParserInterface {
 	}
 
 	private void complain(Exception e) {
-		// TODO: do this
-		// FrontEndController.showError(String error)
-		// controller.getFrontEndController().showError("");
-		e.printStackTrace();
+		controller.getFrontEndController().showError(((SlogoException)e).getErrorType(), e.getMessage());
 	}
 
 	private Command makeCommand(String name) throws CommandException {
@@ -102,7 +102,9 @@ public class Parser implements ParserInterface {
 		}
 	}
 
-	private List<Variable> parseArgs(String[] split, int index, double retVal, Command cur) throws CommandException {
+	private List<Variable> parseArgs(String[] split, int index, double retVal, Command cur) throws Exception {
+		while (split[index].length() == 0)
+			index++;
 		List<Variable> vars = new ArrayList<Variable>();
 		int i;
 		for (i = index; i < index + cur.getNumArgs(); i++) {
@@ -114,8 +116,7 @@ public class Parser implements ParserInterface {
 					Constructor<?> ctor = clazz.getDeclaredConstructor(getClass(), Command.class);
 					expr = (Expression) ctor.newInstance(this, cur);
 				} catch (Exception e) {
-					e.printStackTrace();
-					throw new CommandException(split[i + 1]);
+					throw new VariableException(split[i + 1]);
 				}
 				List<Variable> tempVars = expr.parse(split, i + 1, retVal);
 				vars.add(tempVars.get(0));
@@ -131,7 +132,7 @@ public class Parser implements ParserInterface {
 
 	public double[] parse(String[] split, int index, double retVal) {
 		Command cur = null;
-		double[] ret = { retVal, index };
+		double[] ret = { retVal, -1 };
 		try {
 			cur = makeCommand(split[index]);
 		} catch (Exception e) {

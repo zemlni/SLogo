@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import language.Language;
 import javafx.scene.control.TabPane;
+import language.Language;
 
 
 
@@ -180,18 +181,18 @@ public class FrontEndController {
 	 * Might be called in input controllers to show error in alert window.
 	 * @param errorMsg
 	 */
-	public void showErrorAlert(String errorMsg) {
+	public void showErrorAlert(String errorMsg, String bad) {
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Error Title");
-		alert.setContentText(errorMsg);
+		alert.setTitle(Language.getWord("ErrorTitle"));
+		alert.setContentText(Language.getWord(errorMsg) + bad);
 		alert.showAndWait();
 	}
 	/**
 	 * Displays an error that has occurred during the processing of a certain command/function
 	 * @param errorMsg String representation of error
 	 */
-	public void showError(String errorMsg) {
-		inputController().showError(errorMsg);
+	public void showError(String errorMsg, String bad) {
+		inputController().showError(errorMsg, bad);
 	}
 	/**
 	 * Displays any text that the user may need to see

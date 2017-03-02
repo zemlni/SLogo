@@ -60,7 +60,7 @@ public class ScriptController implements InputController {
 				String scriptText = MyFileIO.readTextFile(file.getAbsolutePath());
 				setText(scriptText);
 			} catch (IOException e) {
-				showError("Cannot open file: "+file.getName());
+				showError("FileOpenError", file.getName());
 			}
 		}
 	}
@@ -71,15 +71,15 @@ public class ScriptController implements InputController {
             try {
             	MyFileIO.saveTextFile(file.getAbsolutePath(), getText());
             } catch (IOException e) {
-            	showError("Cannot save file: "+file.getName());
+            	showError("FileSaveError", file.getName());
             }
         }
 	}
 
 	
 	@Override
-	public void showError(String error) {
-		frontEnd.showErrorAlert(error);
+	public void showError(String error, String bad) {
+		frontEnd.showErrorAlert(error, bad);
 	}
 	@Override
 	public void showText(String text) {

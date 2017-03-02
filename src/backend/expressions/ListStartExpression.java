@@ -20,14 +20,18 @@ public class ListStartExpression extends Expression {
 		int temp = 1;
 		String symbol = getParser().getSyntaxSymbol(split[i + temp]);
 		String arg = "";
-		while (!symbol.equals("ListEnd")) {
+		int numBrackets = 0;
+		while (numBrackets >= 0) {
 			arg += split[i + temp] + " ";
 			temp ++;
 			symbol = getParser().getSyntaxSymbol(split[i + temp]);
+			if (symbol.equals("ListEnd"))
+				numBrackets--;
+			else if (symbol.equals("ListStart"))
+				numBrackets++;
 		}
 		ret.add(new Variable(arg));
 		ret.add(new Variable(null, temp));
 		return ret;
 	}
-
 }

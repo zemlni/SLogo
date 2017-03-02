@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -36,7 +37,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.sizeToScene();
         stage.getIcons().add(new Image("turtle.png"));
-        stage.show();
+        stage.show();  
 	}
 	
 	public static ResourceBundle getResourceBundle() {
