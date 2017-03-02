@@ -13,6 +13,7 @@ import frontend.views.VariablesController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import language.Language;
 import javafx.scene.control.TabPane;
 
 
@@ -23,6 +24,9 @@ import javafx.scene.control.TabPane;
  * @author Matthew Tribby, Keping Wang
  */
 public class FrontEndController {
+
+	
+	private static String sessionLanguage;
 	
 	@FXML
 	private TurtleScreenController turtleScreenController;
@@ -43,6 +47,7 @@ public class FrontEndController {
 	
 	@FXML
 	private void initialize() {
+		sessionLanguage = Language.getLanguage();
 		turtleScreenController.setFrontEndController(this);
 		shellController.setFrontEndController(this);
 		scriptController.setFrontEndController(this);
@@ -58,7 +63,10 @@ public class FrontEndController {
 	 * @param input
 	 */
 	public void evaluate(String input) {
-		System.out.println("evaluate called for input: "+input);
+		if (!sessionLanguage.equals(Language.getLanguage())) {
+			sessionLanguage = Language.getLanguage();
+			backendController.setLanguage(sessionLanguage);
+		}
 		historyController.addHistory(input);
 		backendController.evaluate(input);
 	}
