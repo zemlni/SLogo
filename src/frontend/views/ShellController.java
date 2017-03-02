@@ -16,7 +16,7 @@ public class ShellController implements InputController {
 	}
 	
 	@Override
-	public void showError(String error) {
+	public void showError(String error, String bad) {
 		// TODO Auto-generated method stub
 		
 	}

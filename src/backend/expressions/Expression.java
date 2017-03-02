@@ -15,7 +15,7 @@ public abstract class Expression {
 		this.command = cur;
 	}
 
-	public abstract List<Variable> parse(String[] expr, int i, double retVal) throws CommandException;
+	public abstract List<Variable> parse(String[] expr, int i, double retVal) throws Exception;
 
 	public Parser getParser(){
 		return parser;

@@ -15,10 +15,10 @@ public class VariableTable implements VariableTableInterface {
 	}
 
 	@Override
-	public Variable getVariable(String name) throws CommandException {
+	public Variable getVariable(String name) throws VariableException {
 		Variable ret = variables.get(name.toUpperCase());
 		if (ret == null)
-			throw new CommandException(name);
+			throw new VariableException(name);
 		return ret;
 	}
 
