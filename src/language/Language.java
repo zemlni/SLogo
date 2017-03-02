@@ -8,7 +8,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Language {
-	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/ui/";
+	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/ui/";
 
 	private static ObjectProperty<String> language;
 	static {
