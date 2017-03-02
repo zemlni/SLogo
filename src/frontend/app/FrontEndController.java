@@ -41,7 +41,6 @@ public class FrontEndController {
 	@FXML
 	private TabPane inputTabPane;
 	
-	
 	@FXML
 	private void initialize() {
 		turtleScreenController.setFrontEndController(this);
@@ -51,7 +50,6 @@ public class FrontEndController {
 		commandsController.setFrontEndController(this);
 		historyController.setFrontEndController(this);
 		backendController = new BackendController(this);
-		
 	}
 	
 	/**
@@ -164,7 +162,7 @@ public class FrontEndController {
 	private InputController inputController() {
 		// TODO: there is a piece of code depending on the relative
 		// order of the shell tab and script tab.
-		if (inputTabPane.getSelectionModel().getSelectedIndex() == 0) {
+		if (inputTabPane.getSelectionModel().getSelectedIndex() == 1) {
 			return shellController;
 		} else {
 			return scriptController;

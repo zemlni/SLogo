@@ -7,13 +7,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.HBox;
 
 public class MenuController {
 
 	@FXML
 	private ComboBox<String> languageBox;
 	private AppController appController;
+
 
 	public void setAppController(AppController appController) {
 		this.appController = appController;

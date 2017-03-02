@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import language.Language;
 
 public class Main extends Application {
 	public static final String MAIN_PAGE_RESOURCE = "/frontend/app/app.fxml";
@@ -30,7 +31,8 @@ public class Main extends Application {
         scene = new Scene(root, WIDTH, HEIGHT);
         
 //        stage.setResizable(false);
-        stage.setTitle(resourceBundle.getString("Title"));
+//        stage.setTitle(resourceBundle.getString("Title"));
+        stage.titleProperty().bind(Language.createStringBinding("Title"));
         stage.setScene(scene);
         stage.sizeToScene();
         stage.getIcons().add(new Image("turtle.png"));

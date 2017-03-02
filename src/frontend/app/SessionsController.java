@@ -20,7 +20,6 @@ public class SessionsController {
 		this.appController = appController;
 	}
 
-
 	private int numTabs() {
 		return tabPane.getTabs().size();
 	}
