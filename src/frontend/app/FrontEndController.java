@@ -13,7 +13,6 @@ import frontend.views.VariablesController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import language.Language;
 import javafx.scene.control.TabPane;
 import language.Language;
 
