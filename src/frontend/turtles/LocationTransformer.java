@@ -39,8 +39,8 @@ public class LocationTransformer {
 	}
 	
 	public void drawLines(Point start, Point end, GraphicsContext gc){
-		System.out.println(start);
-		System.out.println(end);
+		//System.out.println(start);
+		//System.out.println(end);
 		double slope = getSlope(start, end);
 		/*Point currentEnd = null;
 		Point newStart = null;
