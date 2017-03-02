@@ -23,12 +23,14 @@ public class TurtleScreenController {
 	private List<TurtleController> turtleControls; 
 	@FXML
 	private Pane turtlePane;
-	public static final int X_OFFSET = 200;
-	public static final int Y_OFFSET = 140;
+	public static final int X_OFFSET = 198;
+	public static final int Y_OFFSET = 143;
 	public static final int CANVAS_WIDTH = 4000;
 	public static final int CANVAS_HEIGHT = 4000;
 	private FrontEndController frontEnd;
 	private LocationTransformer locTransformer;
+	private double xBounds = 2*X_OFFSET;
+	private double yBounds = 2*Y_OFFSET;
 	
 	
 	@FXML
@@ -40,8 +42,10 @@ public class TurtleScreenController {
 		gc = canvas.getGraphicsContext2D();
 		turtlePane.getChildren().add(canvas);	
 		turtlePane.getChildren().add(turtleControls.get(0).getImage());
-		createPreferencePanel();	
+		turtlePane.widthProperty().addListener(e -> {xBounds = turtlePane.getWidth();});
+		turtlePane.heightProperty().addListener(e -> {yBounds = turtlePane.getHeight();});
 		
+		createPreferencePanel();
 	}
 	
 	public void setFrontEndController(FrontEndController frontEndController){
@@ -51,7 +55,7 @@ public class TurtleScreenController {
 	public void drawLine(double x0, double y0, double x1, double y1) {
 		Point2D original = locTransformer.translateLoc(x0, y0);
 		Point2D end = locTransformer.translateLoc(x1, y1);
-		gc.strokeLine(original.getX(), original.getY(), end.getX(), end.getY());
+		locTransformer.drawLines(original, end, gc);
 	}
 	
 	public void clearScreen() {

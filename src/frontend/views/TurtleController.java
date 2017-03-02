@@ -34,6 +34,8 @@ public class TurtleController {
 	
 	public void moveTurtleTo(double x, double y) {
 		Point2D location = locTransformer.translateLoc(x, y);
+		locTransformer.findTurtleLoc(location);
+		location = locTransformer.getTurtleLoc();
 		turtle.move(location.getX(), location.getY());
 	}
 
