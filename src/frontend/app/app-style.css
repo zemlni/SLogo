@@ -23,6 +23,7 @@ VBox {
 	-fx-background-color: black;
 }
 .shell, .shell-text-field, .shell-text-label{
+	-fx-font: 13px "monospace";
 	-fx-text-fill: white;
 	-fx-background-color: black;
 }
