@@ -17,7 +17,7 @@ public class CommandExpression extends Expression {
 	@Override
 	public List<Variable> parse(String[] split, int i, double retVal) throws CommandException {
 		List<Variable> ret = new ArrayList<Variable>();
-		if (isDefinedCommand(split[i]) && !(getCommand() instanceof MakeUserInstructionCommand)) {
+		if (!(getCommand() instanceof MakeUserInstructionCommand)) {
 			double[] recurse = getParser().parse(split, i, retVal);
 			ret.add(new Variable(null, recurse[0]));
 			ret.add(new Variable(null, recurse[1] - i));

@@ -1,7 +1,6 @@
 package backend;
 
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -16,7 +15,7 @@ import java.util.Map.Entry;
 public class Parser implements ParserInterface {
 	private List<Entry<String, Pattern>> commandSymbols;
 	private List<Entry<String, Pattern>> syntaxSymbols;
-	public static final String WHITESPACE_NEWLINE = "\\s+|\\n";
+	public static final String WHITESPACE_NEWLINE = "\\s+|\\n+";
 	public static final String WHITESPACE_NEWLINE_COMMENT = WHITESPACE_NEWLINE + "|#.*\\n";
 	private VariableTable variableTable;
 	private CommandTable commandTable;
@@ -86,7 +85,15 @@ public class Parser implements ParserInterface {
 	}
 
 	private void complain(Exception e) {
-		controller.getFrontEndController().showError(((SlogoException)e).getErrorType(), e.getMessage());
+		String error = "";
+		String message = "";
+		if (e instanceof IndexOutOfBoundsException)
+			error = "OutOfBoundsError";
+		else {
+			error = ((SlogoException)e).getErrorType();
+			message = ((SlogoException)e).getMessage();
+		}
+		controller.getFrontEndController().showError(error, message);
 	}
 
 	private Command makeCommand(String name) throws CommandException {
@@ -101,9 +108,8 @@ public class Parser implements ParserInterface {
 			return cur;
 		}
 	}
-
 	private List<Variable> parseArgs(String[] split, int index, double retVal, Command cur) throws Exception {
-		while (split[index].length() == 0)
+		while (split[index].trim().length() == 0)
 			index++;
 		List<Variable> vars = new ArrayList<Variable>();
 		int i;

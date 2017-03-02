@@ -49,7 +49,7 @@ public class MenuController {
 	@FXML
 	private void openHelpPage() {
 		try {
-			BrowserWindow helpPage = new BrowserWindow("http://kepingwang.com");
+			BrowserWindow helpPage = new BrowserWindow("http://www.cs.duke.edu/courses/compsci308/spring17/assign/03_slogo/commands.php");
 			helpPage.show();
 		} catch (IOException e) {
 			System.out.println("Sorry Cannot show help page :(");
