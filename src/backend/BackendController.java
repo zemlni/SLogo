@@ -1,7 +1,6 @@
 package backend;
 
 import frontend.app.FrontEndController;
-import javafx.beans.property.ObjectProperty;
 
 public class BackendController implements BackendControllerInterface {
 

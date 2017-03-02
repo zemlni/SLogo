@@ -18,3 +18,16 @@ VBox {
 .table-entry:hover {
   	-fx-background-color: #D3D3D3;
 }
+
+.shell-pane, .shell-tab {
+	-fx-background-color: black;
+}
+.shell, .shell-text-field, .shell-text-label{
+	-fx-text-fill: white;
+	-fx-background-color: black;
+}
+.shell-text-field-hbox {
+	-fx-alignment: center-left;
+}
+
+

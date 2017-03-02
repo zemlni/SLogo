@@ -1,6 +1,9 @@
 package frontend.views;
 
 import frontend.app.FrontEndController;
+import frontend.shell.Shell;
+import javafx.fxml.FXML;
+import javafx.scene.control.ScrollPane;
 
 
 /**
@@ -10,27 +13,35 @@ import frontend.app.FrontEndController;
  */
 public class ShellController implements InputController {
 
+	@FXML
+	private ScrollPane shellBox;
+	private Shell shell;
+	
 	private FrontEndController frontEnd;
 	public void setFrontEndController(FrontEndController frontEnd) {
 		this.frontEnd = frontEnd;
+		shell.setFrontEndController(frontEnd);
+	}
+	
+	@FXML
+	private void initialize() {
+		shell = new Shell(frontEnd);
+		shellBox.setContent(shell);
 	}
 	
 	@Override
 	public void showError(String error) {
-		// TODO Auto-generated method stub
-		
+		shell.appendToLabel(error);
 	}
 
 	@Override
 	public void showText(String text) {
-		// TODO Auto-generated method stub
-		
+		shell.appendToLabel(text);
 	}
 
 	@Override
 	public void appendText(String text) {
-		// TODO Auto-generated method stub
-		
+		shell.appendToField(text);
 	}
 	
 	
