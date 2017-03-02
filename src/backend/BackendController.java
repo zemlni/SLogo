@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 
 import frontend.app.FrontEndController;
-import javafx.beans.property.ObjectProperty;
 
 public class BackendController implements BackendControllerInterface {
 
