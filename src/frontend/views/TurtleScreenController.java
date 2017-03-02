@@ -7,8 +7,9 @@ import java.util.List;
 import frontend.app.FrontEndController;
 import frontend.turtles.ColorSelector;
 import frontend.turtles.ImageSelector;
+import frontend.turtles.LocationTransformer;
+import frontend.turtles.Point;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -53,8 +54,8 @@ public class TurtleScreenController {
 	}
 	
 	public void drawLine(double x0, double y0, double x1, double y1) {
-		Point2D original = locTransformer.translateLoc(x0, y0);
-		Point2D end = locTransformer.translateLoc(x1, y1);
+		Point original = locTransformer.translateLoc(x0, y0);
+		Point end = locTransformer.translateLoc(x1, y1);
 		locTransformer.drawLines(original, end, gc);
 	}
 	

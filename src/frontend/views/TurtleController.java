@@ -1,8 +1,9 @@
 package frontend.views;
 
 import frontend.app.FrontEndController;
+import frontend.turtles.LocationTransformer;
+import frontend.turtles.Point;
 import frontend.turtles.TurtleImage;
-import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -33,7 +34,7 @@ public class TurtleController {
 	}
 	
 	public void moveTurtleTo(double x, double y) {
-		Point2D location = locTransformer.translateLoc(x, y);
+		Point location = locTransformer.translateLoc(x, y);
 		locTransformer.findTurtleLoc(location);
 		location = locTransformer.getTurtleLoc();
 		turtle.move(location.getX(), location.getY());
