@@ -84,7 +84,7 @@ public class Parser implements ParserInterface {
 		return commandTable;
 	}
 
-	private void complain(Exception e) {
+	public void complain(Exception e) {
 		String error = "";
 		String message = "";
 		if (e instanceof IndexOutOfBoundsException)
@@ -108,6 +108,7 @@ public class Parser implements ParserInterface {
 			return cur;
 		}
 	}
+	//TODO: must return children treeExpressions
 	private List<Variable> parseArgs(String[] split, int index, double retVal, Command cur) throws Exception {
 		while (split[index].trim().length() == 0)
 			index++;
@@ -146,6 +147,7 @@ public class Parser implements ParserInterface {
 			return ret;
 		}
 		try {
+			//TODO: this is called children now
 			List<Variable> vars = parseArgs(split, index, retVal, cur);
 			ret[1] = (int) vars.get(vars.size() - 1).getValue();
 			vars.remove(vars.size() - 1);

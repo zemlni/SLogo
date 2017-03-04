@@ -3,11 +3,12 @@ package backend.commands;
 import backend.BackendController;
 import backend.Command;
 import backend.Parser;
+import backend.parser.Input;
 
 public class SumCommand extends Command {
 
-	public SumCommand(BackendController controller) {
-		super(controller, 2);
+	public SumCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override

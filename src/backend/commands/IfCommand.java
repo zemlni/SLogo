@@ -5,20 +5,21 @@ import java.util.List;
 import backend.BackendController;
 import backend.Command;
 import backend.Variable;
+import backend.parser.Expression;
+import backend.parser.Input;
 
 public class IfCommand extends Command {
 
-	public IfCommand(BackendController controller) {
-		super(controller, 2);
+	public IfCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override
 	public double execute() {
-		List<Variable> args = getArgs();
+		List<Expression> children = getChildren();
 		double ret = 0;
-		if (args.get(0).getValue() != 0) {
-			ret = getBackendController().getParser().parse(args.get(1).getInfo());
-		}
+		if (children.get(0).evaluate().getValue() != 0)
+			ret = children.get(1).evaluate().getValue();
 		return ret;
 	}
 

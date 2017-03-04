@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.TurtleModel;
+import backend.parser.Input;
 import frontend.app.FrontEndController;
 
 public class LeftCommand extends TurtleCommand{
-	public LeftCommand(BackendController controller){
-		super(controller, 1);
+	public LeftCommand(Input in, BackendController controller){
+		super(in, controller, 1);
 	}
 
 	@Override

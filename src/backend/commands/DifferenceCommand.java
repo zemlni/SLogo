@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.Command;
+import backend.parser.Input;
 
 public class DifferenceCommand extends Command {
 
-	public DifferenceCommand(BackendController controller) {
-		super(controller, 2);
+	public DifferenceCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override

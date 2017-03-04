@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.Command;
+import backend.parser.Input;
 
 public class PiCommand extends Command {
 
-	public PiCommand(BackendController controller) {
-		super(controller, 0);
+	public PiCommand(Input in, BackendController controller) {
+		super(in, controller, 0);
 	}
 
 	@Override

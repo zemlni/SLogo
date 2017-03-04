@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.Command;
+import backend.parser.Input;
 
 public class NotEqualCommand extends Command {
 
-	public NotEqualCommand(BackendController controller) {
-		super(controller, 2);
+	public NotEqualCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override

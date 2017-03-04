@@ -1,11 +1,12 @@
 package backend.commands;
 
 import backend.BackendController;
+import backend.parser.Input;
 
 public class SetTowardsCommand extends TurtleCommand{
 
-	public SetTowardsCommand(BackendController controller) {
-		super(controller, 2);
+	public SetTowardsCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override

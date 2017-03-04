@@ -5,11 +5,12 @@ import java.util.List;
 import backend.BackendController;
 import backend.Command;
 import backend.Variable;
+import backend.parser.Input;
 
 public class MakeVariableCommand extends Command {
 
-	public MakeVariableCommand(BackendController controller) {
-		super(controller, 2);
+	public MakeVariableCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override
@@ -19,5 +20,4 @@ public class MakeVariableCommand extends Command {
 		getBackendController().setVariable(newVar);
 		return newVar.getValue();
 	}
-
 }

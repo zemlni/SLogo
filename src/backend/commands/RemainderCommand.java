@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.Command;
+import backend.parser.Input;
 
 public class RemainderCommand extends Command {
 
-	public RemainderCommand(BackendController controller) {
-		super(controller, 2);
+	public RemainderCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override

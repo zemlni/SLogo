@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.TurtleModel;
+import backend.parser.Input;
 import frontend.app.FrontEndController;
 
 public class RightCommand extends TurtleCommand{
-	public RightCommand(BackendController controller){
-		super(controller, 1);
+	public RightCommand(Input in, BackendController controller){
+		super(in, controller, 1);
 	}
 
 	@Override

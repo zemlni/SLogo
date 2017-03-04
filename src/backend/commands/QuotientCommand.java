@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.Command;
+import backend.parser.Input;
 
 public class QuotientCommand extends Command {
 
-	public QuotientCommand(BackendController controller) {
-		super(controller, 2);
+	public QuotientCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override

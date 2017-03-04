@@ -2,12 +2,13 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.TurtleModel;
+import backend.parser.Input;
 import frontend.app.FrontEndController;
 
 public class ForwardCommand extends TurtleCommand{
 	
-	public ForwardCommand(BackendController controller){
-		super(controller, 1);
+	public ForwardCommand(Input in, BackendController controller){
+		super(in, controller, 1);
 	}
 	
 	/*
@@ -16,6 +17,7 @@ public class ForwardCommand extends TurtleCommand{
 	@Override
 	public double execute() {
 		double forwardAmount = getArgs().get(0).getValue();
+		//double forwardAmount = getChildren().get(0).evaluate().getValue();
 		moveTurtle(forwardAmount);
 		return forwardAmount;
 	}

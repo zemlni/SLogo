@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.Command;
+import backend.parser.Input;
 
 public class EqualCommand extends Command {
 
-	public EqualCommand(BackendController controller) {
-		super(controller, 2);
+	public EqualCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override

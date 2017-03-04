@@ -1,11 +1,12 @@
 package backend.commands;
 
 import backend.BackendController;
+import backend.parser.Input;
 
 public class SetHeadingCommand extends TurtleCommand{
 
-	public SetHeadingCommand(BackendController controller) {
-		super(controller, 1);
+	public SetHeadingCommand(Input in, BackendController controller) {
+		super(in, controller, 1);
 	}
 
 	@Override

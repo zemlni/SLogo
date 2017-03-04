@@ -1,12 +1,13 @@
 package backend.commands;
 import backend.BackendController;
 import backend.TurtleModel;
+import backend.parser.Input;
 import frontend.app.FrontEndController;
 
 public class BackwardCommand extends TurtleCommand{
 
-	public BackwardCommand(BackendController controller){
-		super(controller, 1);
+	public BackwardCommand(Input in, BackendController controller){
+		super(in, controller, 1);
 	}
 
 	/*

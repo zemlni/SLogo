@@ -1,11 +1,12 @@
 package backend.commands;
 
 import backend.BackendController;
+import backend.parser.Input;
 
 public class SetPositionCommand extends TurtleCommand{
 
-	public SetPositionCommand(BackendController controller) {
-		super(controller, 2);
+	public SetPositionCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override

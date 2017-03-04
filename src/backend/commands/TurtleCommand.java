@@ -3,6 +3,7 @@ package backend.commands;
 import backend.BackendController;
 import backend.Command;
 import backend.TurtleModel;
+import backend.parser.Input;
 
 public abstract class TurtleCommand extends Command {
 	/*
@@ -11,8 +12,8 @@ public abstract class TurtleCommand extends Command {
 	 */
 	private TurtleModel turtle;
 
-	public TurtleCommand(BackendController controller, int i) {
-		super(controller, i);
+	public TurtleCommand(Input in, BackendController controller, int i) {
+		super(in, controller, i);
 		turtle = controller.getTurtleModel();
 	}
 
