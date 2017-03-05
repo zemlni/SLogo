@@ -28,7 +28,8 @@ public class CommandTable implements CommandTableInterface {
 		System.out.println("SETCOMMAND: " + newCommand.getKey());
 		commands.remove(newCommand.getKey().toUpperCase());
 		commands.put(newCommand.getKey().toUpperCase(), newCommand);
-		frontEndController.addCommand(newCommand);
+		if (newCommand instanceof UserCommand)
+			frontEndController.addCommand(newCommand);
 	}
 
 	@Override

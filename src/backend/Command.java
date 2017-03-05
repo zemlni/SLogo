@@ -53,10 +53,22 @@ public class Command extends Expression implements CommandInterface {
 		for (Expression child: getChildren())
 			args.add(child.evaluate());
 		setArgs(args);*/
-		if (isDefinedCommand(getString()))
+		if (isDefinedLangCommand(name))
 			return new Variable(null, execute());
+		else if (isDefinedUserCommand(name)){
+			try {
+				System.out.println("EXECUTING FROM COMMAND: " + name);
+				System.out.println(getChildren().size());
+				getBackendController().getParser().getCommandTable().getCommand(name).addChildren(getChildren());
+				return new Variable(null, getBackendController().getParser().getCommandTable().getCommand(name).execute());
+			} catch (CommandException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+		}
 		else
-			return new Variable(getString(), 0);
+			return new Variable(name, 0);
 	}
 
 	@Override
@@ -72,6 +84,7 @@ public class Command extends Expression implements CommandInterface {
 	@Override
 	public void setNumArgs(int numArgs) {
 		this.numArgs = numArgs;
+		this.setNumChildren(numArgs);
 	}
 
 	@Override

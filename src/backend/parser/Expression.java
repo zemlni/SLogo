@@ -70,6 +70,9 @@ public abstract class Expression {
 	public int getNumChildren() {
 		return numChildren;
 	}
+	public void setNumChildren(int numChildren){
+		this.numChildren = numChildren;
+	}
 
 	public void addChildren(List<Expression> children) {
 		this.children.addAll(children);

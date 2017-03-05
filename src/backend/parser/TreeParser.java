@@ -76,7 +76,7 @@ public class TreeParser {
 		return commandTable;
 	}
 
-	protected void complain(Exception e) {
+	public void complain(Exception e) {
 		e.printStackTrace();
 		String error = "";
 		String message = "";
@@ -92,7 +92,6 @@ public class TreeParser {
 	private Command makeCommand(Input name) throws CommandException {
 		Command cur = null;
 		try {
-			System.out.println("TRYING TO MAKE REAL COMMAND: " + name.get());
 			System.out.println(getCommandSymbol(name.get()));
 			Class<?> clazz = Class.forName("backend.commands." + getCommandSymbol(name.get()) + "Command");
 			Constructor<?> ctor = clazz.getDeclaredConstructor(name.getClass(), controller.getClass());
@@ -100,15 +99,12 @@ public class TreeParser {
 			cur.setInfo(name);
 			return cur;
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			try {
-				System.out.println("TEST");
 				cur = commandTable.getCommand(name.get());
 				cur.setInfo(name);
-				System.out.println("MADE USER COMMAND IN TREE PARSER: " + name.get());
 				return cur;
 			} catch (Exception e1) {
-				System.out.println("MAKE NEW BLANK COMMAND: " + name.get());
 				cur = new Command(name, controller);
 				return cur;
 			}
@@ -152,7 +148,6 @@ public class TreeParser {
 		// create appropriate Expression based on getSymbol and use reflection
 		while (in.get().trim().equals(""))
 			in.incrementIndex();
-		System.out.println("INPUT: " + in.get());
 		Expression cur = null;
 		try {
 			cur = makeExpression(in);

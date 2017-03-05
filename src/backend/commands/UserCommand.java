@@ -6,21 +6,16 @@ import backend.BackendController;
 import backend.Command;
 import backend.UserCommandInterface;
 import backend.Variable;
-import backend.parser.Expression;
 import backend.parser.Input;
 
 public class UserCommand extends Command implements UserCommandInterface {
 	private String name;
-	private Expression commands;
-	private String[] variables;
+	private List<Variable> argNames;
 
-	public UserCommand(String name, String[] variables, Expression commands, BackendController controller,  Input in) {
-		// add command to CommandTable
-		super(in, controller, variables.length);
+	public UserCommand(String name, BackendController controller, Input in, List<Variable> argNames) {
+		super(in, controller, argNames.size());
 		this.name = name;
-		this.commands = commands;
-		this.variables = variables;
-		System.out.println("MADECOMMAND: " + name);
+		this.argNames = argNames;
 	}
 
 	/**
@@ -30,13 +25,11 @@ public class UserCommand extends Command implements UserCommandInterface {
 	 */
 	@Override
 	public double execute() {
-		System.out.println("EXECUTING USER COMMAND: " + name);
-		List<Variable> vars = getArgs();
-		for (int i = 0; i < vars.size(); i++) {
-			vars.get(i).setKey(variables[i].substring(1));
-			getBackendController().setVariable(vars.get(i));
+		for (int i = 0; i < argNames.size(); i++) {
+			String varName = argNames.get(i).getKey();
+			getBackendController().setVariable(new Variable(varName, getChildren().get(i + 1).evaluate().getValue()));
 		}
-		return commands.evaluate().getValue();
+		return getChildren().get(0).evaluate().getValue();
 	}
 
 	/*
