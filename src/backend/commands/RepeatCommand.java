@@ -19,11 +19,12 @@ public class RepeatCommand extends Command {
 		int i = 0;
 		double ret = 0;
 		while (i < amount) {
-			List<Variable> args = getArgs();
 			getBackendController().setVariable(new Variable("repcount", i));
+			List<Variable> args = getArgs();
 			ret = args.get(1).getValue();
 			i++;
 		}
+		getBackendController().getParser().getVariableTable().removeVariable(new Variable("repcount", i));
 		return ret;
 	}
 

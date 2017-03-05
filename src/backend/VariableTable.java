@@ -16,6 +16,7 @@ public class VariableTable implements VariableTableInterface {
 
 	@Override
 	public Variable getVariable(String name) throws VariableException {
+		System.out.println("GET VARIABLE " + name + "RESULT: " + variables.get(name.toUpperCase()));
 		Variable ret = variables.get(name.toUpperCase());
 		if (ret == null)
 			throw new VariableException(name);
@@ -32,6 +33,7 @@ public class VariableTable implements VariableTableInterface {
 	@Override
 	public void removeVariable(Variable var) {
 		variables.remove(var.getKey().toUpperCase());
+		System.out.println(variables.keySet());
 		try {
 			frontEndController.removeVariable(var);
 			System.out.println("REMOVED VAR FROM FRONTEND");

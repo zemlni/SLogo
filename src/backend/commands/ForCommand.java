@@ -4,7 +4,6 @@ import java.util.List;
 
 import backend.BackendController;
 import backend.Command;
-import backend.Parser;
 import backend.Variable;
 import backend.parser.Input;
 
@@ -16,9 +15,9 @@ public class ForCommand extends Command {
 
 	@Override
 	public double execute() {
-		int start = (int)getChildren().get(0).getChildren().get(1).evaluate().getValue();
-		int end = (int)getChildren().get(0).getChildren().get(2).evaluate().getValue();
-		int increment = (int)getChildren().get(0).getChildren().get(3).evaluate().getValue();
+		int start = (int) getChildren().get(0).getChildren().get(1).evaluate().getValue();
+		int end = (int) getChildren().get(0).getChildren().get(2).evaluate().getValue();
+		int increment = (int) getChildren().get(0).getChildren().get(3).evaluate().getValue();
 		String name = getChildren().get(0).getChildren().get(0).evaluate().getKey();
 		int i = start;
 		double ret = 0;
@@ -29,6 +28,7 @@ public class ForCommand extends Command {
 			ret = args.get(1).getValue();
 			i += increment;
 		}
+		getBackendController().getParser().getVariableTable().removeVariable(new Variable(name, i));
 		return ret;
 	}
 

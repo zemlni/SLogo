@@ -15,18 +15,20 @@ public class DoTimesCommand extends Command {
 
 	@Override
 	public double execute() {
-		
-		int limit = (int)getChildren().get(0).getChildren().get(1).evaluate().getValue();
+		int limit = (int) getChildren().get(0).getChildren().get(1).evaluate().getValue();
 		int i = 1;
 		double ret = 0;
-		while (i <= limit){
+		String name = "";
+		while (i <= limit) {
 			Variable counter = getChildren().get(0).getChildren().get(0).evaluate();
-			Variable set = new Variable(counter.getKey(), i);
+			name = counter.getKey();
+			Variable set = new Variable(name, i);
 			getBackendController().setVariable(set);
 			List<Variable> args = getArgs();
 			ret = args.get(1).getValue();
 			i++;
 		}
+		getBackendController().getParser().getVariableTable().removeVariable(new Variable(name, i));
 		return ret;
 	}
 

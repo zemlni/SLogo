@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Input {
 	private Expression expr;
+	private Expression previous;
 	private int index;
 	private String[] input;
 	private List<Integer> breakPoints;
@@ -21,6 +22,7 @@ public class Input {
 	}
 
 	public void setExpression(Expression expr) {
+		previous = this.expr;
 		this.expr = expr;
 	}
 
@@ -60,5 +62,8 @@ public class Input {
 	}
 	public void decrementByCount(){
 		index -= count;
+	}
+	public Expression getPrevious(){
+		return previous;
 	}
 }
