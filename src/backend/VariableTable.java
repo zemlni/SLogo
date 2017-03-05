@@ -34,8 +34,8 @@ public class VariableTable implements VariableTableInterface {
 		variables.remove(var.getKey().toUpperCase());
 		try {
 			frontEndController.removeVariable(var);
+			System.out.println("REMOVED VAR FROM FRONTEND");
 		} catch (Exception e) {
-			// TODO: make this query a resources file. talk to keping.
 			frontEndController.showError("VariableError", var.getKey());
 		}
 	}

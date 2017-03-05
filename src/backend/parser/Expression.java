@@ -39,7 +39,7 @@ public abstract class Expression {
 		return info;
 	}
 	public void setInfo(Input info){
-		this.info = info;
+		this.info = new Input(info.getInput(), info.getIndex(), info.getBreakPoints());
 		this.value = info.get();
 	}
 	

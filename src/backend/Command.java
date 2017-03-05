@@ -3,6 +3,7 @@ package backend;
 import java.util.ArrayList;
 import java.util.List;
 
+import backend.commands.UserCommand;
 import backend.parser.Expression;
 import backend.parser.Input;
 
@@ -21,7 +22,7 @@ public class Command extends Expression implements CommandInterface {
 	}
 
 	public Command(Input info, BackendController controller, int i) {
-		super(null, controller, i);
+		super(info, controller, i);
 		this.numArgs = i;
 		this.name = info.get();
 	}
@@ -49,18 +50,18 @@ public class Command extends Expression implements CommandInterface {
 	}
 
 	public Variable evaluate() {
-		/*List<Variable> args = new ArrayList<Variable>();
-		for (Expression child: getChildren())
-			args.add(child.evaluate());
-		setArgs(args);*/
 		if (isDefinedLangCommand(name))
 			return new Variable(null, execute());
 		else if (isDefinedUserCommand(name)){
-			try {
+			try {//TODO: adds extra arguments in here 
 				System.out.println("EXECUTING FROM COMMAND: " + name);
-				System.out.println(getChildren().size());
-				getBackendController().getParser().getCommandTable().getCommand(name).addChildren(getChildren());
-				return new Variable(null, getBackendController().getParser().getCommandTable().getCommand(name).execute());
+				for (Expression child: getChildren())
+					System.out.println(child.getClass());
+				//TODO: Problem - adding arguments to the same command
+				UserCommand temp = (UserCommand)getBackendController().getParser().getCommandTable().getCommand(name);
+				UserCommand command = new UserCommand(name, getBackendController(), getInfo(), temp.getArgNames(), temp.getCommands());
+				command.addChildren(getChildren());
+				return new Variable(null, command.execute());
 			} catch (CommandException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -73,6 +74,7 @@ public class Command extends Expression implements CommandInterface {
 
 	@Override
 	public double execute(){
+		System.out.println("ERROR NEVER SHOULD HAVE RUN commands.Command");
 		return 0;
 	};
 
@@ -97,6 +99,7 @@ public class Command extends Expression implements CommandInterface {
 		List<Expression> children = getChildren();
 		List<Variable> ret = new ArrayList<Variable>();
 		for(Expression child: children){
+			//System.out.println(child.getClass());
 			ret.add(child.evaluate());
 		}
 		return ret; 

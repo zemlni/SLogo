@@ -92,7 +92,6 @@ public class TreeParser {
 	private Command makeCommand(Input name) throws CommandException {
 		Command cur = null;
 		try {
-			System.out.println(getCommandSymbol(name.get()));
 			Class<?> clazz = Class.forName("backend.commands." + getCommandSymbol(name.get()) + "Command");
 			Constructor<?> ctor = clazz.getDeclaredConstructor(name.getClass(), controller.getClass());
 			cur = (Command) ctor.newInstance(name, controller);
@@ -101,8 +100,11 @@ public class TreeParser {
 		} catch (Exception e) {
 			//e.printStackTrace();
 			try {
-				cur = commandTable.getCommand(name.get());
+				Command temp = commandTable.getCommand(name.get());
+				cur = new Command(name, controller);
 				cur.setInfo(name);
+				cur.setNumArgs(temp.getNumArgs());
+				System.out.println("INSIDE CREATION: " + temp.getNumArgs());
 				return cur;
 			} catch (Exception e1) {
 				cur = new Command(name, controller);
@@ -148,6 +150,7 @@ public class TreeParser {
 		// create appropriate Expression based on getSymbol and use reflection
 		while (in.get().trim().equals(""))
 			in.incrementIndex();
+		System.out.println(in.get());
 		Expression cur = null;
 		try {
 			cur = makeExpression(in);
@@ -157,15 +160,20 @@ public class TreeParser {
 		// check how many arguments it needs
 		// recursive call: if needs more args: childExpression = parse
 		// cmd.childExpression = childExpression
+		System.out.println("PARENTCLASS: " + cur.getClass());
 		int numArgs = cur.getNumChildren();
+		System.out.println(numArgs);
 		while (numArgs > 0) {
+			System.out.println("NUMARGS INSIDE: " + numArgs);
 			in.incrementIndex();
 			Input child = parse(in);
 			child.getExpression().setParent(cur);
+			System.out.println("CHILDCLASS: " + child.getExpression().getClass());
 			cur.addChild(child.getExpression());
 			numArgs--;
 		}
 		in.setExpression(cur);
+		System.out.println("CUR LOCATION: " + cur);
 		return in;
 	}
 }

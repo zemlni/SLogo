@@ -4,7 +4,6 @@ import java.util.List;
 
 import backend.BackendController;
 import backend.Command;
-import backend.Variable;
 import backend.parser.Expression;
 import backend.parser.Input;
 

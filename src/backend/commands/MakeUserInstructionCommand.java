@@ -8,7 +8,6 @@ import backend.Command;
 import backend.Variable;
 import backend.parser.Expression;
 import backend.parser.ListStartExpression;
-import backend.parser.VariableExpression;
 import backend.parser.Input;
 
 public class MakeUserInstructionCommand extends Command {
@@ -33,21 +32,15 @@ public class MakeUserInstructionCommand extends Command {
 
 	@Override
 	public double execute() {
+		System.out.println("EXECUTING MAKE USER INSTRUCTION COMMAND");
 		List<Variable> args = new ArrayList<Variable>();
 		for (int i = 0; i < getChildren().get(0).getChildren().size(); i++) {
 			Variable var = getChildren().get(0).getChildren().get(i).evaluate();
 			args.add(var);
 		}
-		List<Expression> vals = null;
-		try {
-			vals = getBackendController().getParser().getCommandTable().getCommand(name).getChildren();
-		} catch (Exception e) {
-			// TODO do something else
-			getBackendController().getParser().complain(e);
-		}
+
 		Expression commands = getChildren().get(1);
-		UserCommand newCommand = new UserCommand(name, getBackendController(), in, args);
-		newCommand.addChild(commands);
+		UserCommand newCommand = new UserCommand(name, getBackendController(), in, args, commands);
 		getBackendController().getParser().getCommandTable().setCommand(newCommand);
 		return 0;
 	}
