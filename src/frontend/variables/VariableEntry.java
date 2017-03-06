@@ -35,4 +35,17 @@ public class VariableEntry extends Button{
 		variable.update(value);
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof VariableEntry){
+			VariableEntry comparison = (VariableEntry) o;
+		
+			if(comparison.variableName.equals(this.variableName)){
+				return true;
+			}
+		}
+		return false;
+		
+	}
+
 }

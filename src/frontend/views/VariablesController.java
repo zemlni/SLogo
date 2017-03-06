@@ -44,8 +44,15 @@ public class VariablesController {
 	}
 
 	public void removeVariable(Variable variable) throws Exception {
-		String targetName = variable.getKey();
 		
+		if(variableEntries.containsKey(variable.getKey())){
+			variablesBox.getChildren().remove(variableEntries.get(variable.getKey()));
+			variableEntries.remove(variable.getKey());
+		}
+		
+		//String targetName = variable.getKey();
+		
+		/*
 		if(variableEntries.containsKey(targetName)){
 			for(int i = 0; i < variablesBox.getChildren().size(); i++){
 				if(targetName.equals(variablesBox.getChildren().get(i))){
@@ -54,6 +61,7 @@ public class VariablesController {
 				}
 			}
 		}
+		*/
 	}
 	
 }
