@@ -36,9 +36,9 @@ public class MakeUserInstructionCommand extends Command {
 		List<Variable> args = new ArrayList<Variable>();
 		for (int i = 0; i < getChildren().get(0).getChildren().size(); i++) {
 			Variable var = getChildren().get(0).getChildren().get(i).evaluate();
+			System.out.println(getChildren().get(0).getChildren().get(i).getClass());
 			args.add(var);
 		}
-
 		Expression commands = getChildren().get(1);
 		UserCommand newCommand = new UserCommand(name, getBackendController(), in, args, commands);
 		getBackendController().getParser().getCommandTable().setCommand(newCommand);

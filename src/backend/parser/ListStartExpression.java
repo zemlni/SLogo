@@ -29,9 +29,11 @@ public class ListStartExpression extends Expression {
 			}
 			// TODO: this won't work with breakpoints inside of lists, need to
 			// fix!
-			if (arg.length() > 0)
+			if (arg.length() > 0){
 				this.addChildren(getBackendController().getParser().parse(arg, info.getBreakPoints()).getChildren());
-
+				for (Expression expr: getChildren())
+					expr.setParent(this);
+			}
 		}
 	}
 

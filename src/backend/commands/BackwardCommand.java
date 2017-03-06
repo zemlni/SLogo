@@ -1,6 +1,7 @@
 package backend.commands;
 import backend.BackendController;
 import backend.TurtleModel;
+import backend.Variable;
 import backend.parser.Input;
 import frontend.app.FrontEndController;
 
@@ -15,8 +16,13 @@ public class BackwardCommand extends TurtleCommand{
 	 */
 	@Override
 	public double execute() {
-		double backwardAmount = getArgs().get(0).getValue();
-		moveTurtle(backwardAmount);
+		double backwardAmount = 0;
+		for (Variable var: getArgs()){
+			backwardAmount = var.getValue();
+			moveTurtle(backwardAmount);
+		}
+//		double backwardAmount = getArgs().get(0).getValue();
+//		moveTurtle(backwardAmount);
 		return backwardAmount;
 	}
 

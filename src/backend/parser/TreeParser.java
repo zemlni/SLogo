@@ -98,7 +98,7 @@ public class TreeParser {
 			cur.setInfo(name);
 			return cur;
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			try {
 				Command temp = commandTable.getCommand(name.get());
 				cur = new Command(name, controller);
@@ -141,6 +141,7 @@ public class TreeParser {
 		while (in.getIndex() < in.getLength()) {
 			in = parse(in);
 			top.addChild(in.getExpression());
+			in.getExpression().setParent(top);
 			in.incrementIndex();
 		}
 		return top;
@@ -148,9 +149,10 @@ public class TreeParser {
 
 	private Input parse(Input in) {
 		// create appropriate Expression based on getSymbol and use reflection
+		System.out.println("TEST" + in.get());
 		while (in.get().trim().equals(""))
 			in.incrementIndex();
-		System.out.println(in.get());
+		System.out.println(in.getLength());
 		Expression cur = null;
 		try {
 			cur = makeExpression(in);
@@ -163,7 +165,8 @@ public class TreeParser {
 		System.out.println("PARENTCLASS: " + cur.getClass());
 		int numArgs = cur.getNumChildren();
 		System.out.println(numArgs);
-		while (numArgs > 0) {
+		//TODO: fix the check here
+		while (numArgs > 0 && in.getIndex() < in.getLength() - 1) {
 			System.out.println("NUMARGS INSIDE: " + numArgs);
 			in.incrementIndex();
 			Input child = parse(in);
