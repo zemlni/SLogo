@@ -18,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+	//For this class, need to establish handling multiple turtles with IDs
 public class TurtleScreenController {
 	private Canvas canvas;
 	private GraphicsContext gc;
@@ -53,6 +54,10 @@ public class TurtleScreenController {
 		frontEnd =frontEndController;
 	}
 	
+	public void addTurtle(){
+		turtleControls.add(new TurtleController(0,0,locTransformer));
+	}
+	
 	public void drawLine(double x0, double y0, double x1, double y1) {
 		Point original = locTransformer.translateLoc(x0, y0);
 		Point end = locTransformer.translateLoc(x1, y1);
@@ -68,11 +73,16 @@ public class TurtleScreenController {
 		gc.setStroke(penColor);
 	}
 	
+	public void changePenThickness(double newWidth){
+		gc.setLineWidth(newWidth);
+	}
+	
 	public void setBackground(Color color){
 		turtlePane.setStyle("-fx-background-color: #" + color.toString().substring(2));
 	}
 	
 	private void createPreferencePanel(){
+		//TO DO: Need to abstract this out to the FXML
 		HBox pref = new HBox();
 		ColorSelector penColor = new ColorSelector("Pen Color");
 		penColor.getColorPicker().setOnAction(e -> setPenColor(penColor.getColorPicker().getValue()));
