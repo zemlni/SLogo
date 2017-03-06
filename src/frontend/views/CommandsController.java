@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 
 /**
+ * THIS CLASS CAN ONLY TAKE USER COMMANDS 
  * The goal of this class is to control the Commands window which show the 
  * commands that are saved and can be executed. This commands are basically functions created
  * by the user.
@@ -43,10 +44,23 @@ public class CommandsController {
 		}
 	}
 
-	//Currently there is no need for this method so not implemented. Might remove from the 
-	//API, will decide based on second set of implementation goals
+	/**
+	 * CAN ONLY TAKE USER COMMANDS NEED TO UPDATE THIS API!!!!!!!
+	 * @param command
+	 * @throws Exception
+	 */
 	public void removeCommand(Command command) throws Exception {
+		UserCommand userCommand = (UserCommand) command;
+		String targetCommand = userCommand.getKey();
 		
+		if(commands.containsKey(targetCommand)){
+			for(int i = 0; i < commandsBox.getChildren().size(); i++){
+				if(targetCommand.equals(commandsBox.getChildren().get(i))){
+					commandsBox.getChildren().remove(i);
+					commands.remove(targetCommand);
+				}
+			}
+		}
 	}
 	
 }

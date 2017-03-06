@@ -25,6 +25,7 @@ public class VariablesController {
 	
 	public VariablesController(){
 		variableEntries = new HashMap<String, VariableEntry>();
+		
 	}
 	
 	public void setFrontEndController(FrontEndController frontEndController){
@@ -42,10 +43,17 @@ public class VariablesController {
 		}
 	}
 
-	//Currently there is no need for this method so not implemented. Might remove from the 
-	//API, will decide based on second set of implementation goals
 	public void removeVariable(Variable variable) throws Exception {
+		String targetName = variable.getKey();
 		
+		if(variableEntries.containsKey(targetName)){
+			for(int i = 0; i < variablesBox.getChildren().size(); i++){
+				if(targetName.equals(variablesBox.getChildren().get(i))){
+					variablesBox.getChildren().remove(i);
+					variableEntries.remove(targetName);
+				}
+			}
+		}
 	}
 	
 }
