@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.Command;
+import backend.parser.Input;
 
 public class LessThanCommand extends Command {
 
-	public LessThanCommand(BackendController controller) {
-		super(controller, 2);
+	public LessThanCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override

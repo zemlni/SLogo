@@ -1,11 +1,12 @@
 package backend.commands;
 
 import backend.BackendController;
+import backend.parser.Input;
 
 public class IsShowingCommand extends TurtleCommand{
 
-	public IsShowingCommand(BackendController controller) {
-		super(controller, 0);
+	public IsShowingCommand(Input in, BackendController controller) {
+		super(in, controller, 0);
 	}
 
 	@Override

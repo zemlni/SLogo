@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.Command;
+import backend.parser.Input;
 
 public class NotCommand extends Command {
 
-	public NotCommand(BackendController controller) {
-		super(controller, 1);
+	public NotCommand(Input in, BackendController controller) {
+		super(in, controller, 1);
 	}
 
 	@Override

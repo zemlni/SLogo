@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.Command;
+import backend.parser.Input;
 
 public class PowerCommand extends Command {
 
-	public PowerCommand(BackendController controller) {
-		super(controller, 2);
+	public PowerCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override

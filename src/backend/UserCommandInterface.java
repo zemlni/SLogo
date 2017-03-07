@@ -12,7 +12,7 @@ public interface UserCommandInterface extends CommandInterface {
 	 * @param newCommand
 	 *            the new command that is now to be this command.
 	 */
-	public void update(String newCommand);
+	//public void update(String newCommand);
 
 	/**
 	 * get the key (name) of this command

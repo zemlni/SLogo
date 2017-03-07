@@ -5,24 +5,26 @@ import java.util.List;
 import backend.BackendController;
 import backend.Command;
 import backend.Variable;
+import backend.parser.Input;
 
 public class RepeatCommand extends Command {
 
-	public RepeatCommand(BackendController controller) {
-		super(controller, 2);
+	public RepeatCommand(Input in, BackendController controller) {
+		super(in, controller, 2);
 	}
 
 	@Override
 	public double execute() {
-		List<Variable> args = getArgs();
-		int amount = (int) args.get(0).getValue();
+		int amount = (int) getChildren().get(0).evaluate().getValue();
 		int i = 0;
 		double ret = 0;
 		while (i < amount) {
 			getBackendController().setVariable(new Variable("repcount", i));
-			ret = getBackendController().getParser().parse(args.get(1).getInfo());
+			List<Variable> args = getArgs();
+			ret = args.get(1).getValue();
 			i++;
 		}
+		getBackendController().getParser().getVariableTable().removeVariable(new Variable("repcount", i));
 		return ret;
 	}
 
