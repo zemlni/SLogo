@@ -3,11 +3,11 @@ package frontend.animation;
 import frontend.app.FrontEndController;
 
 public class MoveDrawLineAction extends AnimatedAction {
-	private static final double MOVING_SPEED = 3000;
+	private static final double INIT_MOVING_SPEED = 100;
 	
 	private double x; // current position
 	private double y;
-	private double v = MOVING_SPEED;
+	private static double v = INIT_MOVING_SPEED;
 	private double x1; // target position
 	private double y1;
 	private boolean finished;
@@ -19,6 +19,16 @@ public class MoveDrawLineAction extends AnimatedAction {
 		this.y = y0;
 		this.x1 = x1;
 		this.y1 = y1;
+	}
+	
+	public static void speedUp() {
+		setSpeed(v * 1.5);
+	}
+	public static void slowDown() {
+		setSpeed(v * 2.0 / 3);
+	}
+	private static void setSpeed(double newV) {
+		v = newV;
 	}
 
 	@Override
