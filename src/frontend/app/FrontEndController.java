@@ -102,6 +102,9 @@ public class FrontEndController {
 		AnimatedAction action = new MoveDrawLineAction(this, x0, y0, x1, y1);
 		actionsQueue.addLast(action);
 	}
+	public void moveDrawLineAction(List<Integer> ids, List<Point> startPositions, ...) {
+		
+	}
 	public void turtleRotateAction(double angle) {
 		
 	}
