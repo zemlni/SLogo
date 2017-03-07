@@ -2,7 +2,9 @@ package frontend.views;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import frontend.app.FrontEndController;
 import frontend.turtles.ColorSelector;
@@ -22,7 +24,7 @@ import javafx.scene.paint.Color;
 public class TurtleScreenController {
 	private Canvas canvas;
 	private GraphicsContext gc;
-	private List<TurtleController> turtleControls; 
+	private Map<Integer, TurtleController> turtleControls; 
 	@FXML
 	private Pane turtlePane;
 	public static final int X_OFFSET = 198;
@@ -38,12 +40,12 @@ public class TurtleScreenController {
 	@FXML
 	private void initialize() {
 		locTransformer = new LocationTransformer(X_OFFSET, Y_OFFSET);
-		turtleControls = new ArrayList<TurtleController>();
-		turtleControls.add(new TurtleController(X_OFFSET, Y_OFFSET, locTransformer));
+		turtleControls = new HashMap<Integer, TurtleController>();
+		addTurtle(1);
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = canvas.getGraphicsContext2D();
 		turtlePane.getChildren().add(canvas);	
-		turtlePane.getChildren().add(turtleControls.get(0).getImage());
+		turtlePane.getChildren().add(turtleControls.get(1).getImage());
 		turtlePane.widthProperty().addListener(e -> {xBounds = turtlePane.getWidth();});
 		turtlePane.heightProperty().addListener(e -> {yBounds = turtlePane.getHeight();});
 		
@@ -54,8 +56,8 @@ public class TurtleScreenController {
 		frontEnd =frontEndController;
 	}
 	
-	public void addTurtle(){
-		turtleControls.add(new TurtleController(0,0,locTransformer));
+	public void addTurtle(int idNumber){
+		turtleControls.put(idNumber, new TurtleController(0,0,locTransformer));
 	}
 	
 	public void drawLine(double x0, double y0, double x1, double y1) {
@@ -68,7 +70,6 @@ public class TurtleScreenController {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 	}
 	
-
 	public void setPenColor(Color penColor){
 		gc.setStroke(penColor);
 	}
@@ -98,6 +99,9 @@ public class TurtleScreenController {
 	}
 	
 	private void changeTurtleImage(){
+		
+		//Iterate through Map
+		
 		ImageSelector imageSelector = new ImageSelector("Turtle Image");
 		imageSelector.setInitialDirectory("images");
 			File imageFile = imageSelector.getFile();
@@ -108,19 +112,19 @@ public class TurtleScreenController {
 		}
 	}
 
-	public void moveTurtleTo(double x, double y) {
-		turtleControls.get(0).moveTurtleTo(x, y);
+	public void moveTurtleTo(int id, double x, double y) {
+		turtleControls.get(id).moveTurtleTo(x, y);
 	}
 
-	public void setTurtleAngle(double angle) {
-		turtleControls.get(0).setTurtleAngle(angle);
+	public void setTurtleAngle(int id, double angle) {
+		turtleControls.get(id).setTurtleAngle(angle);
 	}
 	
-	public void showTurtle(){
-		turtleControls.get(0).showTurtle();
+	public void showTurtle(int id){
+		turtleControls.get(id).showTurtle();
 	}
 	
-	public void hideTurtle(){
-		turtleControls.get(0).hideTurtle();
+	public void hideTurtle(int id){
+		turtleControls.get(id).hideTurtle();
 	}
 }
