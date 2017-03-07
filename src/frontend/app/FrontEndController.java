@@ -98,9 +98,12 @@ public class FrontEndController {
 		};
 	}
 	
-	public void moveDrawLine(double x0, double y0, double x1, double y1) {
+	public void moveDrawLineAction(double x0, double y0, double x1, double y1) {
 		AnimatedAction action = new MoveDrawLineAction(this, x0, y0, x1, y1);
 		actionsQueue.addLast(action);
+	}
+	public void turtleRotateAction(double angle) {
+		
 	}
 	
 	/**

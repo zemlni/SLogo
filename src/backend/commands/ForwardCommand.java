@@ -53,7 +53,7 @@ public class ForwardCommand extends TurtleCommand{
 //			fcontroller.drawLine(oldX, oldY, newX, newY);
 //		}
 //		fcontroller.moveTurtleTo(newX, newY);
-		fcontroller.moveDrawLine(oldX, oldY, newX, newY);
+		fcontroller.moveDrawLineAction(oldX, oldY, newX, newY);
 	}
 	
 	/*

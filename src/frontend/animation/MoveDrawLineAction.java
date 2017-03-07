@@ -3,7 +3,7 @@ package frontend.animation;
 import frontend.app.FrontEndController;
 
 public class MoveDrawLineAction extends AnimatedAction {
-	private static double MOVING_SPEED = 3000;
+	private static final double MOVING_SPEED = 3000;
 	
 	private double x; // current position
 	private double y;
