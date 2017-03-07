@@ -4,6 +4,7 @@ import frontend.app.FrontEndController;
 import frontend.turtles.LocationTransformer;
 import frontend.turtles.Point;
 import frontend.turtles.TurtleImage;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -17,16 +18,13 @@ import javafx.scene.image.ImageView;
 public class TurtleController {
 	private FrontEndController frontEnd;
 	private TurtleImage turtle;
-	private double xOff;
-	private double yOff;
 	private LocationTransformer locTransformer;
 	
 	
-	public TurtleController(double xOffset, double yOffset, LocationTransformer locationTransformer){
-		turtle = new TurtleImage(xOffset, yOffset);
-		xOff = xOffset;
-		yOff = yOffset;
+	public TurtleController(double initialX, double initialY, LocationTransformer locationTransformer){
 		locTransformer = locationTransformer;
+		Point startingPoint = locTransformer.translateLoc(initialX, initialY);
+		turtle = new TurtleImage(startingPoint.getX(), startingPoint.getY());
 	}
 	
 	public TurtleController(LocationTransformer locationTransformer){
