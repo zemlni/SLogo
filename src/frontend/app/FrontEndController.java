@@ -18,6 +18,10 @@ import frontend.animation.ShowErrorEvent;
 import frontend.animation.ShowTextEvent;
 import frontend.animation.SynchronizedEventGroup;
 import frontend.animation.turtle.ClearScreenEvent;
+import frontend.animation.turtle.HideTurtleEvent;
+import frontend.animation.turtle.MoveTurtleEvent;
+import frontend.animation.turtle.RotateTurtleEvent;
+import frontend.animation.turtle.ShowTurtleEvent;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
@@ -66,7 +70,6 @@ public class FrontEndController {
 	private LinkedList<AnimatedEvent> eventQueue;
 	private LinkedList<AnimatedEvent> instantEventQueue; // gets executed before eventQueue
 	private List<AnimatedEvent> eventGroupBuffer;
-	private EventMode prevEventMode;
 	private EventMode eventMode;
 	
 	private List<AnimatedEvent> eventReceiver() {
@@ -104,7 +107,6 @@ public class FrontEndController {
 		instantEventQueue = new LinkedList<>();
 		eventGroupBuffer = new ArrayList<>();
 		eventMode = EventMode.QUEUE;
-		prevEventMode = eventMode;
 		prevNanos = 0;
 		timer = new AnimationTimer() {
 			@Override
@@ -134,18 +136,22 @@ public class FrontEndController {
 		};
 	}
 	
+	
+	// Switch event queue and group modes.
+	/**
+	 * In Queue Mode, the events are executed in order, and takes "time" to execute.
+	 */
 	public void switchToQueueMode() {
-		if (eventMode != EventMode.GROUP) {
-			prevEventMode = eventMode;
-		} else {
+		if (eventMode == EventMode.GROUP) {
 			putGroupToQueue();
 		}
 		eventMode = EventMode.QUEUE;
 	}
+	/**
+	 * In Instant Mode, the events will be executed instantly.
+	 */
 	public void switchToInstantMode() {
-		if (eventMode != EventMode.GROUP) {
-			prevEventMode = eventMode;
-		} else {
+		if (eventMode == EventMode.GROUP) {
 			putGroupToQueue();
 		}
 		eventMode = EventMode.INSTANT;
@@ -153,17 +159,26 @@ public class FrontEndController {
 	private void putGroupToQueue() {
 		if (!eventGroupBuffer.isEmpty()) {
 			AnimatedEvent group = new SynchronizedEventGroup(eventGroupBuffer);
-			eventReceiver(prevEventMode).add(group);
+			eventQueue.add(group);
 			eventGroupBuffer = new ArrayList<>();
 		}
 	}
+	/**
+	 * After event grouping is started, all events received will be put is a group,
+	 * and then when {@link endEventGrouping} is called, this action group will be
+	 * put into the event queue. All the animated events within a group 
+	 * start together, the group finishes when all events within finish. 
+	 */
 	public void startEventGrouping() {
 		eventMode = EventMode.GROUP;
 		eventGroupBuffer = new ArrayList<AnimatedEvent>();
 	}
+	/**
+	 * Put the event group to the event queue. Then switch to event queue mode.
+	 */
 	public void endEventGrouping() {
 		putGroupToQueue();
-		eventMode = prevEventMode;
+		eventMode = EventMode.QUEUE;
 	}
 	
 	
@@ -219,18 +234,30 @@ public class FrontEndController {
 	
 	
 	// change turtle view commands
-	public void moveTurtles(List<Integer> ids, List<Double> x0, List<Double> y0,
-			List<Double> x1, List<Double> y1, List<Boolean> penDown) {
-		// TODO
+	/**
+	 * Move turtle(id) from (x0, y0) to (x1, y1), 
+	 * draw a line at the same time is penDown is true. 
+	 */
+	public void moveTurtle(int id, double x0, double y0, double x1, double y1, boolean penDown) {
+		eventReceiver().add(new MoveTurtleEvent(turtleScreenController, id, x0, y0, x1, y1, penDown));
 	}
-	public void rotateTurtles(List<Integer> ids, List<Double> startAngles, List<Double> endAngles) {
-		// TODO
+	/**
+	 * Rotate turtle(id) from startAngle to endAngle. 
+	 */
+	public void rotateTurtle(int id, double startAngle, double endAngle) {
+		eventReceiver().add(new RotateTurtleEvent(turtleScreenController, id, startAngle, endAngle));
 	}
-	public void showTurtles(List<Integer> ids) {
-		// TODO
+	/**
+	 * Show turtle(id).
+	 */
+	public void showTurtle(int id) {
+		eventReceiver().add(new ShowTurtleEvent(turtleScreenController, id));
 	}
-	public void hideTurtles(List<Integer> ids) {
-		// TODO
+	/**
+	 * Hide turtle(id).
+	 */
+	public void hideTurtle(int id) {
+		eventReceiver().add(new HideTurtleEvent(turtleScreenController, id));
 	}
 	/**
 	 * Clears the drawing screen, resets the turtle back to initial position and gets
@@ -239,7 +266,7 @@ public class FrontEndController {
 	public void clearScreen() {
 		eventReceiver().add(new ClearScreenEvent(turtleScreenController));
 	}
-
+	
 	
 	// user input view: shell view and script view
 	private InputController inputController() {
