@@ -1,24 +1,27 @@
-package frontend.animation;
+package frontend.animation.turtle;
 
 import frontend.views.TurtleScreenController;
 
-public class MoveDrawLineAction extends TurtleEvent {
+public class MoveTurtleEvent extends TurtleEvent {
 	private static final double INIT_MOVING_SPEED = 100;
+	private static double v = INIT_MOVING_SPEED;
 	
+	private int id;
 	private double x; // current position
 	private double y;
-	private static double v = INIT_MOVING_SPEED;
 	private double x1; // target position
 	private double y1;
-	private boolean finished;
+	private boolean penDown;
 	
-	public MoveDrawLineAction(TurtleScreenController control,
-			double x0, double y0, double x1, double y1) {
+	public MoveTurtleEvent(TurtleScreenController control, int id,
+			double x0, double y0, double x1, double y1, boolean penDown) {
 		super(control);
+		this.id = id;
 		this.x = x0;
 		this.y = y0;
 		this.x1 = x1;
 		this.y1 = y1;
+		this.penDown = penDown;
 	}
 	
 	public static void speedUp() {
@@ -43,23 +46,18 @@ public class MoveDrawLineAction extends TurtleEvent {
 		double vx = v * dx / dist;
 		double vy = v * dy / dist;
 		if (dist / v <= dt) { // action finished 
-			control.drawLine(x, y, x1, y1);
-			control.moveTurtleTo(0, x1, y1);
+			control.moveTurtleTo(id, x1, y1);
+			if (penDown) { control.drawLine(x, y, x1, y1); }
 			finished = true;
 			return dt - dist / v;
 		} else { // action unfinished
-			control.drawLine(x, y, x+vx*dt, y+vy*dt);
-			control.moveTurtleTo(0, x+vx*dt, y+vy*dt);
+			control.moveTurtleTo(id, x+vx*dt, y+vy*dt);
+			if (penDown) { control.drawLine(x, y, x+vx*dt, y+vy*dt); }
 			x += vx*dt;
 			y += vy*dt;
 			finished = false;
 			return 0;
 		}
-	}
-
-	@Override
-	public boolean isFinished() {
-		return finished;
 	}
 
 }
