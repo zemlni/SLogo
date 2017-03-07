@@ -45,7 +45,7 @@ public class TurtleScreenController {
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = canvas.getGraphicsContext2D();
 		turtlePane.getChildren().add(canvas);	
-		turtlePane.getChildren().add(turtleControls.get(0).getImage());
+		turtlePane.getChildren().add(turtleControls.get(1).getImage());
 		turtlePane.widthProperty().addListener(e -> {xBounds = turtlePane.getWidth();});
 		turtlePane.heightProperty().addListener(e -> {yBounds = turtlePane.getHeight();});
 		
