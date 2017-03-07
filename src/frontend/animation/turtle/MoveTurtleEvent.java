@@ -40,7 +40,7 @@ public class MoveTurtleEvent extends TurtleEvent {
 		double dy = y1 - y;
 		double dist = Math.sqrt(dx*dx+dy*dy);
 		if (dist == 0) {
-			finished = true;
+			setFinishedTrue();
 			return dt;
 		}
 		double vx = v * dx / dist;
@@ -48,14 +48,13 @@ public class MoveTurtleEvent extends TurtleEvent {
 		if (dist / v <= dt) { // action finished 
 			control.moveTurtleTo(id, x1, y1);
 			if (penDown) { control.drawLine(x, y, x1, y1); }
-			finished = true;
+			setFinishedTrue();
 			return dt - dist / v;
 		} else { // action unfinished
 			control.moveTurtleTo(id, x+vx*dt, y+vy*dt);
 			if (penDown) { control.drawLine(x, y, x+vx*dt, y+vy*dt); }
 			x += vx*dt;
 			y += vy*dt;
-			finished = false;
 			return 0;
 		}
 	}

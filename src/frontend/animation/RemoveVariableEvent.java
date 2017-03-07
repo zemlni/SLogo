@@ -20,7 +20,7 @@ public class RemoveVariableEvent extends VariablesViewEvent {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		finished = true;
+		setFinishedTrue();
 		return dt;
 	}
 

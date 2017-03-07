@@ -14,7 +14,7 @@ public class ShowTextEvent extends InputViewEvent {
 	@Override
 	public double update(double dt) {
 		control.showText(text);
-		finished = true;
+		setFinishedTrue();
 		return dt;
 	}
 

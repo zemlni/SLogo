@@ -18,7 +18,7 @@ public class SynchronizedEventGroup extends AnimatedEvent {
 				tRemain = Math.min(tRemain, event.update(dt));
 			}
 		}
-		if (tRemain > 0) { finished = true; }
+		if (tRemain > 0) { setFinishedTrue(); }
 		return tRemain;
 	}
 

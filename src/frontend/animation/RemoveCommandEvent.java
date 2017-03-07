@@ -20,7 +20,7 @@ public class RemoveCommandEvent extends CommandsViewEvent {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		finished = true;
+		setFinishedTrue();
 		return 0;
 	}
 
