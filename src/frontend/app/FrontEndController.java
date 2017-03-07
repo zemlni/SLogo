@@ -1,5 +1,6 @@
 package frontend.app;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +16,8 @@ import frontend.animation.RemoveCommandEvent;
 import frontend.animation.RemoveVariableEvent;
 import frontend.animation.ShowErrorEvent;
 import frontend.animation.ShowTextEvent;
+import frontend.animation.SynchronizedEventGroup;
+import frontend.animation.turtle.ClearScreenEvent;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
@@ -34,6 +37,9 @@ import language.Language;
  * @author Matthew Tribby, Keping Wang
  */
 public class FrontEndController {
+	public enum EventMode {
+		QUEUE, GROUP, INSTANT
+	}
 	
 	private static String sessionLanguage;
 	
@@ -55,31 +61,51 @@ public class FrontEndController {
 	private TabPane inputTabPane;
 	
 	// animation
-	private long prevNanos = 0;
+	private long prevNanos;
 	private AnimationTimer timer;
 	private LinkedList<AnimatedEvent> eventQueue;
-	private LinkedList<AnimatedEvent> firstClassEventQueue; // gets executed before eventQueue
-	// and doesn't cost time to update
+	private LinkedList<AnimatedEvent> instantEventQueue; // gets executed before eventQueue
+	private List<AnimatedEvent> eventGroupBuffer;
+	private EventMode prevEventMode;
+	private EventMode eventMode;
+	
+	private List<AnimatedEvent> eventReceiver() {
+		return eventReceiver(eventMode);
+	}
+	private List<AnimatedEvent> eventReceiver(EventMode mode) {
+		switch (mode) {
+			case QUEUE:
+				return eventQueue;
+			case GROUP:
+				return eventGroupBuffer;
+			case INSTANT:
+				return instantEventQueue;
+			default:
+				return eventQueue;
+		}
+	}
 	
 	@FXML
 	private void initialize() {
 		sessionLanguage = Language.getLanguage();
 		turtleScreenController.setFrontEndController(this);
 		shellController.setFrontEndController(this);
-		
-		System.out.println("changed code");
-		
 		scriptController.setFrontEndController(this);
 		variablesController.setFrontEndController(this);
 		commandsController.setFrontEndController(this);
 		historyController.setFrontEndController(this);
 		backendController = new BackendController(this);
 		initAnimation();
-		eventQueue = new LinkedList<>();
 		timer.start();
 	}
 	
 	private void initAnimation() {
+		eventQueue = new LinkedList<>();
+		instantEventQueue = new LinkedList<>();
+		eventGroupBuffer = new ArrayList<>();
+		eventMode = EventMode.QUEUE;
+		prevEventMode = eventMode;
+		prevNanos = 0;
 		timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
@@ -92,8 +118,8 @@ public class FrontEndController {
 				prevNanos = now;
 				double dt = deltaNanos / 1.0e9;
 				
-				while (!firstClassEventQueue.isEmpty()) {
-					firstClassEventQueue.pollFirst().update(dt);
+				while (!instantEventQueue.isEmpty()) {
+					instantEventQueue.pollFirst().update(Double.POSITIVE_INFINITY);
 				}
 				
 				AnimatedEvent action = null;
@@ -106,6 +132,38 @@ public class FrontEndController {
 				}
 			}
 		};
+	}
+	
+	public void switchToQueueMode() {
+		if (eventMode != EventMode.GROUP) {
+			prevEventMode = eventMode;
+		} else {
+			putGroupToQueue();
+		}
+		eventMode = EventMode.QUEUE;
+	}
+	public void switchToInstantMode() {
+		if (eventMode != EventMode.GROUP) {
+			prevEventMode = eventMode;
+		} else {
+			putGroupToQueue();
+		}
+		eventMode = EventMode.INSTANT;
+	}
+	private void putGroupToQueue() {
+		if (!eventGroupBuffer.isEmpty()) {
+			AnimatedEvent group = new SynchronizedEventGroup(eventGroupBuffer);
+			eventReceiver(prevEventMode).add(group);
+			eventGroupBuffer = new ArrayList<>();
+		}
+	}
+	public void startEventGrouping() {
+		eventMode = EventMode.GROUP;
+		eventGroupBuffer = new ArrayList<AnimatedEvent>();
+	}
+	public void endEventGrouping() {
+		putGroupToQueue();
+		eventMode = prevEventMode;
 	}
 	
 	
@@ -123,6 +181,7 @@ public class FrontEndController {
 		backendController.evaluate(input);
 	}
 
+	
 	// variables view
 	/**
 	 * Will ensure that a variable is added visually to the Variable window. If the variable
@@ -130,7 +189,7 @@ public class FrontEndController {
 	 * @param variable the Variable instance to be added
 	 */
 	public void addVariable(Variable variable) {
-		eventQueue.add(new AddVariableEvent(variablesController, variable));
+		eventReceiver().add(new AddVariableEvent(variablesController, variable));
 	}
 	/**
 	 * Removes the visual representation of a Variable that is currently shown 
@@ -138,7 +197,7 @@ public class FrontEndController {
 	 * @param variable
 	 */
 	public void removeVariable(Variable variable) {
-		eventQueue.add(new RemoveVariableEvent(variablesController, variable));
+		eventReceiver().add(new RemoveVariableEvent(variablesController, variable));
 	}
 	// commands view
 	/**
@@ -147,7 +206,7 @@ public class FrontEndController {
 	 * @param command
 	 */
 	public void addCommand(Command command) {
-		eventQueue.add(new AddCommandEvent(commandsController, command));
+		eventReceiver().add(new AddCommandEvent(commandsController, command));
 	}
 	/**
 	 * Removes the command from the Commands Controller which keeps tracks of Commands on
@@ -155,11 +214,11 @@ public class FrontEndController {
 	 * @param command
 	 */
 	public void removeCommand(Command command) {
-		eventQueue.add(new RemoveCommandEvent(commandsController, command));
+		eventReceiver().add(new RemoveCommandEvent(commandsController, command));
 	}
 	
+	
 	// change turtle view commands
-	// turtle view
 	public void moveTurtles(List<Integer> ids, List<Double> x0, List<Double> y0,
 			List<Double> x1, List<Double> y1, List<Boolean> penDown) {
 		// TODO
@@ -173,16 +232,15 @@ public class FrontEndController {
 	public void hideTurtles(List<Integer> ids) {
 		// TODO
 	}
-
-	
 	/**
 	 * Clears the drawing screen, resets the turtle back to initial position and gets
 	 * rid of all drawn lines
 	 */
 	public void clearScreen() {
-		turtleScreenController.clearScreen();
+		eventReceiver().add(new ClearScreenEvent(turtleScreenController));
 	}
 
+	
 	// user input view: shell view and script view
 	private InputController inputController() {
 		// TODO: there is a piece of code depending on the relative
@@ -198,28 +256,28 @@ public class FrontEndController {
 	 * @param errorMsg
 	 */
 	public void showErrorAlert(String errorMsg, String bad) {
-		eventQueue.add(new AlertEvent(errorMsg, bad));
+		eventReceiver().add(new AlertEvent(errorMsg, bad));
 	}
 	/**
 	 * Displays an error that has occurred during the processing of a certain command/function
 	 * @param errorMsg String representation of error
 	 */
 	public void showError(String errorMsg, String bad) {
-		eventQueue.add(new ShowErrorEvent(inputController(), errorMsg, bad));
+		eventReceiver().add(new ShowErrorEvent(inputController(), errorMsg, bad));
 	}
 	/**
 	 * Displays any text that the user may need to see
 	 * @param text
 	 */
 	public void showText(String text) {
-		eventQueue.add(new ShowTextEvent(inputController(), text));
+		eventReceiver().add(new ShowTextEvent(inputController(), text));
 	}
 	/**
 	 * Append text to the input view
 	 * @param text
 	 */
 	public void appendText(String text) {
-		eventQueue.add(new AppendTextEvent(inputController(), text));
+		eventReceiver().add(new AppendTextEvent(inputController(), text));
 	}
 	
 }
