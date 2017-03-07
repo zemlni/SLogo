@@ -67,6 +67,9 @@ public class FrontEndController {
 		sessionLanguage = Language.getLanguage();
 		turtleScreenController.setFrontEndController(this);
 		shellController.setFrontEndController(this);
+		
+		System.out.println("changed code");
+		
 		scriptController.setFrontEndController(this);
 		variablesController.setFrontEndController(this);
 		commandsController.setFrontEndController(this);
