@@ -1,15 +1,15 @@
 package frontend.animation;
 
-import frontend.app.FrontEndController;
+import frontend.views.TurtleScreenController;
 
-public class RotateAction extends AnimatedAction {
+public class RotateAction extends TurtleEvent {
 	private static final double ROTATING_SPEED = 20;
 
 	private double vAngle = ROTATING_SPEED;
 	private double angleRemain;
 	
-	public RotateAction(FrontEndController frontEndController, double angle) {
-		super(frontEndController);
+	public RotateAction(TurtleScreenController control, double angle) {
+		super(control);
 		this.angleRemain = angle;
 	}
 

@@ -1,8 +1,8 @@
 package frontend.animation;
 
-import frontend.app.FrontEndController;
+import frontend.views.TurtleScreenController;
 
-public class MoveDrawLineAction extends AnimatedAction {
+public class MoveDrawLineAction extends TurtleEvent {
 	private static final double INIT_MOVING_SPEED = 100;
 	
 	private double x; // current position
@@ -12,9 +12,9 @@ public class MoveDrawLineAction extends AnimatedAction {
 	private double y1;
 	private boolean finished;
 	
-	public MoveDrawLineAction(FrontEndController frontEndController,
+	public MoveDrawLineAction(TurtleScreenController control,
 			double x0, double y0, double x1, double y1) {
-		super(frontEndController);
+		super(control);
 		this.x = x0;
 		this.y = y0;
 		this.x1 = x1;
@@ -43,13 +43,13 @@ public class MoveDrawLineAction extends AnimatedAction {
 		double vx = v * dx / dist;
 		double vy = v * dy / dist;
 		if (dist / v <= dt) { // action finished 
-			frontEndController.drawLine(x, y, x1, y1);
-			frontEndController.moveTurtleTo(x1, y1);
+			control.drawLine(x, y, x1, y1);
+			control.moveTurtleTo(0, x1, y1);
 			finished = true;
 			return dt - dist / v;
 		} else { // action unfinished
-			frontEndController.drawLine(x, y, x+vx*dt, y+vy*dt);
-			frontEndController.moveTurtleTo(x+vx*dt, y+vy*dt);
+			control.drawLine(x, y, x+vx*dt, y+vy*dt);
+			control.moveTurtleTo(0, x+vx*dt, y+vy*dt);
 			x += vx*dt;
 			y += vy*dt;
 			finished = false;

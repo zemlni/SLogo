@@ -1,12 +1,12 @@
 package frontend.app;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import backend.BackendController;
 import backend.Command;
 import backend.Variable;
-import frontend.animation.AnimatedAction;
-import frontend.animation.MoveDrawLineAction;
+import frontend.animation.AnimatedEvent;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
@@ -28,7 +28,6 @@ import language.Language;
  * @author Matthew Tribby, Keping Wang
  */
 public class FrontEndController {
-
 	
 	private static String sessionLanguage;
 	
@@ -52,8 +51,9 @@ public class FrontEndController {
 	// animation
 	private long prevNanos = 0;
 	private AnimationTimer timer;
-	private LinkedList<AnimatedAction> actionsQueue;
-	
+	private LinkedList<AnimatedEvent> eventQueue;
+	private LinkedList<AnimatedEvent> firstClassEventQueue; // gets executed before eventQueue
+	// and doesn't cost time to update
 	
 	@FXML
 	private void initialize() {
@@ -69,7 +69,7 @@ public class FrontEndController {
 		historyController.setFrontEndController(this);
 		backendController = new BackendController(this);
 		initAnimation();
-		actionsQueue = new LinkedList<>();
+		eventQueue = new LinkedList<>();
 		timer.start();
 	}
 	
@@ -86,28 +86,22 @@ public class FrontEndController {
 				prevNanos = now;
 				double dt = deltaNanos / 1.0e9;
 				
-				AnimatedAction action = null;
-				while (dt > 0 && !actionsQueue.isEmpty()) {
-					action = actionsQueue.pollFirst();
+				while (!firstClassEventQueue.isEmpty()) {
+					firstClassEventQueue.pollFirst().update(dt);
+				}
+				
+				AnimatedEvent action = null;
+				while (dt > 0 && !eventQueue.isEmpty()) {
+					action = eventQueue.pollFirst();
 					dt = action.update(dt);
 				}
 				if (dt == 0 && !action.isFinished()) {
-					actionsQueue.addFirst(action);
+					eventQueue.addFirst(action);
 				}
 			}
 		};
 	}
 	
-	public void moveDrawLineAction(double x0, double y0, double x1, double y1) {
-		AnimatedAction action = new MoveDrawLineAction(this, x0, y0, x1, y1);
-		actionsQueue.addLast(action);
-	}
-	public void moveDrawLineAction(List<Integer> ids, List<Point> startPositions, ...) {
-		
-	}
-	public void turtleRotateAction(double angle) {
-		
-	}
 	
 	/**
 	 * Passes the string input on the command line / current
@@ -132,7 +126,6 @@ public class FrontEndController {
 	public void addVariable(Variable variable) {
 		variablesController.addVariable(variable);	
 	}
-
 	/**
 	 * Removes the visual representation of a Variable that is currently shown 
 	 * in the Variable window
@@ -143,7 +136,6 @@ public class FrontEndController {
 	public void removeVariable(Variable variable) throws Exception {
 		variablesController.removeVariable(variable);
 	}
-
 	// commands view
 	/**
 	 * Adds a command to the Commands Controller which keep tracks of Commands on the
@@ -163,52 +155,22 @@ public class FrontEndController {
 		commandsController.removeCommand(command);	
 	}
 	
+	// change turtle view commands
 	// turtle view
-	/**
-	 * Moves the turtle (or visual point of pen) to a certain specified location
-	 * @param x new x-coordinate
-	 * @param y new y-coordinate
-	 */
-	public void moveTurtleTo(double x, double y) {
-		turtleScreenController.moveTurtleTo(x, y);
+	public void moveTurtles(List<Integer> ids, List<Double> x0, List<Double> y0,
+			List<Double> x1, List<Double> y1, List<Boolean> penDown) {
+		// TODO
 	}
-	/**
-	 * Draws a line which is useful for tracking the turtle's/pen's movement
-	 * @param x0 starting x
-	 * @param y0 starting y
-	 * @param x1 ending x
-	 * @param y1 ending y
-	 */
-	public void drawLine(double x0, double y0, double x1, double y1) {
-		//Test line:
-		//backendController.setVariable(new Variable("test", 15 ));
-		turtleScreenController.drawLine(x0, y0, x1, y1);
+	public void rotateTurtles(List<Integer> ids, List<Double> startAngles, List<Double> endAngles) {
+		// TODO
 	}
-	/**
-	 * Sets the new angle of the turtle/pen. This determines how the turtle/pen will move
-	 * around the screen.
-	 * @param angle Angle specified in degrees
-	 */
-	public void setTurtleAngle(double angle) {
-		turtleScreenController.setTurtleAngle(angle);
+	public void showTurtles(List<Integer> ids) {
+		// TODO
 	}
-	
-	/**
-	 * Shows the turtle image visibly. If the turtle is already showing, this will 
-	 * have no effect
-	 */
-	public void showTurtle(){
-		turtleScreenController.showTurtle();
+	public void hideTurtles(List<Integer> ids) {
+		// TODO
 	}
-	
-	/**
-	 * Hides the turtle image visibly. If the turtle is already hidden, this will
-	 * have no effect
-	 */
-	public void hideTurtle(){
-		turtleScreenController.hideTurtle();
-	}
-	
+
 	
 	/**
 	 * Clears the drawing screen, resets the turtle back to initial position and gets
