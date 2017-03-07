@@ -6,7 +6,15 @@ import java.util.List;
 import backend.BackendController;
 import backend.Command;
 import backend.Variable;
+import frontend.animation.AddCommandEvent;
+import frontend.animation.AddVariableEvent;
+import frontend.animation.AlertEvent;
 import frontend.animation.AnimatedEvent;
+import frontend.animation.AppendTextEvent;
+import frontend.animation.RemoveCommandEvent;
+import frontend.animation.RemoveVariableEvent;
+import frontend.animation.ShowErrorEvent;
+import frontend.animation.ShowTextEvent;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
@@ -16,8 +24,6 @@ import frontend.views.TurtleScreenController;
 import frontend.views.VariablesController;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TabPane;
 import language.Language;
 
@@ -124,17 +130,15 @@ public class FrontEndController {
 	 * @param variable the Variable instance to be added
 	 */
 	public void addVariable(Variable variable) {
-		variablesController.addVariable(variable);	
+		eventQueue.add(new AddVariableEvent(variablesController, variable));
 	}
 	/**
 	 * Removes the visual representation of a Variable that is currently shown 
 	 * in the Variable window
 	 * @param variable
-	 * @throws Exception if variable that is trying to be removed does not currently
-	 * exist in the front-end. This exception will be more specifically defined.
 	 */
-	public void removeVariable(Variable variable) throws Exception {
-		variablesController.removeVariable(variable);
+	public void removeVariable(Variable variable) {
+		eventQueue.add(new RemoveVariableEvent(variablesController, variable));
 	}
 	// commands view
 	/**
@@ -143,16 +147,15 @@ public class FrontEndController {
 	 * @param command
 	 */
 	public void addCommand(Command command) {
-		commandsController.addCommand(command);
+		eventQueue.add(new AddCommandEvent(commandsController, command));
 	}
 	/**
 	 * Removes the command from the Commands Controller which keeps tracks of Commands on
 	 * the front-end
 	 * @param command
-	 * @throws Exception if command that is trying to be removed doesn't exist
 	 */
-	public void removeCommand(Command command) throws Exception {
-		commandsController.removeCommand(command);	
+	public void removeCommand(Command command) {
+		eventQueue.add(new RemoveCommandEvent(commandsController, command));
 	}
 	
 	// change turtle view commands
@@ -195,32 +198,28 @@ public class FrontEndController {
 	 * @param errorMsg
 	 */
 	public void showErrorAlert(String errorMsg, String bad) {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle(Language.getWord("ErrorTitle"));
-		alert.setContentText(Language.getWord(errorMsg) + bad);
-		alert.showAndWait();
+		eventQueue.add(new AlertEvent(errorMsg, bad));
 	}
 	/**
 	 * Displays an error that has occurred during the processing of a certain command/function
 	 * @param errorMsg String representation of error
 	 */
 	public void showError(String errorMsg, String bad) {
-		inputController().showError(errorMsg, bad);
+		eventQueue.add(new ShowErrorEvent(inputController(), errorMsg, bad));
 	}
 	/**
 	 * Displays any text that the user may need to see
 	 * @param text
 	 */
 	public void showText(String text) {
-		System.out.println("show text: "+text);
-		inputController().showText(text);
+		eventQueue.add(new ShowTextEvent(inputController(), text));
 	}
 	/**
 	 * Append text to the input view
 	 * @param text
 	 */
 	public void appendText(String text) {
-		inputController().appendText(text);
+		eventQueue.add(new AppendTextEvent(inputController(), text));
 	}
 	
 }

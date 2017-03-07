@@ -1,5 +1,6 @@
-package frontend.animation;
+package frontend.animation.turtle;
 
+import frontend.animation.AnimatedEvent;
 import frontend.views.TurtleScreenController;
 
 public abstract class TurtleEvent extends AnimatedEvent {
