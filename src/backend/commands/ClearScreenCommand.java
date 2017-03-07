@@ -1,10 +1,11 @@
 package backend.commands;
 
 import backend.BackendController;
+import backend.parser.Input;
 
 public class ClearScreenCommand extends TurtleCommand{
-	public ClearScreenCommand(BackendController controller){
-		super(controller, 0);
+	public ClearScreenCommand(Input in, BackendController controller){
+		super(in, controller, 0);
 	}
 
 	@Override

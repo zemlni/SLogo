@@ -1,13 +1,15 @@
 package backend;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
+import java.util.ArrayList;
+import java.util.List;
 
+import backend.parser.Expression;
+import backend.parser.TreeParser;
 import frontend.app.FrontEndController;
 
 public class BackendController implements BackendControllerInterface {
 
-	private Parser parser;
+	private TreeParser parser;
 	private String language;
 	private TurtleModel turtle;
 	private FrontEndController fcontroller;
@@ -27,7 +29,12 @@ public class BackendController implements BackendControllerInterface {
 
 	@Override
 	public void evaluate(String command) {
-		double ret = parser.parse(command);
+
+		List<Integer> breakPoints = new ArrayList<Integer>();
+
+		Expression root = parser.parse(command, breakPoints);
+		Variable eval = root.evaluate();
+		double ret = eval.getValue();
 		fcontroller.showText(String.valueOf(ret));
 	}
 
@@ -35,11 +42,11 @@ public class BackendController implements BackendControllerInterface {
 	public void setLanguage(String language) {
 		if (!language.equals(this.language)) {
 			this.language = language;
-			parser = new Parser(this);
+			parser = new TreeParser(this);
 		}
 	}
 
-	public Parser getParser() {
+	public TreeParser getParser() {
 		return parser;
 	}
 

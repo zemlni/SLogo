@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.TurtleModel;
+import backend.parser.Input;
 
 public class PenDownCommand extends TurtleCommand{
 
-	public PenDownCommand(BackendController controller) {
-		super(controller, 0);
+	public PenDownCommand(Input in, BackendController controller) {
+		super(in, controller, 0);
 	}
 
 	@Override

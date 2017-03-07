@@ -2,11 +2,12 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.Command;
+import backend.parser.Input;
 
 public class CosineCommand extends Command {
 
-	public CosineCommand(BackendController controller) {
-		super(controller, 1);
+	public CosineCommand(Input in, BackendController controller) {
+		super(in, controller, 1);
 	}
 
 	@Override

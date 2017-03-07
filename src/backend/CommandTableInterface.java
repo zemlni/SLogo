@@ -18,7 +18,7 @@ public interface CommandTableInterface {
 	 *            name of command requester
 	 * @return command requested
 	 */
-	public UserCommand getCommand(String name) throws CommandException;
+	public Command getCommand(String name) throws CommandException;
 
 	/**
 	 * add or reset a command in the variable table
@@ -26,7 +26,7 @@ public interface CommandTableInterface {
 	 * @param command
 	 *            the new command to be added or to be reset
 	 */
-	public void setCommand(UserCommand command);
+	public void setCommand(Command command);
 
 	/**
 	 * remove a command with requested name from the command table
@@ -35,4 +35,5 @@ public interface CommandTableInterface {
 	 *            the name of the command to be removed
 	 */
 	public void removeCommand(String key);
+
 }
