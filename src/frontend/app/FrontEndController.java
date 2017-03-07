@@ -52,7 +52,7 @@ public class FrontEndController {
 	private long prevNanos = 0;
 	private AnimationTimer timer;
 	private LinkedList<AnimatedEvent> eventQueue;
-	private LinkedList<AnimatedEvent> firstClassEventQueue; // gets executed before eventQueue
+	private LinkedList<AnimatedEvent> firstClassEventQueue = new LinkedList<AnimatedEvent>(); // gets executed before eventQueue
 	// and doesn't cost time to update
 	
 	@FXML
@@ -221,6 +221,10 @@ public class FrontEndController {
 	 */
 	public void appendText(String text) {
 		inputController().appendText(text);
+	}
+
+	public void changeSelect(int id) {
+		//backendController.changeSelect(id)
 	}
 	
 }
