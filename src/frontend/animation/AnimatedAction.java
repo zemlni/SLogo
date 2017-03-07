@@ -1,33 +1,18 @@
 package frontend.animation;
 
-import java.lang.reflect.Method;
-
 import frontend.app.FrontEndController;
 
-public class AnimatedAction {
+public abstract class AnimatedAction {
 	
-	private FrontEndController frontEndController;
-	private String methodName;
-	private Object[] args;
-	
-	public AnimatedAction(FrontEndController frontEndController,
-			String methodName, Object[] args) {
+	protected FrontEndController frontEndController;
+	public AnimatedAction(FrontEndController frontEndController) {
 		this.frontEndController = frontEndController;
-		this.methodName = methodName;
-		this.args = args;
 	}
-	
-	public void execute() {
-		System.out.println("action execute called: "+methodName);
-		try {
-			Class<?>[] paramTypes = new Class<?>[4];
-			for (int i = 0; i < 4; i++) {
-				paramTypes[i] = Double.TYPE;
-			}
-			Method method = frontEndController.getClass().getMethod(methodName, paramTypes);
-			method.invoke(frontEndController, args);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	/**
+	 * Update the view and return the remaining time
+	 * @param dt
+	 * @return
+	 */
+	public abstract double update(double dt);
+	public abstract boolean isFinished();
 }

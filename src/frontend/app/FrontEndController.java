@@ -1,13 +1,12 @@
 package frontend.app;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import backend.BackendController;
 import backend.Command;
 import backend.Variable;
 import frontend.animation.AnimatedAction;
+import frontend.animation.MoveDrawLineAction;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
@@ -21,7 +20,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TabPane;
 import language.Language;
-
 
 
 /**
@@ -52,15 +50,10 @@ public class FrontEndController {
 	private TabPane inputTabPane;
 	
 	// animation
+	private long prevNanos = 0;
 	private AnimationTimer timer;
 	private LinkedList<AnimatedAction> actionsQueue;
 	
-	public void drawLine(double x0, double y0, double x1, double y1) {
-		Double[] params = new Double[] {x0, y0, x1, y1};
-		AnimatedAction action = new AnimatedAction(this, "drawLineImpl", params);
-		actionsQueue.addLast(action);
-		System.out.println("draw line added to actionsQueue");
-	}
 	
 	@FXML
 	private void initialize() {
@@ -84,11 +77,30 @@ public class FrontEndController {
 		timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-				if (!actionsQueue.isEmpty()) {
-					actionsQueue.pollLast().execute();
+				// calculate elapsed time
+				if (prevNanos == 0) {
+					prevNanos = now;
+					return;
+				}
+				long deltaNanos = now - prevNanos;
+				prevNanos = now;
+				double dt = deltaNanos / 1.0e9;
+				
+				AnimatedAction action = null;
+				while (dt > 0 && !actionsQueue.isEmpty()) {
+					action = actionsQueue.pollFirst();
+					dt = action.update(dt);
+				}
+				if (dt == 0 && !action.isFinished()) {
+					actionsQueue.addFirst(action);
 				}
 			}
 		};
+	}
+	
+	public void moveDrawLine(double x0, double y0, double x1, double y1) {
+		AnimatedAction action = new MoveDrawLineAction(this, x0, y0, x1, y1);
+		actionsQueue.addLast(action);
 	}
 	
 	/**
@@ -161,7 +173,7 @@ public class FrontEndController {
 	 * @param x1 ending x
 	 * @param y1 ending y
 	 */
-	public void drawLineImpl(double x0, double y0, double x1, double y1) {
+	public void drawLine(double x0, double y0, double x1, double y1) {
 		//Test line:
 		//backendController.setVariable(new Variable("test", 15 ));
 		turtleScreenController.drawLine(x0, y0, x1, y1);

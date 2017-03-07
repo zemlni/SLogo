@@ -48,10 +48,12 @@ public class ForwardCommand extends TurtleCommand{
 	 */
 	private void updateTurtleView(double oldX, double oldY, double newX, double newY, TurtleModel turtle){
 		FrontEndController fcontroller = turtle.getFrontController();
-		if(turtle.penDown()){
-			fcontroller.drawLine(oldX, oldY, newX, newY);
-		}
-		fcontroller.moveTurtleTo(newX, newY);
+		// TODO
+//		if(turtle.penDown()){
+//			fcontroller.drawLine(oldX, oldY, newX, newY);
+//		}
+//		fcontroller.moveTurtleTo(newX, newY);
+		fcontroller.moveDrawLine(oldX, oldY, newX, newY);
 	}
 	
 	/*
