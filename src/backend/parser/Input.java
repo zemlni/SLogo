@@ -2,6 +2,12 @@ package backend.parser;
 
 import java.util.List;
 
+/**
+ * @author nikita This class represents the input provided by the user. It has
+ *         the input string of commands, and tracks positions of parsing,
+ *         breakpoints, current and previous expressions when they have been
+ *         evaluated, and other related elements.
+ */
 public class Input {
 	private Expression expr;
 	private Expression previous;
@@ -54,16 +60,23 @@ public class Input {
 		return input[index];
 	}
 
+	public void set(String str) {
+		input[index] = str;
+	}
+
 	public List<Integer> getBreakPoints() {
 		return breakPoints;
 	}
-	public void incrementCount(){
+
+	public void incrementCount() {
 		this.count++;
 	}
-	public void decrementByCount(){
+
+	public void decrementByCount() {
 		index -= count;
 	}
-	public Expression getPrevious(){
+
+	public Expression getPrevious() {
 		return previous;
 	}
 }

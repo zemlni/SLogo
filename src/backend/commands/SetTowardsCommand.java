@@ -6,6 +6,9 @@ import backend.BackendController;
 import backend.Variable;
 import backend.parser.Input;
 
+/**
+ * @author gabriel nikita
+ */
 public class SetTowardsCommand extends TurtleCommand {
 
 	public SetTowardsCommand(Input in, BackendController controller) {
@@ -15,6 +18,8 @@ public class SetTowardsCommand extends TurtleCommand {
 	/**
 	 * sets the bearing of the turtle towards all coordinates specified by the
 	 * arguments, one after the other
+	 * 
+	 * @return the value of the last argument
 	 */
 	@Override
 	public double execute() {

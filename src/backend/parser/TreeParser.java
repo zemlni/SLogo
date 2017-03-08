@@ -13,16 +13,24 @@ import backend.BackendController;
 import backend.Command;
 import backend.CommandException;
 import backend.CommandTable;
+import backend.ParserInterface;
 import backend.SlogoException;
 import backend.VariableException;
 import backend.VariableTable;
 
-public class TreeParser {
+/**
+ * @author nikita This class is the implementation of the parser. There is
+ *         functionality to parse the input string into a tree of commands,
+ *         variables, constants and various other expressions. Errors are
+ *         handled and the front end is alerted accordingly. This class
+ *         maintains instances of the command table and the variable table as
+ *         well.
+ */
+public class TreeParser implements ParserInterface {
 	private BackendController controller;
 	private List<Entry<String, Pattern>> commandSymbols;
 	private List<Entry<String, Pattern>> syntaxSymbols;
 	public static final String WHITESPACE_NEWLINE = "\\s+|\\n+";
-	public static final String WHITESPACE_NEWLINE_COMMENT = WHITESPACE_NEWLINE + "|#.*\\n";
 	private CommandTable commandTable;
 	private VariableTable variableTable;
 
@@ -51,10 +59,30 @@ public class TreeParser {
 		return regex.matcher(text).matches();
 	}
 
-	String getSyntaxSymbol(String text) throws CommandException {
+	/**
+	 * get the syntax symbol that this string represents
+	 * 
+	 * @param text
+	 *            the string to translate to a syntax element
+	 * @return the string that represents the syntax element (used to create
+	 *         classes in reflection)
+	 * @throws CommandException
+	 *             when the symbol was not matched to a valid element of syntax
+	 */
+	public String getSyntaxSymbol(String text) throws CommandException {
 		return getSymbol(text, syntaxSymbols);
 	}
 
+	/**
+	 * get the command that this string represents
+	 * 
+	 * @param text
+	 *            the string to translate to a command
+	 * @return the string that represents the command (used to create classes in
+	 *         reflection)
+	 * @throws CommandException
+	 *             when the symbol was not matched to a command
+	 */
 	public String getCommandSymbol(String text) throws CommandException {
 		return getSymbol(text, commandSymbols);
 	}
@@ -76,8 +104,13 @@ public class TreeParser {
 		return commandTable;
 	}
 
+	/**
+	 * alert front end to notify user of error.
+	 * 
+	 * @param e
+	 *            the exception that was thrown
+	 */
 	public void complain(Exception e) {
-		e.printStackTrace();
 		String error = "";
 		String message = "";
 		if (e instanceof IndexOutOfBoundsException)
@@ -98,13 +131,11 @@ public class TreeParser {
 			cur.setInfo(name);
 			return cur;
 		} catch (Exception e) {
-			// e.printStackTrace();
 			try {
 				Command temp = commandTable.getCommand(name.get());
 				cur = new Command(name, controller);
 				cur.setInfo(name);
 				cur.setNumArgs(temp.getNumArgs());
-				System.out.println("INSIDE CREATION: " + temp.getNumArgs());
 				return cur;
 			} catch (Exception e1) {
 				cur = new Command(name, controller);
@@ -129,13 +160,29 @@ public class TreeParser {
 		return expr;
 	}
 
+	/**
+	 * parse the expression represented by the string input. create the
+	 * corresponding expressions in a tree form with. Breakpoints are created,
+	 * but applied at execution.
+	 * 
+	 * @param input
+	 *            the string to be parsed
+	 * @param breakPoints
+	 *            a list of the lines on which to break
+	 * @return the root expression of the tree
+	 */
+	@Override
 	public Expression parse(String input, List<Integer> breakPoints) {
-		// split by newline and comments, keep track of line numbers to create
-		// commands with breakpoints
-
-		// split each line that is not empty or a comment by spaces
-		// call parse
-		String[] split = input.split(WHITESPACE_NEWLINE_COMMENT);
+		String[] tempSplit = input.split("\\n+");
+		String tempString = "";
+		for (int i = 0; i < tempSplit.length; i++) {
+			if (breakPoints.contains(new Integer(i + 1)))
+				tempSplit[i] = "!" + tempSplit[i];
+			if (!(tempSplit[i].trim().charAt(0) == '#' && tempSplit[i].trim().length() > 0)) {
+				tempString += tempSplit[i] + " ";
+			}
+		}
+		String[] split = tempString.split(WHITESPACE_NEWLINE);
 		Input in = new Input(split, breakPoints);
 		Expression top = new ListStartExpression(controller);
 		while (in.getIndex() < in.getLength()) {
@@ -148,35 +195,23 @@ public class TreeParser {
 	}
 
 	private Input parse(Input in) {
-		// create appropriate Expression based on getSymbol and use reflection
-		System.out.println("TEST" + in.get());
-		while (in.get().trim().equals(""))
+		while (in.getIndex() < in.getLength() && in.get().trim().equals(""))
 			in.incrementIndex();
-		System.out.println(in.getLength());
 		Expression cur = null;
 		try {
 			cur = makeExpression(in);
 		} catch (Exception e) {
 			complain(e);
 		}
-		// check how many arguments it needs
-		// recursive call: if needs more args: childExpression = parse
-		// cmd.childExpression = childExpression
-		System.out.println("PARENTCLASS: " + cur.getClass());
 		int numArgs = cur.getNumChildren();
-		System.out.println(numArgs);
-		//TODO: fix the check here
 		while (numArgs > 0 && in.getIndex() < in.getLength() - 1) {
-			System.out.println("NUMARGS INSIDE: " + numArgs);
 			in.incrementIndex();
 			Input child = parse(in);
 			child.getExpression().setParent(cur);
-			System.out.println("CHILDCLASS: " + child.getExpression().getClass());
 			cur.addChild(child.getExpression());
 			numArgs--;
 		}
 		in.setExpression(cur);
-		System.out.println("CUR LOCATION: " + cur);
 		return in;
 	}
 }

@@ -6,11 +6,19 @@ import backend.Variable;
 import backend.parser.Input;
 import frontend.app.FrontEndController;
 
+/**
+ * @author gabriel nikita
+ */
 public class RightCommand extends TurtleCommand {
 	public RightCommand(Input in, BackendController controller) {
 		super(in, controller, 1);
 	}
 
+	/**
+	 * turn the turtle right the amount given in every argument.
+	 * 
+	 * @return the value of the last argument given.
+	 */
 	@Override
 	public double execute() {
 		double deltaDir = 0;

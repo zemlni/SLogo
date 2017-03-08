@@ -6,6 +6,9 @@ import backend.BackendController;
 import backend.Variable;
 import backend.parser.Input;
 
+/**
+ * @author gabriel nikita
+ */
 public class SetPositionCommand extends TurtleCommand {
 
 	public SetPositionCommand(Input in, BackendController controller) {
@@ -15,6 +18,8 @@ public class SetPositionCommand extends TurtleCommand {
 	/**
 	 * moves turtle to all coordinates specified by arguments, one after the
 	 * other.
+	 * 
+	 * @return the value of the last argument
 	 */
 	@Override
 	public double execute() {

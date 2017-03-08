@@ -4,6 +4,9 @@ import backend.BackendController;
 import backend.Variable;
 import backend.parser.Input;
 
+/**
+ * @author gabriel nikita
+ */
 public class SetHeadingCommand extends TurtleCommand {
 
 	public SetHeadingCommand(Input in, BackendController controller) {
@@ -12,6 +15,8 @@ public class SetHeadingCommand extends TurtleCommand {
 
 	/**
 	 * rotate turtle by all arguments, return final angle.
+	 * 
+	 * returns the final angle of the turtle
 	 */
 	@Override
 	public double execute() {

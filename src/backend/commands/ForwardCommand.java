@@ -5,15 +5,19 @@ import backend.TurtleModel;
 import backend.Variable;
 import backend.parser.Input;
 import frontend.app.FrontEndController;
-
+/**@author gabriel nikita
+ * */
 public class ForwardCommand extends TurtleCommand {
 
 	public ForwardCommand(Input in, BackendController controller) {
 		super(in, controller, 1);
 	}
 
-	/*
-	 * executes the function of the command.
+	/**
+	 * move the turtle forward for the amount of units given in each argument
+	 * supports unlimited parameters
+	 * 
+	 * @return the value of the last argument
 	 */
 	@Override
 	public double execute() {

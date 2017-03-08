@@ -1,35 +1,40 @@
 package backend.commands;
+
 import backend.BackendController;
 import backend.TurtleModel;
 import backend.Variable;
 import backend.parser.Input;
 import frontend.app.FrontEndController;
 
-public class BackwardCommand extends TurtleCommand{
+/**
+ * @author gabriel nikita
+ */
+public class BackwardCommand extends TurtleCommand {
 
-	public BackwardCommand(Input in, BackendController controller){
+	public BackwardCommand(Input in, BackendController controller) {
 		super(in, controller, 1);
 	}
 
-	/*
-	 * executes the function of the command.
+	/**
+	 * move the turtle backward for the amount of units given in each argument
+	 * supports unlimited parameters
+	 * 
+	 * @return the value of the last argument
 	 */
 	@Override
 	public double execute() {
 		double backwardAmount = 0;
-		for (Variable var: getArgs()){
+		for (Variable var : getArgs()) {
 			backwardAmount = var.getValue();
 			moveTurtle(backwardAmount);
 		}
-//		double backwardAmount = getArgs().get(0).getValue();
-//		moveTurtle(backwardAmount);
 		return backwardAmount;
 	}
 
 	/*
 	 * moves the turtle in the model, and in the display of the turtle
 	 */
-	private void moveTurtle(double traveled){
+	private void moveTurtle(double traveled) {
 		TurtleModel turtle = getTurtle();
 		double oldXCoor = turtle.getXCoor();
 		double oldYCoor = turtle.getYCoor();
@@ -41,10 +46,11 @@ public class BackwardCommand extends TurtleCommand{
 		updateTurtleModel(newXCoor, newYCoor, turtle);
 		updateTurtleView(oldXCoor, oldYCoor, newXCoor, newYCoor, turtle);
 	}
+
 	/*
 	 * makes backend calls to update the turtlemodel
 	 */
-	private void updateTurtleModel(double newX, double newY, TurtleModel turtle){
+	private void updateTurtleModel(double newX, double newY, TurtleModel turtle) {
 		turtle.setXCoor(newX);
 		turtle.setYCoor(newY);
 	}
@@ -52,9 +58,9 @@ public class BackwardCommand extends TurtleCommand{
 	/*
 	 * makes frontend calls to move the display of the turtle
 	 */
-	private void updateTurtleView(double oldX, double oldY, double newX, double newY, TurtleModel turtle){
+	private void updateTurtleView(double oldX, double oldY, double newX, double newY, TurtleModel turtle) {
 		FrontEndController fcontroller = turtle.getFrontController();
-		if(turtle.penDown()){
+		if (turtle.penDown()) {
 			fcontroller.drawLine(oldX, oldY, newX, newY);
 		}
 		fcontroller.moveTurtleTo(newX, newY);
@@ -63,7 +69,7 @@ public class BackwardCommand extends TurtleCommand{
 	/*
 	 * calculate the new x coordinate by calc deltaX then add to oldX
 	 */
-	private double calcNewXCoor(double direction, double oldX, double traveled){
+	private double calcNewXCoor(double direction, double oldX, double traveled) {
 		double deltaX = traveled * Math.sin(Math.toRadians(direction));
 		return oldX - deltaX;
 	}
@@ -71,11 +77,9 @@ public class BackwardCommand extends TurtleCommand{
 	/*
 	 * calculate the new y coordinate by calc deltaY then add to oldY
 	 */
-	private double calcNewYCoor(double direction, double oldY, double traveled){
+	private double calcNewYCoor(double direction, double oldY, double traveled) {
 		double deltaY = traveled * Math.cos(Math.toRadians(direction));
 		return oldY - deltaY;
 	}
 
 }
-
-

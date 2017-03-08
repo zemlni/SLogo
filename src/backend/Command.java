@@ -7,17 +7,23 @@ import backend.commands.UserCommand;
 import backend.parser.Expression;
 import backend.parser.Input;
 
+/**
+ * @author nikita This class is the superclass for all commands. It contains
+ *         methods that are common to all commands, in addition to methods
+ *         required for parsing and setting up the command. An instance of this
+ *         class is created when a blank command is identified in the parser
+ *         (one that hasn't yet been defined but fits the command syntax)
+ */
 public class Command extends Expression implements CommandInterface {
 
 	private int numArgs;
-	private List<Variable> args;
 	private String name;
 
 	public Command(Input info, BackendController controller) {
 		this(info, controller, 0);
 	}
-	
-	public String getKey(){
+
+	public String getKey() {
 		return name;
 	}
 
@@ -45,38 +51,34 @@ public class Command extends Expression implements CommandInterface {
 		}
 	}
 
-	public boolean isDefinedCommand(String name) {
-		return isDefinedUserCommand(name) || isDefinedLangCommand(name);
-	}
-
+	/**
+	 * evaluate this command.
+	 * 
+	 * @return a Variable instance containing the result of evaluating the
+	 *         command
+	 */
 	public Variable evaluate() {
 		if (isDefinedLangCommand(name))
 			return new Variable(null, execute());
-		else if (isDefinedUserCommand(name)){
-			try {//TODO: adds extra arguments in here 
-				System.out.println("EXECUTING FROM COMMAND: " + name);
-				for (Expression child: getChildren())
-					System.out.println(child.getClass());
-				//TODO: Problem - adding arguments to the same command
-				UserCommand temp = (UserCommand)getBackendController().getParser().getCommandTable().getCommand(name);
-				UserCommand command = new UserCommand(name, getBackendController(), getInfo(), temp.getArgNames(), temp.getCommands());
+		else if (isDefinedUserCommand(name)) {
+			try {
+				UserCommand temp = (UserCommand) getBackendController().getParser().getCommandTable().getCommand(name);
+				UserCommand command = new UserCommand(name, getBackendController(), getInfo(), temp.getArgNames(),
+						temp.getCommands());
 				command.addChildren(getChildren());
 				return new Variable(null, command.execute());
 			} catch (CommandException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				getBackendController().getParser().complain(e);
 				return null;
 			}
-		}
-		else
+		} else
 			return new Variable(name, 0);
 	}
 
 	@Override
-	public double execute(){
-		System.out.println("ERROR NEVER SHOULD HAVE RUN commands.Command");
+	public double execute() {
 		return 0;
-	};
+	}
 
 	@Override
 	public int getNumArgs() {
@@ -89,19 +91,19 @@ public class Command extends Expression implements CommandInterface {
 		this.setNumChildren(numArgs);
 	}
 
-	@Override
-	public void setArgs(List<Variable> vars) {
-		this.args = vars;
-	}
-
+	/**
+	 * evaluates the arguments of this command, and returns the list of
+	 * variables
+	 * 
+	 * @return list of variables resulting from evaluating the arguments of this
+	 *         command
+	 */
 	@Override
 	public List<Variable> getArgs() {
 		List<Expression> children = getChildren();
 		List<Variable> ret = new ArrayList<Variable>();
-		for(Expression child: children){
-			//System.out.println(child.getClass());
+		for (Expression child : children)
 			ret.add(child.evaluate());
-		}
-		return ret; 
+		return ret;
 	}
 }

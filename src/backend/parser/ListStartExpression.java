@@ -4,6 +4,11 @@ import java.util.List;
 import backend.BackendController;
 import backend.Variable;
 
+/**
+ * @author nikita This class is the implementation of the List expression. An
+ *         instance of this class gets created when the parser identifies that a
+ *         list has been typed by the user.
+ */
 public class ListStartExpression extends Expression {
 
 	public ListStartExpression(Input info, BackendController controller) {
@@ -27,11 +32,9 @@ public class ListStartExpression extends Expression {
 			} catch (Exception e) {
 				getBackendController().getParser().complain(e);
 			}
-			// TODO: this won't work with breakpoints inside of lists, need to
-			// fix!
-			if (arg.length() > 0){
+			if (arg.length() > 0) {
 				this.addChildren(getBackendController().getParser().parse(arg, info.getBreakPoints()).getChildren());
-				for (Expression expr: getChildren())
+				for (Expression expr : getChildren())
 					expr.setParent(this);
 			}
 		}
@@ -41,6 +44,11 @@ public class ListStartExpression extends Expression {
 		this(null, controller);
 	}
 
+	/**
+	 * evaluate all of the children of this list.
+	 * 
+	 * @return the value of the last executed command
+	 */
 	@Override
 	public Variable evaluate() {
 		List<Expression> children = getChildren();
@@ -50,5 +58,4 @@ public class ListStartExpression extends Expression {
 		}
 		return ret;
 	}
-
 }

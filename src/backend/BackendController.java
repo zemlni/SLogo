@@ -1,22 +1,25 @@
 package backend;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import backend.parser.Expression;
 import backend.parser.TreeParser;
 import frontend.app.FrontEndController;
 
+/**
+ * @author nikita This class is the main backend controller. It has an instance
+ *         of turtle controller, the parser and other relevant instance
+ *         variables. It is created with English as the default language. An
+ *         instance of this class is created and maintained by the frontend
+ *         controller.
+ */
 public class BackendController implements BackendControllerInterface {
 
 	private TreeParser parser;
 	private String language;
 	private TurtleModel turtle;
 	private FrontEndController fcontroller;
+	private Expression breakPointExpression;
 
-	/**
-	 * english is default language
-	 */
 	public BackendController(FrontEndController frontEndController) {
 		this.fcontroller = frontEndController;
 		setLanguage("English");
@@ -27,17 +30,29 @@ public class BackendController implements BackendControllerInterface {
 		return turtle;
 	}
 
+	/**
+	 * parse the command given by the string and set the break points given in
+	 * the list. Then evaluate the commands, stopping at the break points if any
+	 * are provided
+	 * 
+	 * @param command
+	 *            the command to be evaluated
+	 * @param breakPoints
+	 *            list of breakpoints to be set
+	 * @return true if the command finished evaluating, else false (if stopped
+	 *         at breakpoint)
+	 */
 	@Override
-	public void evaluate(String command) {
-
-		List<Integer> breakPoints = new ArrayList<Integer>();
-
+	public boolean evaluate(String command, List<Integer> breakPoints) {
 		Expression root = parser.parse(command, breakPoints);
-		Variable eval = root.evaluate();
-		double ret = eval.getValue();
-		fcontroller.showText(String.valueOf(ret));
+		return evaluateFromExpression(root);
 	}
 
+	/**
+	 * Set the language. reinitializes the parser because commands are defined
+	 * differently. This also reinitializes the variable table and the command
+	 * table
+	 */
 	@Override
 	public void setLanguage(String language) {
 		if (!language.equals(this.language)) {
@@ -62,4 +77,32 @@ public class BackendController implements BackendControllerInterface {
 		parser.getVariableTable().setVariable(var);
 	}
 
+	public void setBreakPointExpression(Expression expression) {
+		this.breakPointExpression = expression;
+	}
+
+	/**
+	 * Continue the evaluation of the commands already entered, when stopped at
+	 * the breakpoint
+	 * 
+	 * @return true if the commmads finished executing, else false
+	 */
+	public boolean evaluateFromCurrentBreakPoint() {
+		return evaluateFromExpression(breakPointExpression);
+	}
+
+	private boolean evaluateFromExpression(Expression expr) {
+		try {
+			Variable eval = expr.evaluate();
+			double ret = eval.getValue();
+			fcontroller.showText(String.valueOf(ret));
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean evaluateStep(){
+		return false;
+	}
 }

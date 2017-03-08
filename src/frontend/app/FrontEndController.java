@@ -1,6 +1,8 @@
 package frontend.app;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import backend.BackendController;
 import backend.Command;
@@ -117,7 +119,9 @@ public class FrontEndController {
 			backendController.setLanguage(sessionLanguage);
 		}
 		historyController.addHistory(input);
-		backendController.evaluate(input);
+		//TODO: change this
+		List<Integer> breakPoints = new ArrayList<Integer>();
+		backendController.evaluate(input, breakPoints);
 	}
 
 	// variables view
@@ -257,5 +261,4 @@ public class FrontEndController {
 	public void appendText(String text) {
 		inputController().appendText(text);
 	}
-	
 }
