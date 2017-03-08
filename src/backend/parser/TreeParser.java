@@ -178,7 +178,7 @@ public class TreeParser implements ParserInterface {
 		for (int i = 0; i < tempSplit.length; i++) {
 			if (breakPoints.contains(new Integer(i + 1)))
 				tempSplit[i] = "!" + tempSplit[i];
-			if (!(tempSplit[i].trim().charAt(0) == '#' && tempSplit[i].trim().length() > 0)) {
+			if (tempSplit[i].trim().length() > 0 && !(tempSplit[i].trim().charAt(0) == '#')) {
 				tempString += tempSplit[i] + " ";
 			}
 		}
@@ -187,14 +187,18 @@ public class TreeParser implements ParserInterface {
 		Expression top = new ListStartExpression(controller);
 		while (in.getIndex() < in.getLength()) {
 			in = parse(in);
-			top.addChild(in.getExpression());
-			in.getExpression().setParent(top);
-			in.incrementIndex();
+			if (in.getExpression() != null) {
+				top.addChild(in.getExpression());
+				in.getExpression().setParent(top);
+				
+				in.incrementIndex();
+			}
 		}
 		return top;
 	}
 
 	private Input parse(Input in) {
+		System.out.println(in.get());
 		while (in.getIndex() < in.getLength() && in.get().trim().equals(""))
 			in.incrementIndex();
 		Expression cur = null;
@@ -202,6 +206,8 @@ public class TreeParser implements ParserInterface {
 			cur = makeExpression(in);
 		} catch (Exception e) {
 			complain(e);
+			in.finish();
+			return in;
 		}
 		int numArgs = cur.getNumChildren();
 		while (numArgs > 0 && in.getIndex() < in.getLength() - 1) {

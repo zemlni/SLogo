@@ -79,4 +79,9 @@ public class Input {
 	public Expression getPrevious() {
 		return previous;
 	}
+
+	public void finish() {
+		this.index = this.input.length;
+		
+	}
 }

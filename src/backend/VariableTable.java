@@ -61,7 +61,6 @@ public class VariableTable implements VariableTableInterface {
 	@Override
 	public void removeVariable(Variable var) {
 		variables.remove(var.getKey().toUpperCase());
-		System.out.println(variables.keySet());
 		try {
 			frontEndController.removeVariable(var);
 		} catch (Exception e) {
