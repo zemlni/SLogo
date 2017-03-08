@@ -21,6 +21,7 @@ public class RotateTurtleEvent extends TurtleEvent {
 	@Override
 	public double update(double dt) {
 		if (a == a1) {
+			control.setTurtleAngle(id, a1);
 			setFinishedTrue();
 			return dt;
 		}

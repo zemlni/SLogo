@@ -40,6 +40,7 @@ public class MoveTurtleEvent extends TurtleEvent {
 		double dy = y1 - y;
 		double dist = Math.sqrt(dx*dx+dy*dy);
 		if (dist == 0) {
+			control.moveTurtleTo(id, x1, y1);
 			setFinishedTrue();
 			return dt;
 		}
