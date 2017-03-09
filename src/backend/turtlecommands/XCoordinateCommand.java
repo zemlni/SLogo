@@ -1,6 +1,7 @@
 package backend.turtlecommands;
 
 import backend.BackendController;
+import backend.Variable;
 import backend.parser.Input;
 
 public class XCoordinateCommand extends TurtleCommand{
@@ -16,7 +17,11 @@ public class XCoordinateCommand extends TurtleCommand{
 	 */
 	@Override
 	public double execute() {
-		return getTurtle().getXCoor();
+		double xCoor = 0;
+		for(Variable var: getArgs()){
+			xCoor = getTurtlePool().getTurtle((int)var.getValue()).getXCoor();
+		}
+		return xCoor;
 	}
 
 }

@@ -15,7 +15,7 @@ public class ClearScreenCommand extends TurtleCommand{
 	public double execute() {
 		List<TurtleModel> turtleList = getTurtlePool().getActiveTurtles();
 		turtleList.forEach(e -> e.clearScreenAction());
-		return turtleList.get(turtleList.size() - 1).getDistanceTraveledToGetHome();
+		return turtleList.get(turtleList.size() - 1).getDistanceTraveled();
 	}
 	
 //	private double calculateDistanceTraveled(){

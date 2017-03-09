@@ -203,35 +203,19 @@ public class TurtleModel {
 	/*
 	 * return boolean penDown, for use to check if it moving should draw or not
 	 */
-	public boolean penDown(){
+	public boolean penIsDown(){
 		return penDown;
 	}
 	
-	/*
-	 * "places" the pen (penDown is true)
-	 */
-	public void placePen(){
-		penDown = true;
-	}
 	
-	/*
-	 * "lifts" the pen (penDown is false)
-	 */
-	public void liftPen(){
-		penDown = false;
-	}
-	
-	public void setXCoor(double newX){
+	private void setXCoor(double newX){
 		xCoor = newX;
 	}
 	
-	public void setYCoor(double newY){
+	private void setYCoor(double newY){
 		yCoor = newY;
 	}
 	
-	public void setDir(double newDir){
-		direction = newDir;
-	}
 	public boolean isVis(){
 		return visible;
 	}

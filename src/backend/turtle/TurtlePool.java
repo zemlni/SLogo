@@ -13,19 +13,29 @@ public class TurtlePool {
 	private List<Integer> commandableTurtleList;
 	private List<Integer> storedActiveTurtleList;
 	private FrontEndController fcontrol;
+	private int totalTurtles;
 	
 	
 	public TurtlePool(FrontEndController c){
 		turtleMap = new HashMap<Integer, TurtleModel>();
+		totalTurtles = 0;
 		fcontrol = c;
 	}
-
+	
+	public TurtleModel getTurtle(int id){
+		return turtleMap.get(id);
+	}
+	
+	public int getTotalTurtles(){
+		return totalTurtles;
+	}
 	/*
 	 * adds new turtles up to the id
 	 */
 	public void addTurtleUpTo(int id){
 		if(!turtleMap.containsKey(id)){
 			for(int currID = highestTurtleID() + 1; currID <= id; currID++){
+				totalTurtles++;
 				addToTurtleMap(currID);
 				addToCommandableTurtleList(currID);
 			}

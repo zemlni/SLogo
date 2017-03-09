@@ -1,6 +1,7 @@
 package backend.turtlecommands;
 
 import backend.BackendController;
+import backend.Variable;
 import backend.parser.Input;
 
 public class IsShowingCommand extends TurtleCommand{
@@ -11,9 +12,13 @@ public class IsShowingCommand extends TurtleCommand{
 
 	@Override
 	public double execute() {
-		if(getTurtle().isVis()){
+		boolean visible = true;
+		for(Variable var: getArgs()){
+			visible = getTurtlePool().getTurtle((int)var.getValue()).isVis();
+		}
+		if(visible){
 			return 1;
-		}else{
+		} else {
 			return 0;
 		}
 	}

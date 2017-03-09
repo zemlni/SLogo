@@ -30,7 +30,7 @@ public class SetPositionCommand extends TurtleCommand {
 			newX = getArgs().get(i).getValue();
 			newY = getArgs().get(i + 1).getValue();
 			activeTurtles.stream().forEach(e -> e.setPositionAction(newX, newY));
-		}
+		}	 	
 		return activeTurtles.get(activeTurtles.size()).getDistanceTraveled();
 	}
 }
