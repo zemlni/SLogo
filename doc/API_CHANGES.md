@@ -2,7 +2,7 @@
 
 #### External APIs between front-end and back-end
 
-1. turtle commands:
+1. turtle commands:  
 Original:
 ```
 moveTurtleT(double x, double y);
@@ -22,7 +22,7 @@ Reasons for the change:
   a. We need both start position/angle to allow animation.  
   b. We need an id to allow multiple turtles.  
   
-2. text commands:
+2. text commands:  
 Original:
 ```
 showError(String errorMsg);
@@ -34,7 +34,7 @@ appendText(String text);
 ```
 The changes are made to allow more flexibility of text display, and using of resource files to display error prompt in different languages.
 
-3. apis for commands in animation:
+3. apis for commands in animation:  
 Added:
 ```
 switchToQueueMode();
