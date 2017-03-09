@@ -11,6 +11,7 @@ import frontend.turtles.ColorSelector;
 import frontend.turtles.ImageSelector;
 import frontend.turtles.LocationTransformer;
 import frontend.turtles.Point;
+import frontend.turtles.TurtleImage;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -24,7 +25,7 @@ import javafx.scene.paint.Color;
 public class TurtleScreenController {
 	private Canvas canvas;
 	private GraphicsContext gc;
-	private Map<Integer, TurtleController> turtleControls; 
+	private Map<Integer, TurtleImage> turtles; 
 	@FXML
 	private Pane turtlePane;
 	public static final int X_OFFSET = 198;
@@ -33,21 +34,20 @@ public class TurtleScreenController {
 	public static final int CANVAS_HEIGHT = 4000;
 	private FrontEndController frontEnd;
 	private LocationTransformer locTransformer;
-	private double xBounds = 2*X_OFFSET;
-	private double yBounds = 2*Y_OFFSET;
+	//private double xBounds = 2*X_OFFSET;
+	//private double yBounds = 2*Y_OFFSET;
 	
 	
 	@FXML
 	private void initialize() {
 		locTransformer = new LocationTransformer(X_OFFSET, Y_OFFSET);
-		turtleControls = new HashMap<Integer, TurtleController>();
+		turtles = new HashMap<Integer, TurtleImage>();
 		addTurtle(1);
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = canvas.getGraphicsContext2D();
 		turtlePane.getChildren().add(canvas);	
-		turtlePane.getChildren().add(turtleControls.get(1).getImage());
-		turtlePane.widthProperty().addListener(e -> {xBounds = turtlePane.getWidth();});
-		turtlePane.heightProperty().addListener(e -> {yBounds = turtlePane.getHeight();});
+		//turtlePane.widthProperty().addListener(e -> {xBounds = turtlePane.getWidth();});
+		//turtlePane.heightProperty().addListener(e -> {yBounds = turtlePane.getHeight();});
 		
 		createPreferencePanel();
 	}
@@ -57,7 +57,10 @@ public class TurtleScreenController {
 	}
 	
 	public void addTurtle(int idNumber){
-		turtleControls.put(idNumber, new TurtleController(0,0,locTransformer));
+		TurtleImage newTurtle = new TurtleImage(idNumber, locTransformer, frontEnd);
+		turtles.put(idNumber, newTurtle);
+		turtlePane.getChildren().add(newTurtle.getImage());
+		turtlePane.getChildren().add(newTurtle.getCircle());
 	}
 	
 	public void drawLine(double x0, double y0, double x1, double y1) {
@@ -94,8 +97,17 @@ public class TurtleScreenController {
 		Button imageSelect = new Button("Image Select");
 		imageSelect.setOnAction(e -> changeTurtleImage());
 		
-		pref.getChildren().addAll(penColor.getPanel(),backColor.getPanel(), imageSelect);
+		Button currentOnToggle = new Button("Show Currents");
+		currentOnToggle.setOnAction(e -> updateTurtles());
+		
+		pref.getChildren().addAll(penColor, backColor, imageSelect, currentOnToggle);
 		turtlePane.getChildren().add(pref);
+	}
+	
+	private void updateTurtles(){
+		for(TurtleImage turtle : turtles.values()){
+			turtle.updateCurrent();
+		}
 	}
 	
 	private void changeTurtleImage(){
@@ -108,23 +120,23 @@ public class TurtleScreenController {
 		if(imageFile != null){
 			//http://stackoverflow.com/questions/7830951/how-can-i-load-computer-directory-images-in-javafx
 			Image turtleImage = new Image(imageFile.toURI().toString());
-			turtleControls.get(0).setTurtleImage(turtleImage);
+			turtles.get(1).setImage(turtleImage);
 		}
 	}
 
 	public void moveTurtleTo(int id, double x, double y) {
-		turtleControls.get(id).moveTurtleTo(x, y);
+		turtles.get(id).moveTo(x, y);
 	}
 
 	public void setTurtleAngle(int id, double angle) {
-		turtleControls.get(id).setTurtleAngle(angle);
+		turtles.get(id).setAngle(angle);
 	}
 	
 	public void showTurtle(int id){
-		turtleControls.get(id).showTurtle();
+		turtles.get(id).show();
 	}
 	
 	public void hideTurtle(int id){
-		turtleControls.get(id).hideTurtle();
+		turtles.get(id).hide();
 	}
 }

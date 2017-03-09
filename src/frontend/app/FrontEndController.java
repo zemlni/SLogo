@@ -306,5 +306,9 @@ public class FrontEndController {
 	public void appendText(String text) {
 		eventReceiver().add(new AppendTextEvent(inputController(), text));
 	}
+
+	public void changeSelect(int id) {
+		//backendController.changeSelect(id)
+	}
 	
 }
