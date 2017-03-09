@@ -7,16 +7,16 @@ import java.util.Map;
 import frontend.app.FrontEndController;
 import frontend.nonfxml.view.IViewController;
 import frontend.nonfxml.view.TurtleScreenView;
-import frontend.turtles.ColorSelector;
 import frontend.turtles.ImageSelector;
-import frontend.turtles.LocationTransformer;
+import frontend.turtles.InfiniteTransformer;
 import frontend.turtles.Point;
+import frontend.turtles.PreferencesWindow;
+import frontend.turtles.Transformer;
 import frontend.turtles.TurtleImage;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -31,21 +31,21 @@ public class TurtleScreenController implements IViewController {
 	public static final int CANVAS_WIDTH = 4000;
 	public static final int CANVAS_HEIGHT = 4000;
 	private FrontEndController frontEnd;
-	private LocationTransformer locTransformer;
-	//private double xBounds = 2*X_OFFSET;
-	//private double yBounds = 2*Y_OFFSET;
+	private Transformer locTransformer;
 	
 	
+
 	public TurtleScreenController(TurtleScreenView view) {
 		turtlePane = view.getTurtlePane();
-		locTransformer = new LocationTransformer(X_OFFSET, Y_OFFSET);
+		locTransformer = new InfiniteTransformer(X_OFFSET, Y_OFFSET);
 		turtles = new HashMap<Integer, TurtleImage>();
-		addTurtle(1);
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = canvas.getGraphicsContext2D();
-		turtlePane.getChildren().add(canvas);	
-		//turtlePane.widthProperty().addListener(e -> {xBounds = turtlePane.getWidth();});
-		//turtlePane.heightProperty().addListener(e -> {yBounds = turtlePane.getHeight();});
+		turtlePane.getChildren().add(canvas);
+		addTurtle(1);
+		
+		turtlePane.widthProperty().addListener(e -> {locTransformer.setXBound(turtlePane.getWidth());});
+		turtlePane.heightProperty().addListener(e -> {locTransformer.setYBound(turtlePane.getHeight());});
 		
 		createPreferencePanel();
 	}
@@ -84,33 +84,18 @@ public class TurtleScreenController implements IViewController {
 	}
 	
 	private void createPreferencePanel(){
-		//TO DO: Need to abstract this out to the FXML
-		HBox pref = new HBox();
-		ColorSelector penColor = new ColorSelector("Pen Color");
-		penColor.getColorPicker().setOnAction(e -> setPenColor(penColor.getColorPicker().getValue()));
-		
-		ColorSelector backColor = new ColorSelector("Background");
-		backColor.getColorPicker().setOnAction(e -> setBackground(backColor.getColorPicker().getValue()));
-		
-		Button imageSelect = new Button("Image Select");
-		imageSelect.setOnAction(e -> changeTurtleImage());
-		
-		Button currentOnToggle = new Button("Show Currents");
-		currentOnToggle.setOnAction(e -> updateTurtles());
-		
-		pref.getChildren().addAll(penColor, backColor, imageSelect, currentOnToggle);
-		turtlePane.getChildren().add(pref);
+		Button preferences = new Button("Preferences");
+		preferences.setOnAction(e -> new PreferencesWindow(this));
+		turtlePane.getChildren().add(preferences);
 	}
 	
-	private void updateTurtles(){
+	public void updateTurtles(){
 		for(TurtleImage turtle : turtles.values()){
 			turtle.updateCurrent();
 		}
 	}
 	
-	private void changeTurtleImage(){
-		
-		//Iterate through Map
+	public void changeTurtleImage(){
 		
 		ImageSelector imageSelector = new ImageSelector("Turtle Image");
 		imageSelector.setInitialDirectory("images");
@@ -118,7 +103,9 @@ public class TurtleScreenController implements IViewController {
 		if(imageFile != null){
 			//http://stackoverflow.com/questions/7830951/how-can-i-load-computer-directory-images-in-javafx
 			Image turtleImage = new Image(imageFile.toURI().toString());
-			turtles.get(1).setImage(turtleImage);
+			for(TurtleImage turtle : turtles.values()){
+				turtle.setImage(turtleImage);
+			}
 		}
 	}
 
