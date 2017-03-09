@@ -14,23 +14,22 @@ public class TurtleImage {
 	private boolean currentOn = true;
 	public static final int CURRENT_CIRCLE_RADIUS = 4;
 	private FrontEndController frontEnd;
-	private LocationTransformer locTransformer;
-	
+	private Transformer locTransformer;
 	private int id;
 	
-	public TurtleImage(int idNumber, LocationTransformer locationTransformer, double startingX, double startingY, FrontEndController frontEnd){
+	public TurtleImage(int idNumber, Transformer locationTransformer, double startingX, double startingY, FrontEndController frontEnd){
 		setInitialImage();
 		turtleImage.setFitWidth(TURTLE_WIDTH);
 		turtleImage.setFitHeight(TURTLE_HEIGHT);
-		turtleImage.setOnMouseClicked(e -> switchState());
 		currentCircle = new Circle(4);
 		locTransformer = locationTransformer;
 		moveTo(startingX, startingY);
 		this.frontEnd = frontEnd;
 		id = idNumber;	
+		turtleImage.setOnMouseClicked(e -> {switchState();});
 	}
 	
-	public TurtleImage(int idNumber, LocationTransformer locationTransformer, FrontEndController frontEnd){
+	public TurtleImage(int idNumber, Transformer locationTransformer, FrontEndController frontEnd){
 		this(idNumber, locationTransformer, 0.0, 0.0, frontEnd);
 	}
 	
@@ -62,8 +61,7 @@ public class TurtleImage {
 	public void moveTo(double x, double y){
 		
 		Point location = locTransformer.translateLoc(x, y);
-		locTransformer.findTurtleLoc(location);
-		location = locTransformer.getTurtleLoc();
+		location = locTransformer.getTurtleLoc(location);
 		turtleImage.setX(location.getX() - TURTLE_WIDTH/2);
 		turtleImage.setY(location.getY() - TURTLE_HEIGHT/2);
 		currentCircle.setCenterX(location.getX());
