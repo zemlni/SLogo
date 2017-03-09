@@ -97,3 +97,109 @@ wish to extend the basic visual display of a command.
 3. Visually updates command: public void updateCommand(UserCommand command)
  
 
+## Backend External API Changes:
+```
+class BackendController{
+	boolean evaluate(String command, List<Integer> breakPoints)
+	void setLanguage(String language) 
+	boolean evaluateFromCurrentBreakPoint()
+	boolean evaluateStep()
+}
+```
+The signature of the `evaluate` method was changed. This was changed to accommodate implementing the debugger functionality.  The return type of `evaluate` was also changed in order to tell the front end whether the entered commands finished executing or were stopped at a breakpoint. The `setLanguage` method was added upon learning that internationalization was a requirement for this project. The `evaluateFromCurrentBreakPoint` method was added to enable evaluation once the program was stopped at a breakpoint. This method is called from the front end once a user wants to continue execution. The method `evaluateStep` was added to enable stepping of the program line by line. This is also called from the front end.
+```
+class Variable{
+	void update(double newValue)
+	double getValue() 
+}
+```
+Here, the signature of the `update` method was changed. While designing the project, we thought that variables could be strings and ints and doubles. However, once we started developing and learned more about the SLogo language specification, we realized that variables were only doubles. The `getValue` method was updated also because of this reason. 
+
+## Backend Internal API Changes
+```
+class BackendController{
+	TurtleModel getTurtleModel() 
+	TreeParser getParser() 
+	String getLanguage() 
+	FrontEndController getFrontEndController() 
+	void setVariable(Variable var) 
+	void setBreakPointExpression(Expression expression)
+	void setCurrentLine(int lineNumber)
+	int getCurrentLine() 
+}
+```
+The `getTurtleModel`, `getLanguage`, `getParser`, `getFrontEndController` and `setVariable` methods were added to the internal API. The first four methods were required by our commands in order to function. These are all part of the internal API and are only called from within the backend. The `setVariable` method was added to remove duplicated code, as there were many instances in which it was required to set a new variable in the `VariableTable` from inside of a command. The `setBreakPointExpression` method was added to the internal backend API in order to enable executing from a breakpoint once one has been reached.  The methods `setCurrentLine` and `getCurrentLine` were added in order to enable execution line by line. These are also only called by commands in the backend.
+
+```
+class Command extends Expression{
+	Variable evaluate() 
+	double execute()
+	int getNumArgs() 
+	void setNumArgs(int numArgs) 
+	void setArgs(List<Variable> vars) 
+	List<Variable> getArgs() 
+}
+```
+The method `execute` was changed from being abstract to concrete because the class was changed to being concrete. This was done in connection to redesigning our parser to work in a tree structure. Instances of `Command` are created when a string is identified as a command but was not matched to a language command and was not defined as a user command yet. The method `evaluate` was added because `Command` was made to inherit from `Expression`, as a part of our new `TreeParser`. The methods `getNumArgs`, `setNumArgs`, `setArgs` and `getArgs` were added in order to make all of the concrete commands work that inherit from `Command`. These were needed in order to execute the commands.
+
+```
+class Expression{
+	abstract Variable evaluate()
+	Input getInfo() 
+	void setInfo(Input info)
+	String getString()
+	void addChild(Expression expr) 
+	void setParent(Expression expr) 
+	Expression getParent() 
+	List<Expression> getChildren() 
+	BackendController getBackendController() 
+	int getNumChildren() 
+	void setNumChildren(int numChildren)
+	void addChildren(List<Expression> children) 
+}
+```
+
+This class was added in relation to the TreeParser effort. All elements of the syntax are an `Expression` in the tree. `evaluate` is the method that all elements of syntax extending `Expression` have to implement. `getInfo`, `setInfo`, `getString`, `addChild`, `setParent`, `getParent`, `getNumChildren`, `setNumChildren` and `addChildren` were added in order to facilitate the proper creation of Expressions inside of the `TreeParser` class.  `getChildren`, `getBackendController` were added in order to enable the execution of commands, which inherit from this class. Classes that extend this were created for every element of syntax: `ListStartExpression`, `GroupStartExpression`, `VariableExpression`, `Command`, `ConstantExpression` and `BreakPointExpression`.
+```
+class Input {
+	void setExpression(Expression expr) 
+	Expression getExpression() 
+	int getIndex() 
+	void incrementIndex() 
+	void decrementIndex() 
+	String[] getInput() 
+	int getLength() 
+	String get() 
+	List<Integer> getBreakPoints() 
+	void incrementCount()
+	void decrementByCount()
+	Expression getPrevious()
+}
+```
+This class was added in order to simplify the parsing. It represents the input and tracks various important parameters that get accessed throughout the parsing and creation of the tree. This greatly decreased the clutter of `TreeParser` and provided for much cleaner code.
+```
+public class TreeParser { 
+	String getCommandSymbol(String text) throws CommandException 
+	String getSyntaxSymbol(String text) throws VariableException
+	VariableTable getVariableTable() 
+	CommandTable getCommandTable() 
+	void complain(Exception e) 
+	Expression parse(String input, List<Integer> breakPoints) 
+}
+```
+This class was created to replace the original `Parser` class that was planned in the backend. It maintains the same functionality as before. The methods `getCommandSymbol` and `getSyntaxSymbol` were made public in order to let some types of `Expressions` access these for specific initialization cases, such as a list or a group. The methods `getVariableTable` and `getCommandTable` were added naturally so that the Commands could have access to what was defined in the environment in order to ensure proper execution. The signature of the method `parse` was changed to allow breakpoints. 
+```
+class Variable{ 
+	void update(double newValue) 
+	double getValue() 
+}
+```
+The `update` method's signature was changed as discussed in the external API changes above. The method `getValue` was changed for a similar reason. 
+```
+class CommandTable{
+	//removed
+	void removeCommand(String name)
+}
+```
+The method `removeCommand` was removed from the API as this was never used and not specified in the language specification.
+
