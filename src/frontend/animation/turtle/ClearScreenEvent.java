@@ -11,7 +11,7 @@ public class ClearScreenEvent extends TurtleEvent {
 	@Override
 	public double update(double dt) {
 		control.clearScreen();
-		finished = true;
+		setFinishedTrue();
 		return dt;
 	}
 

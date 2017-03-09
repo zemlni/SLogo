@@ -15,7 +15,7 @@ public class AddVariableEvent extends VariablesViewEvent {
 	@Override
 	public double update(double dt) {
 		control.addVariable(variable);
-		finished = true;
+		setFinishedTrue();
 		return dt;
 	}
 

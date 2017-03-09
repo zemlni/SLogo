@@ -2,19 +2,23 @@ package frontend.app;
 
 import java.io.IOException;
 
-import javafx.fxml.FXML;
+import frontend.nonfxml.SessionsView;
+import frontend.nonfxml.view.IViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
-public class SessionsController {
+public class SessionsController implements IViewController {
 	public static final String MAIN_PAGE_RESOURCE = "/frontend/app/app.fxml";
 	
-	@FXML
 	private TabPane tabPane;
 	private AppController appController;
+	
+	public SessionsController(SessionsView view) {
+		tabPane = view;
+	}
 	
 	public void setAppController(AppController appController) {
 		this.appController = appController;

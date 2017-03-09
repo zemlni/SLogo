@@ -2,6 +2,8 @@ package frontend.views;
 
 import frontend.app.FrontEndController;
 import frontend.history.HistoryEntry;
+import frontend.nonfxml.view.HistoryView;
+import frontend.nonfxml.view.IViewController;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 
@@ -12,12 +14,17 @@ import javafx.scene.layout.VBox;
  * the user to click on these commands to execute them.
  * @author Matthew Tribby
  */
-public class HistoryController {
+public class HistoryController implements IViewController {
 
 	@FXML
 	private VBox historyBox;
 	
 	private FrontEndController frontEnd;
+	
+	public HistoryController(HistoryView view) {
+		historyBox = view.getHistoryBox();
+	}
+	
 	public void setFrontEndController(FrontEndController frontEnd) {
 		this.frontEnd = frontEnd;
 	}

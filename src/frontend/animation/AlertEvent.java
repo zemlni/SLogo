@@ -20,7 +20,7 @@ public class AlertEvent extends AnimatedEvent {
 		alert.setTitle(Language.getWord("ErrorTitle"));
 		alert.setContentText(Language.getWord(errorMsg) + bad);
 		alert.showAndWait();
-		finished = true;
+		setFinishedTrue();
 		return dt;
 	}
 

@@ -2,7 +2,7 @@ package frontend.animation;
 
 public abstract class AnimatedEvent {
 	
-	protected boolean finished = false;
+	private boolean finished = false;
 	
 	/**
 	 * Update the view and return the remaining time
@@ -10,5 +10,6 @@ public abstract class AnimatedEvent {
 	 * @return
 	 */
 	public abstract double update(double dt);
+	protected void setFinishedTrue() { finished = true; }
 	public boolean isFinished() { return finished; }
 }

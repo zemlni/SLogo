@@ -14,7 +14,7 @@ public class HideTurtleEvent extends TurtleEvent {
 	@Override
 	public double update(double dt) {
 		control.hideTurtle(id);
-		finished = true;
+		setFinishedTrue();
 		return dt;
 	}
 

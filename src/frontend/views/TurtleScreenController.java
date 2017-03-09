@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import frontend.app.FrontEndController;
+import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.view.TurtleScreenView;
 import frontend.turtles.ImageSelector;
 import frontend.turtles.InfiniteTransformer;
 import frontend.turtles.Point;
 import frontend.turtles.PreferencesWindow;
 import frontend.turtles.Transformer;
 import frontend.turtles.TurtleImage;
-import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -20,11 +21,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 	//For this class, need to establish handling multiple turtles with IDs
-public class TurtleScreenController {
+public class TurtleScreenController implements IViewController {
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private Map<Integer, TurtleImage> turtles; 
-	@FXML
 	private Pane turtlePane;
 	public static final int INITIAL_X_OFFSET = 198;
 	public static final int INITIAL_Y_OFFSET = 143;
@@ -34,9 +34,10 @@ public class TurtleScreenController {
 	private Transformer locTransformer;
 	
 	
-	@FXML
-	private void initialize() {
-		locTransformer = new InfiniteTransformer(INITIAL_X_OFFSET, INITIAL_Y_OFFSET);
+
+	public TurtleScreenController(TurtleScreenView view) {
+		turtlePane = view.getTurtlePane();
+		locTransformer = new InfiniteTransformer(X_OFFSET, Y_OFFSET);
 		turtles = new HashMap<Integer, TurtleImage>();
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = canvas.getGraphicsContext2D();

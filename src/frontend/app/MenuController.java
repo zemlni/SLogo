@@ -3,25 +3,25 @@ package frontend.app;
 import java.io.IOException;
 
 import frontend.help.BrowserWindow;
+import frontend.nonfxml.MenuView;
+import frontend.nonfxml.view.IViewController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 
-public class MenuController {
+public class MenuController implements IViewController {
 
-	@FXML
 	private ComboBox<String> languageBox;
 	private AppController appController;
 
+	
+	public MenuController(MenuView view) {
+		languageBox = view.getLanguageBox();
+		initLanguageBox();
+	}
 
 	public void setAppController(AppController appController) {
 		this.appController = appController;
-	}
-
-	@FXML
-	private void initialize() {
-		initLanguageBox();
 	}
 
 	private void initLanguageBox() {
@@ -41,13 +41,20 @@ public class MenuController {
 	}
 	
 
-	@FXML
-	private void addNewSession() throws IOException {
-		appController.addNewSession();
+	public void addNewSession() {
+		try {
+			appController.addNewSession();
+		} catch (IOException e) { } // TODO
 	}
 
-	@FXML
-	private void openHelpPage() {
+	public void openSession() {
+		// TODO
+	}
+	public void saveSession() {
+		// TODO
+	}
+
+	public void openHelpPage() {
 		try {
 			BrowserWindow helpPage = new BrowserWindow("http://www.cs.duke.edu/courses/compsci308/spring17/assign/03_slogo/commands.php");
 			helpPage.show();

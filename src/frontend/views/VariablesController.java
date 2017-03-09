@@ -3,10 +3,10 @@ package frontend.views;
 import java.util.HashMap;
 import java.util.Map;
 
-import javafx.fxml.FXML;
-
 import backend.Variable;
 import frontend.app.FrontEndController;
+import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.view.VariablesView;
 import frontend.variables.VariableEntry;
 import javafx.scene.layout.VBox;
 
@@ -16,16 +16,15 @@ import javafx.scene.layout.VBox;
  * environment window for the user.
  * @author Matthew Tribby
  */
-public class VariablesController {
+public class VariablesController implements IViewController {
 	private Map<String, VariableEntry> variableEntries;
 	FrontEndController frontEnd;
 
-	@FXML
 	private VBox variablesBox;
 	
-	public VariablesController(){
+	public VariablesController(VariablesView view) {
+		variablesBox = view.getVariablesBox();
 		variableEntries = new HashMap<String, VariableEntry>();
-		
 	}
 	
 	public void setFrontEndController(FrontEndController frontEndController){
