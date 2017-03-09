@@ -1,24 +1,25 @@
-package backend.commands;
+package backend.turtlecommands;
 
 import backend.BackendController;
 import backend.Command;
-import backend.TurtleModel;
 import backend.parser.Input;
+import backend.turtle.TurtleModel;
+import backend.turtle.TurtlePool;
 
 public abstract class TurtleCommand extends Command {
 	/*
 	 * TurtleModel holds reference to FrontEndController. Use
 	 * TurtleModel.getFrontController call FrontEnd turtle methods
 	 */
-	private TurtleModel turtle;
+	private TurtlePool turtlePool;
 
 	public TurtleCommand(Input in, BackendController controller, int i) {
 		super(in, controller, i);
-		turtle = controller.getTurtleModel();
+		turtlePool = controller.getTurtlePool();
 	}
 
-	public TurtleModel getTurtle() {
-		return turtle;
+	public TurtlePool getTurtlePool() {
+		return turtlePool;
 	}
 	
 }

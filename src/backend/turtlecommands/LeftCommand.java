@@ -1,13 +1,13 @@
-package backend.commands;
+package backend.turtlecommands;
 
 import backend.BackendController;
-import backend.TurtleModel;
 import backend.Variable;
 import backend.parser.Input;
+import backend.turtle.TurtleModel;
 import frontend.app.FrontEndController;
 
-public class RightCommand extends TurtleCommand {
-	public RightCommand(Input in, BackendController controller) {
+public class LeftCommand extends TurtleCommand {
+	public LeftCommand(Input in, BackendController controller) {
 		super(in, controller, 1);
 	}
 
@@ -24,7 +24,6 @@ public class RightCommand extends TurtleCommand {
 	public void rotateTurtle(double degrees) {
 		TurtleModel turtle = getTurtle();
 		double oldDir = turtle.getDirection();
-
 		double newDir = calculateNewDir(oldDir, degrees);
 
 		rotateTurtleModel(newDir, turtle);
@@ -41,6 +40,6 @@ public class RightCommand extends TurtleCommand {
 	};
 
 	public double calculateNewDir(double oldD, double deltaD) {
-		return oldD + deltaD;
+		return oldD - deltaD;
 	}
 }

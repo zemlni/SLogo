@@ -5,13 +5,14 @@ import java.util.List;
 
 import backend.parser.Expression;
 import backend.parser.TreeParser;
+import backend.turtle.TurtlePool;
 import frontend.app.FrontEndController;
 
 public class BackendController implements BackendControllerInterface {
 
 	private TreeParser parser;
 	private String language;
-	private TurtleModel turtle;
+	private TurtlePool turtlePool;
 	private FrontEndController fcontroller;
 
 	/**
@@ -20,11 +21,11 @@ public class BackendController implements BackendControllerInterface {
 	public BackendController(FrontEndController frontEndController) {
 		this.fcontroller = frontEndController;
 		setLanguage("English");
-		turtle = new TurtleModel(frontEndController);
+		turtlePool = new TurtlePool(frontEndController);
 	}
 
-	public TurtleModel getTurtleModel() {
-		return turtle;
+	public TurtlePool getTurtlePool() {
+		return turtlePool;
 	}
 
 	@Override

@@ -1,8 +1,8 @@
-package backend.commands;
+package backend.turtlecommands;
 
 import backend.BackendController;
-import backend.TurtleModel;
 import backend.parser.Input;
+import backend.turtle.TurtleModel;
 
 public class PenUpCommand extends TurtleCommand{
 
