@@ -72,10 +72,13 @@ public class FrontEndView extends SplitPane implements IControllableView {
 		rightPane.setMinWidth(0.0);
 		
 		TitledPane variablesPane = new TitledPane();
+		variablesPane.textProperty().bind(Language.createStringBinding("Variables"));
 		variablesPane.setContent(variablesView);
 		TitledPane commandsPane = new TitledPane();
+		commandsPane.textProperty().bind(Language.createStringBinding("Commands"));
 		commandsPane.setContent(commandsView);
 		TitledPane historyPane = new TitledPane();
+		historyPane.textProperty().bind(Language.createStringBinding("History"));
 		historyPane.setContent(historyView);
 		
 		rightPane.getChildren().addAll(variablesPane,
@@ -103,6 +106,9 @@ public class FrontEndView extends SplitPane implements IControllableView {
 	}
 	public HistoryController getHistoryController() {
 		return historyView.getController();
+	}
+	public TabPane getInputTabPane() {
+		return inputTabPane;
 	}
 
 	@Override

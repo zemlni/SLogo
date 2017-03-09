@@ -22,7 +22,7 @@ public class ShellController implements InputController, IViewController {
 	
 	public ShellController(ShellView view) {
 		shellBox = view.getShellBox();
-		shell = new Shell(frontEnd);
+		shell = new Shell();
 		shellBox.setContent(shell);
 	}
 	

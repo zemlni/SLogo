@@ -24,6 +24,7 @@ import frontend.animation.turtle.RotateTurtleEvent;
 import frontend.animation.turtle.ShowTurtleEvent;
 import frontend.nonfxml.FrontEndView;
 import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.view.InputView;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
@@ -75,6 +76,7 @@ public class FrontEndController implements IViewController {
 		variablesController = view.getVariablesController();
 		commandsController = view.getCommandsController();
 		historyController = view.getHistoryController();
+		inputTabPane = view.getInputTabPane();
 		
 		// TODO set the sub controllers
 		turtleScreenController.setFrontEndController(this);
@@ -273,13 +275,8 @@ public class FrontEndController implements IViewController {
 	
 	// user input view: shell view and script view
 	private InputController inputController() {
-		// TODO: there is a piece of code depending on the relative
-		// order of the shell tab and script tab.
-		if (inputTabPane.getSelectionModel().getSelectedIndex() == 1) {
-			return shellController;
-		} else {
-			return scriptController;
-		}
+		return ((InputView) inputTabPane.getSelectionModel()
+				.getSelectedItem().getContent()).getController();
 	}
 	/**
 	 * Might be called in input controllers to show error in alert window.

@@ -7,7 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import language.Language;
 
-public class ScriptView extends AnchorPane implements IControllableView {
+public class ScriptView extends AnchorPane implements InputView {
 
 	private TextArea scriptArea;
 	private ScriptController controller;
