@@ -1,7 +1,6 @@
 package backend.commands;
 
 import backend.BackendController;
-import backend.TurtleModel;
 import backend.parser.Input;
 
 public class HideTurtleCommand extends TurtleCommand{

@@ -124,13 +124,17 @@ public class TreeParser implements ParserInterface {
 		}
 		controller.getFrontEndController().showError(error, message);
 	}
-
+	
+	private Object getInstance(String path, Input name) throws Exception {
+		Class<?> clazz = Class.forName(path);
+		Constructor<?> ctor = clazz.getDeclaredConstructor(name.getClass(), controller.getClass());
+		return ctor.newInstance(name, controller);
+	}
+	
 	private Command makeCommand(Input name) throws CommandException {
 		Command cur = null;
 		try {
-			Class<?> clazz = Class.forName("backend.commands." + getCommandSymbol(name.get()) + "Command");
-			Constructor<?> ctor = clazz.getDeclaredConstructor(name.getClass(), controller.getClass());
-			cur = (Command) ctor.newInstance(name, controller);
+			cur = (Command) getInstance("backend.commands." + getCommandSymbol(name.get()) + "Command", name);
 		} catch (Exception e) {
 			try {
 				Command temp = commandTable.getCommand(name.get());
@@ -150,9 +154,7 @@ public class TreeParser implements ParserInterface {
 			if (getSyntaxSymbol(name.get()).equals("Command")) {
 				expr = makeCommand(name);
 			} else {
-				Class<?> clazz = Class.forName("backend.parser." + getSyntaxSymbol(name.get()) + "Expression");
-				Constructor<?> ctor = clazz.getDeclaredConstructor(name.getClass(), controller.getClass());
-				expr = (Expression) ctor.newInstance(name, controller);
+				expr = (Expression) getInstance("backend.parser." + getSyntaxSymbol(name.get()) + "Expression", name);
 			}
 		} catch (Exception e) {
 			throw new VariableException(name.get());

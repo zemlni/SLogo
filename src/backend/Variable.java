@@ -10,12 +10,6 @@ package backend;
 public class Variable implements VariableInterface {
 	private double value;
 	private String key;
-	private String info;
-
-	public Variable(String info) {
-		this(null, 0);
-		this.info = info;
-	}
 
 	public Variable(String name, double value) {
 		if (name != null) {
@@ -29,10 +23,6 @@ public class Variable implements VariableInterface {
 		return key;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
-	}
-
 	@Override
 	public void update(double newValue) {
 		value = newValue;
@@ -41,9 +31,5 @@ public class Variable implements VariableInterface {
 	@Override
 	public double getValue() {
 		return value;
-	}
-
-	public String getInfo() {
-		return info;
 	}
 }

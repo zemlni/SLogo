@@ -50,16 +50,4 @@ public class CommandTable implements CommandTableInterface {
 		if (newCommand instanceof UserCommand)
 			frontEndController.addCommand(newCommand);
 	}
-
-	/**
-	 * remove the command with the name key from the table
-	 * 
-	 * @param key
-	 *            the name of the command to be removed
-	 */
-	@Override
-	public void removeCommand(String key) {
-		commands.remove(key.toUpperCase());
-
-	}
 }

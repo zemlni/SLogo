@@ -1,7 +1,5 @@
 package backend;
 
-import backend.commands.UserCommand;
-
 /**
  * This is the interface that the command table will have to follow. This is
  * also accessed by commands in the back end and will update the command window
@@ -27,13 +25,5 @@ public interface CommandTableInterface {
 	 *            the new command to be added or to be reset
 	 */
 	public void setCommand(Command command);
-
-	/**
-	 * remove a command with requested name from the command table
-	 * 
-	 * @param key
-	 *            the name of the command to be removed
-	 */
-	public void removeCommand(String key);
 
 }
