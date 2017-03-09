@@ -15,6 +15,7 @@ Changed:
 ```
 moveTurtle(int id, double x0, double y0, double x1, double y1, boolean penDown);
 rotateTurtle(int id, double startAngle, double endAngle);
+addTurtle(int id);
 showTurtle(int id);
 hideTurtle(int id);
 ```
