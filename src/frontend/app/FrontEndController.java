@@ -17,6 +17,7 @@ import frontend.animation.RemoveVariableEvent;
 import frontend.animation.ShowErrorEvent;
 import frontend.animation.ShowTextEvent;
 import frontend.animation.SynchronizedEventGroup;
+import frontend.animation.turtle.AddTurtleEvent;
 import frontend.animation.turtle.ClearScreenEvent;
 import frontend.animation.turtle.HideTurtleEvent;
 import frontend.animation.turtle.MoveTurtleEvent;
@@ -251,6 +252,9 @@ public class FrontEndController implements IViewController {
 	 */
 	public void rotateTurtle(int id, double startAngle, double endAngle) {
 		eventReceiver().add(new RotateTurtleEvent(turtleScreenController, id, startAngle, endAngle));
+	}
+	public void addTurtle(int id) {
+		eventReceiver().add(new AddTurtleEvent(turtleScreenController, id));
 	}
 	/**
 	 * Show turtle(id).
