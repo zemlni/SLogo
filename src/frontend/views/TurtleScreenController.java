@@ -26,8 +26,8 @@ public class TurtleScreenController {
 	private Map<Integer, TurtleImage> turtles; 
 	@FXML
 	private Pane turtlePane;
-	public static final int X_OFFSET = 198;
-	public static final int Y_OFFSET = 143;
+	public static final int INITIAL_X_OFFSET = 198;
+	public static final int INITIAL_Y_OFFSET = 143;
 	public static final int CANVAS_WIDTH = 4000;
 	public static final int CANVAS_HEIGHT = 4000;
 	private FrontEndController frontEnd;
@@ -36,7 +36,7 @@ public class TurtleScreenController {
 	
 	@FXML
 	private void initialize() {
-		locTransformer = new InfiniteTransformer(X_OFFSET, Y_OFFSET);
+		locTransformer = new InfiniteTransformer(INITIAL_X_OFFSET, INITIAL_Y_OFFSET);
 		turtles = new HashMap<Integer, TurtleImage>();
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = canvas.getGraphicsContext2D();
