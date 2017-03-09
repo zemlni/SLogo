@@ -14,8 +14,11 @@ public class HideTurtleCommand extends TurtleCommand{
 
 	@Override
 	public double execute() {
-		List<TurtleModel> turtleList = getTurtlePool().getActiveTurtles();
-		turtleList.forEach(e -> e.hideAction());
+		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+		for(TurtleModel t :turtles){
+			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+			t.hideAction();
+		}
 		return 0;
 	}
 

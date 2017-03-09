@@ -20,17 +20,18 @@ public class SetPositionCommand extends TurtleCommand {
 	@Override
 	public double execute() {
 		List<Variable> args = getArgs();
-		List<TurtleModel> activeTurtles = getTurtlePool().getActiveTurtles();
+		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
 
-		double oldX = 0;
-		double oldY = 0;
 		double newX = 0;
 		double newY = 0;
 		for (int i = 0; i < args.size(); i += 2) {
 			newX = getArgs().get(i).getValue();
 			newY = getArgs().get(i + 1).getValue();
-			activeTurtles.stream().forEach(e -> e.setPositionAction(newX, newY));
+			for(TurtleModel t :turtles){
+				getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+				t.setPositionAction(newX, newY);
+			}
 		}	 	
-		return activeTurtles.get(activeTurtles.size()).getDistanceTraveled();
+		return turtles.get(turtles.size()).getDistanceTraveled();
 	}
 }

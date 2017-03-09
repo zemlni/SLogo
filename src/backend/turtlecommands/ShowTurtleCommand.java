@@ -13,8 +13,11 @@ public class ShowTurtleCommand extends TurtleCommand{
 
 	@Override
 	public double execute() {
-		List<TurtleModel> turtleList = getTurtlePool().getActiveTurtles();
-		turtleList.forEach(e -> e.showAction());
+		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+		for(TurtleModel t :turtles){
+			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+			t.showAction();
+		}
 		return 1;
 	}
 

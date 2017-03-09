@@ -17,8 +17,11 @@ public class LeftCommand extends TurtleCommand {
 		double deltaDir = 0;
 		for (Variable var : getArgs()) {
 			deltaDir = var.getValue();
-			List<TurtleModel> activeTurtles = getTurtlePool().getActiveTurtles();
-			activeTurtles.stream().forEach(e -> e.leftAction(var.getValue()));
+			List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+			for(TurtleModel t :turtles){
+				getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+				t.leftAction(deltaDir);
+			}
 		}
 		return deltaDir;
 	}

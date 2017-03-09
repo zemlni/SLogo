@@ -29,6 +29,10 @@ public class TurtleModel {
 		penDown = true;
 		visible = true;
 	}
+	
+	public int getTurtleIDNumber(){
+		return turtleIDNumber;
+	}
 	/*
 	 * moves turtle backwards
 	 */

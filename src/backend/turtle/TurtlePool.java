@@ -9,9 +9,10 @@ import frontend.app.FrontEndController;
 
 
 public class TurtlePool {
+	private int currentActiveTurtle;
 	private Map<Integer, TurtleModel> turtleMap;
 	private List<Integer> commandableTurtleList;
-	private List<Integer> storedActiveTurtleList;
+	private List<Integer> storedCommandableTurtleList;
 	private FrontEndController fcontrol;
 	private int totalTurtles;
 	
@@ -20,6 +21,15 @@ public class TurtlePool {
 		turtleMap = new HashMap<Integer, TurtleModel>();
 		totalTurtles = 0;
 		fcontrol = c;
+		currentActiveTurtle = 0;
+	}
+	
+	public void setCurrentActiveTurtle(int active){
+		currentActiveTurtle = active;
+	}
+	
+	public int getCurrentActiveTurtleID(){
+		return currentActiveTurtle;
 	}
 	
 	public TurtleModel getTurtle(int id){
@@ -74,18 +84,11 @@ public class TurtlePool {
 	}
 	
 	private void storeCurrentlyActive(){
-		storedActiveTurtleList = commandableTurtleList;
+		storedCommandableTurtleList = commandableTurtleList;
 	}
 	
 	public void restoreTurtleListToActive(){
-		commandableTurtleList = storedActiveTurtleList;
+		commandableTurtleList = storedCommandableTurtleList;
 	}
 	
-//	public List<TurtleModel> getSpecifiedTurtles(List<Integer> turtleIDList){
-//		List<TurtleModel> turtleList = new ArrayList<TurtleModel>();
-//		for(int specifiedID : turtleIDList){
-//			turtleList.add(retrieveTurtleFromMap(specifiedID));
-//		}
-//		return turtleList;
-//	}
 }

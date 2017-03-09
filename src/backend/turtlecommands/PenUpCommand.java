@@ -14,8 +14,11 @@ public class PenUpCommand extends TurtleCommand{
 
 	@Override
 	public double execute() {
-		List<TurtleModel> turtleList = getTurtlePool().getActiveTurtles();
-		turtleList.stream().forEach(e -> e.penUpAction());
+		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+		for(TurtleModel t :turtles){
+			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+			t.penUpAction();
+		}
 		return 0;
 	}
 }

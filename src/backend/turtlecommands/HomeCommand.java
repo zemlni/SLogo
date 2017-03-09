@@ -14,9 +14,12 @@ public class HomeCommand extends TurtleCommand{
 
 	@Override
 	public double execute() {
-		List<TurtleModel> turtleList = getTurtlePool().getActiveTurtles();
-		turtleList.forEach(e -> e.homeAction());
-		return turtleList.get(turtleList.size() - 1).getDistanceTraveled();
+		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+		for(TurtleModel t :turtles){
+			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+			t.homeAction();
+		}
+		return turtles.get(turtles.size() - 1).getDistanceTraveled();
 	}
 	
 }

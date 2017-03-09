@@ -18,8 +18,11 @@ public class ForwardCommand extends TurtleCommand {
 		double forwardAmount = 0;
 		for(Variable var: getArgs()){
 			forwardAmount = var.getValue();
-			List<TurtleModel> activeTurtles = getTurtlePool().getActiveTurtles();
-			activeTurtles.stream().forEach(e -> e.moveForwardsAction(var.getValue()));
+			List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+			for(TurtleModel t :turtles){
+				getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+				t.moveForwardsAction(forwardAmount);
+			}
 		}
 		return forwardAmount;
 	}

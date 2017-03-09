@@ -14,8 +14,11 @@ public class PenDownCommand extends TurtleCommand{
 
 	@Override
 	public double execute() {
-		List<TurtleModel> turtleList = getTurtlePool().getActiveTurtles();
-		turtleList.stream().forEach(e -> e.penDownAction());
+		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+		for(TurtleModel t :turtles){
+			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+			t.penDownAction();
+		}
 		return 1;
 	}
 
