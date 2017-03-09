@@ -33,8 +33,6 @@ public class TurtleScreenController implements IViewController {
 	private FrontEndController frontEnd;
 	private Transformer locTransformer;
 	
-	
-
 	public TurtleScreenController(TurtleScreenView view) {
 		turtlePane = view.getTurtlePane();
 		locTransformer = new InfiniteTransformer(X_OFFSET, Y_OFFSET);
