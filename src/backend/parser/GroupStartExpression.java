@@ -44,10 +44,16 @@ public class GroupStartExpression extends Expression {
 
 	/**
 	 * Evaluate the child of this expression with unlimited parameters.
+	 * 
+	 * @return the variable containing the value that resulted from the
+	 *         evaluation
 	 */
 	@Override
 	public Variable evaluate() {
-		return getChildren().get(0).evaluate();
+		if (checkLines()) {
+			return getChildren().get(0).evaluate();
+		}
+		return null;
 	}
 
 }

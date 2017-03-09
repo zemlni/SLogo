@@ -15,6 +15,7 @@ public abstract class Expression {
 	private BackendController controller;
 	private Input info;
 	private String value = "";
+	private int lineNumber;
 
 	public Expression(Input info, BackendController controller, int numChildren) {
 		this(info, controller);
@@ -29,6 +30,20 @@ public abstract class Expression {
 	}
 
 	/**
+	 * Check if current execution mode is line by line. If so, return true if
+	 * this expression is still on the line of execution. Else return false. If
+	 * mode is not line by line, return true
+	 * 
+	 * @return true if this expression should be evaluated. else false
+	 */
+	public boolean checkLines() {
+		boolean sameLine = lineNumber == controller.getCurrentLine();
+		if (!sameLine)
+			getBackendController().setCurrentLine(lineNumber);
+		return sameLine || !controller.getByLine();
+	}
+
+	/**
 	 * Evaluate this expression and return a variable containing the result
 	 * 
 	 * @return the variable containing the result of the evaluation
@@ -40,7 +55,7 @@ public abstract class Expression {
 	}
 
 	public void setInfo(Input info) {
-		this.info = new Input(info.getInput(), info.getIndex(), info.getBreakPoints());
+		this.info = new Input(info.getInput(), info.getIndex(), info.getBreakPoints(), info.getLineNumbers());
 		this.value = info.get();
 	}
 
@@ -84,5 +99,9 @@ public abstract class Expression {
 
 	public void addChildren(List<Expression> children) {
 		this.children.addAll(children);
+	}
+
+	public void setLineNumber(int lineNumber) {
+		this.lineNumber = lineNumber;
 	}
 }

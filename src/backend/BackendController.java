@@ -19,6 +19,8 @@ public class BackendController implements BackendControllerInterface {
 	private TurtleModel turtle;
 	private FrontEndController fcontroller;
 	private Expression breakPointExpression;
+	private boolean byLine;
+	private int currentLine;
 
 	public BackendController(FrontEndController frontEndController) {
 		this.fcontroller = frontEndController;
@@ -44,6 +46,7 @@ public class BackendController implements BackendControllerInterface {
 	 */
 	@Override
 	public boolean evaluate(String command, List<Integer> breakPoints) {
+		byLine = false;
 		Expression root = parser.parse(command, breakPoints);
 		return evaluateFromExpression(root);
 	}
@@ -98,11 +101,30 @@ public class BackendController implements BackendControllerInterface {
 			fcontroller.showText(String.valueOf(ret));
 			return true;
 		} catch (Exception e) {
+			//TODO: notify frontend of new current line.
 			return false;
 		}
 	}
-	
-	public boolean evaluateStep(){
-		return false;
+
+	public boolean getByLine() {
+		return byLine;
+	}
+
+	public int getCurrentLine() {
+		return currentLine;
+	}
+
+	/**
+	 * step the program and notify front end of current line
+	 * 
+	 * @return whether the program has completed execution or not
+	 */
+	public boolean evaluateStep() {
+		byLine = true;
+		return evaluateFromCurrentBreakPoint();
+	}
+
+	public void setCurrentLine(int lineNumber) {
+		this.currentLine = lineNumber;
 	}
 }

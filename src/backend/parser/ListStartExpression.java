@@ -51,11 +51,14 @@ public class ListStartExpression extends Expression {
 	 */
 	@Override
 	public Variable evaluate() {
-		List<Expression> children = getChildren();
-		Variable ret = new Variable(null, 0);
-		for (Expression child : children) {
-			ret = child.evaluate();
-		}
-		return ret;
+		if (checkLines()) {
+			List<Expression> children = getChildren();
+			Variable ret = new Variable(null, 0);
+			for (Expression child : children) {
+				ret = child.evaluate();
+			}
+			return ret;
+		} else
+			return null;
 	}
 }
