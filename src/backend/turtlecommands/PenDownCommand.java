@@ -1,5 +1,7 @@
 package backend.turtlecommands;
 
+import java.util.List;
+
 import backend.BackendController;
 import backend.parser.Input;
 import backend.turtle.TurtleModel;
@@ -12,9 +14,8 @@ public class PenDownCommand extends TurtleCommand{
 
 	@Override
 	public double execute() {
-		TurtleModel turtle = getTurtle();
-		turtle.placePen();
-		
+		List<TurtleModel> turtleList = getTurtlePool().getActiveTurtles();
+		turtleList.stream().forEach(e -> e.penDownAction());
 		return 1;
 	}
 

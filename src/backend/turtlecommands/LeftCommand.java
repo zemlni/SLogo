@@ -1,10 +1,11 @@
 package backend.turtlecommands;
 
+import java.util.List;
+
 import backend.BackendController;
 import backend.Variable;
 import backend.parser.Input;
 import backend.turtle.TurtleModel;
-import frontend.app.FrontEndController;
 
 public class LeftCommand extends TurtleCommand {
 	public LeftCommand(Input in, BackendController controller) {
@@ -16,30 +17,10 @@ public class LeftCommand extends TurtleCommand {
 		double deltaDir = 0;
 		for (Variable var : getArgs()) {
 			deltaDir = var.getValue();
-			rotateTurtle(deltaDir);
+			List<TurtleModel> activeTurtles = getTurtlePool().getActiveTurtles();
+			activeTurtles.stream().forEach(e -> e.leftAction(var.getValue()));
 		}
 		return deltaDir;
 	}
 
-	public void rotateTurtle(double degrees) {
-		TurtleModel turtle = getTurtle();
-		double oldDir = turtle.getDirection();
-		double newDir = calculateNewDir(oldDir, degrees);
-
-		rotateTurtleModel(newDir, turtle);
-		rotateTurtleView(newDir, turtle);
-	}
-
-	public void rotateTurtleModel(double newDir, TurtleModel turtle) {
-		turtle.setDir(newDir);
-	};
-
-	public void rotateTurtleView(double newDir, TurtleModel turtle) {
-		FrontEndController fcontroller = turtle.getFrontController();
-		fcontroller.setTurtleAngle(newDir);
-	};
-
-	public double calculateNewDir(double oldD, double deltaD) {
-		return oldD - deltaD;
-	}
 }

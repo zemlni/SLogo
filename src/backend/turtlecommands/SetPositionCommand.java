@@ -21,9 +21,6 @@ public class SetPositionCommand extends TurtleCommand {
 		List<Variable> args = getArgs();
 		double oldX = 0, oldY = 0, newX = 0, newY = 0;
 		for (int i = 0; i < args.size(); i += 2) {
-			oldX = getTurtle().getXCoor();
-			oldY = getTurtle().getYCoor();
-
 			newX = getArgs().get(i).getValue();
 			newY = getArgs().get(i + 1).getValue();
 

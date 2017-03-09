@@ -8,7 +8,7 @@ public class XCoordinateCommand extends TurtleCommand{
 	 * TurtleCommand has a private TurtleModel Reference. Use getTurtle to get the model.
 	 */
 	public XCoordinateCommand(Input in, BackendController controller) {
-		super(in, controller, 0);
+		super(in, controller, 1);
 	}
 
 	/*

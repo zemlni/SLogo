@@ -14,6 +14,7 @@ public class TurtleModel {
 	private TurtleComputationsUnit tcu;
 	private int turtleIDNumber;
 	private double distanceTraveledToGetHome;
+	private double angleTurned;
 	
 	public TurtleModel(int id, FrontEndController controller){
 		tcu = new TurtleComputationsUnit();
@@ -61,19 +62,19 @@ public class TurtleModel {
 	public void clearScreenAction(){
 		double oldX = this.xCoor;
 		double oldY = this.yCoor;
-		returnHomeModelAndCalculateDistance();
+		returnHomeModelAndCalculateDistance(oldX, oldY);
 		frontController.clearScreen();
 	}
 	
-	private void returnHomeModelAndCalculateDistance(){
-		storeDistanceFromHome(tcu.calcDistanceFromHome(this.xCoor, this.yCoor));
+	private void returnHomeModelAndCalculateDistance(double oldX, double oldY){
+		storeDistanceFromHome(tcu.calcDistanceFromHome(oldX, oldY));
 		updateTurtleModelPosition(0, 0);
 	}
 	
 	public void homeAction(){
 		double oldX = this.xCoor;
 		double oldY = this.yCoor;
-		returnHomeModelAndCalculateDistance();
+		returnHomeModelAndCalculateDistance(oldX, oldY);
 		updateTurtleViewPosition(oldX, oldY, this.xCoor, this.yCoor);
 	}
 	
@@ -89,6 +90,62 @@ public class TurtleModel {
 	public void showAction(){
 		this.visible = true;
 		frontController.showTurtle(this.turtleIDNumber);
+	}
+	
+	public void penDownAction(){
+		this.penDown = true;
+	}
+	
+	public void penUpAction(){
+		this.penDown = false;
+	}
+	
+	public void leftAction(double deltaD){
+		double oldDir = this.direction;
+		double newDir = tcu.leftRotatedDirection(oldDir, deltaD);
+		this.angleTurned = Math.abs(deltaD);
+		updateTurtleModelDirection(newDir);
+		updateTurtleViewDirection(oldDir, newDir);
+	}
+	
+	public void rightAction(double deltaD){
+		double oldDir = this.direction;
+		double newDir = tcu.rightRotatedDirection(oldDir, deltaD);
+		this.angleTurned = Math.abs(deltaD);
+		updateTurtleModelDirection(newDir);
+		updateTurtleViewDirection(oldDir, newDir);
+	}
+	
+	public void setHeadingAction(double heading){
+		double oldDir = this.direction;
+		double newDir = heading;
+		this.angleTurned = Math.abs(newDir - oldDir);
+		updateTurtleModelDirection(newDir);
+		updateTurtleViewDirection(oldDir, newDir);
+	}
+	
+	public void setPositionAction(double xPos, double yPos){
+		
+	}
+	
+	public void setTowardsAction(double xTow, double yTow){
+		double oldDir = this.direction;
+		double newDir = tcu.calcTowardsTurn(this.xCoor, this.yCoor, xTow, yTow, this.direction);
+		this.angleTurned = Math.abs(newDir - oldDir);
+		updateTurtleModelDirection(newDir);
+		updateTurtleViewDirection(oldDir, newDir);
+	}
+	
+	public double getAngleTurned(){
+		return this.angleTurned;
+	}
+	
+	private void updateTurtleModelDirection(double angle){
+		this.direction = angle;
+	}
+	
+	private void updateTurtleViewDirection(double oldAng, double newAng){
+		frontController.rotateTurtle(this.turtleIDNumber, oldAng, newAng);
 	}
 
 	

@@ -1,8 +1,11 @@
 package backend.turtlecommands;
 
+import java.util.List;
+
 import backend.BackendController;
 import backend.Variable;
 import backend.parser.Input;
+import backend.turtle.TurtleModel;
 
 public class SetHeadingCommand extends TurtleCommand {
 
@@ -15,26 +18,10 @@ public class SetHeadingCommand extends TurtleCommand {
 	 */
 	@Override
 	public double execute() {
-		double deltaDir = 0;
+		List<TurtleModel> activeTurtles = getTurtlePool().getActiveTurtles();
 		for (Variable var : getArgs()) {
-			deltaDir = var.getValue();
-			rotateTurtle(deltaDir);
+			activeTurtles.stream().forEach(e -> e.setHeadingAction(var.getValue()));
 		}
-		return deltaDir - getTurtle().getDirection();
+		return activeTurtles.get(activeTurtles.size() - 1).getAngleTurned();
 	}
-
-	private void rotateTurtle(double direction) {
-		rotateTurtleModel(direction);
-		rotateTurtleView(direction);
-	}
-
-	private void rotateTurtleView(double direction) {
-		getTurtle().setDir(direction);
-
-	}
-
-	private void rotateTurtleModel(double direction) {
-		getTurtle().getFrontController().setTurtleAngle(direction);
-	}
-
 }
