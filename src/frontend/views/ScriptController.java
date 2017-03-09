@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import frontend.app.FrontEndController;
-import javafx.fxml.FXML;
+import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.view.ScriptView;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import utils.MyFileIO;
@@ -15,14 +16,17 @@ import utils.MyFileIO;
  * can write scripts of SLogo commands that can be executed.
  * @author Matthew Tribby
  */
-public class ScriptController implements InputController {
+public class ScriptController implements InputController, IViewController {
 	enum FileOp {
 		OPEN, SAVE
 	}
 	
-	@FXML
 	private TextArea scriptArea;
 	private FrontEndController frontEnd;
+	
+	public ScriptController(ScriptView view){
+		scriptArea = view.getScriptArea();
+	}
 	
 	public void setFrontEndController(FrontEndController frontEnd) {
 		this.frontEnd = frontEnd;
@@ -31,13 +35,11 @@ public class ScriptController implements InputController {
 	private void setText(String text) { scriptArea.setText(text); }
 	
 	
-	@FXML
-	private void run() {
+	public void run() {
 		frontEnd.evaluate(getText());
 	}
 	
-	@FXML
-	private void clearArea() {
+	public void clearArea() {
 		setText("");
 	}
 	
@@ -52,8 +54,8 @@ public class ScriptController implements InputController {
 			return fileChooser.showSaveDialog(null);
 		}
 	}
-	@FXML
-	private void openFile() throws Exception {
+
+	public void openFile() {
 		File file = chooseFile(FileOp.OPEN);
 		if (file != null) {
 			try {
@@ -64,8 +66,8 @@ public class ScriptController implements InputController {
 			}
 		}
 	}
-	@FXML
-	private void saveFile() {
+
+	public void saveFile() {
 		File file = chooseFile(FileOp.SAVE);
         if (file != null) {
             try {

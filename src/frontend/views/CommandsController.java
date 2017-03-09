@@ -7,6 +7,8 @@ import backend.Command;
 import backend.commands.UserCommand;
 import frontend.app.FrontEndController;
 import frontend.commands.CommandEntry;
+import frontend.nonfxml.view.CommandsView;
+import frontend.nonfxml.view.IViewController;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 
@@ -17,12 +19,16 @@ import javafx.scene.layout.VBox;
  * by the user.
  * @author Matthew Tribby
  */
-public class CommandsController {
+public class CommandsController implements IViewController {
 
-	@FXML
+	
 	private VBox commandsBox;
 	private Map<String, CommandEntry> commands;
 	private FrontEndController frontEnd;
+	
+	public CommandsController(CommandsView view) {
+		commandsBox = view.getCommandsBox();
+	}
 	
 	public CommandsController(){
 		commands = new HashMap<String, CommandEntry>();

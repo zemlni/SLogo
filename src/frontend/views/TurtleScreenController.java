@@ -1,18 +1,17 @@
 package frontend.views;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import frontend.app.FrontEndController;
+import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.view.TurtleScreenView;
 import frontend.turtles.ColorSelector;
 import frontend.turtles.ImageSelector;
 import frontend.turtles.LocationTransformer;
 import frontend.turtles.Point;
 import frontend.turtles.TurtleImage;
-import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -22,11 +21,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 	//For this class, need to establish handling multiple turtles with IDs
-public class TurtleScreenController {
+public class TurtleScreenController implements IViewController {
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private Map<Integer, TurtleImage> turtles; 
-	@FXML
 	private Pane turtlePane;
 	public static final int X_OFFSET = 198;
 	public static final int Y_OFFSET = 143;
@@ -38,8 +36,8 @@ public class TurtleScreenController {
 	//private double yBounds = 2*Y_OFFSET;
 	
 	
-	@FXML
-	private void initialize() {
+	public TurtleScreenController(TurtleScreenView view) {
+		turtlePane = view.getTurtlePane();
 		locTransformer = new LocationTransformer(X_OFFSET, Y_OFFSET);
 		turtles = new HashMap<Integer, TurtleImage>();
 		addTurtle(1);

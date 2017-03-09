@@ -22,6 +22,8 @@ import frontend.animation.turtle.HideTurtleEvent;
 import frontend.animation.turtle.MoveTurtleEvent;
 import frontend.animation.turtle.RotateTurtleEvent;
 import frontend.animation.turtle.ShowTurtleEvent;
+import frontend.nonfxml.FrontEndView;
+import frontend.nonfxml.view.IViewController;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
@@ -30,7 +32,6 @@ import frontend.views.ShellController;
 import frontend.views.TurtleScreenController;
 import frontend.views.VariablesController;
 import javafx.animation.AnimationTimer;
-import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;
 import language.Language;
 
@@ -40,28 +41,21 @@ import language.Language;
  *  objects that make up the front-end of the SLogo program.
  * @author Matthew Tribby, Keping Wang
  */
-public class FrontEndController {
+public class FrontEndController implements IViewController {
 	public enum EventMode {
 		QUEUE, GROUP, INSTANT
 	}
 	
 	private static String sessionLanguage;
 	
-	@FXML
 	private TurtleScreenController turtleScreenController;
-	@FXML
 	private ShellController shellController;
-	@FXML
 	private ScriptController scriptController;
-	@FXML
 	private VariablesController variablesController;
-	@FXML
 	private CommandsController commandsController;
-	@FXML
 	private HistoryController historyController;
 	private BackendController backendController;
 	
-	@FXML
 	private TabPane inputTabPane;
 	
 	// animation
@@ -71,6 +65,29 @@ public class FrontEndController {
 	private LinkedList<AnimatedEvent> instantEventQueue; // gets executed before eventQueue
 	private List<AnimatedEvent> eventGroupBuffer;
 	private EventMode eventMode;
+	
+	public FrontEndController(FrontEndView view) {
+		sessionLanguage = Language.getLanguage();
+		
+		turtleScreenController = view.getTurtleScreenController();
+		shellController = view.getShellController();
+		scriptController = view.getScriptController();
+		variablesController = view.getVariablesController();
+		commandsController = view.getCommandsController();
+		historyController = view.getHistoryController();
+		
+		// TODO set the sub controllers
+		turtleScreenController.setFrontEndController(this);
+		shellController.setFrontEndController(this);
+		scriptController.setFrontEndController(this);
+		variablesController.setFrontEndController(this);
+		commandsController.setFrontEndController(this);
+		historyController.setFrontEndController(this);
+		backendController = new BackendController(this);
+		initAnimation();
+		timer.start();
+	}
+	
 	
 	private List<AnimatedEvent> eventReceiver() {
 		return eventReceiver(eventMode);
@@ -86,20 +103,6 @@ public class FrontEndController {
 			default:
 				return eventQueue;
 		}
-	}
-	
-	@FXML
-	private void initialize() {
-		sessionLanguage = Language.getLanguage();
-		turtleScreenController.setFrontEndController(this);
-		shellController.setFrontEndController(this);
-		scriptController.setFrontEndController(this);
-		variablesController.setFrontEndController(this);
-		commandsController.setFrontEndController(this);
-		historyController.setFrontEndController(this);
-		backendController = new BackendController(this);
-		initAnimation();
-		timer.start();
 	}
 	
 	private void initAnimation() {
