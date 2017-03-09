@@ -14,7 +14,7 @@ public class AppendTextEvent extends InputViewEvent {
 	@Override
 	public double update(double dt) {
 		control.appendText(text);
-		finished = true;
+		setFinishedTrue();
 		return dt;
 	}
 

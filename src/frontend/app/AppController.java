@@ -2,31 +2,21 @@ package frontend.app;
 
 import java.io.IOException;
 
-import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
+import frontend.nonfxml.AppView;
+import frontend.nonfxml.view.IViewController;
 import language.LanguageSetter;
 
-public class AppController {
+public class AppController implements IViewController {
 
-	@FXML
-	private AnchorPane anchorPane;
-	@FXML
-	private MenuController topMenuController;
-	@FXML
+	private MenuController menuController;
 	private SessionsController sessionsController;
 	private LanguageSetter languageSetter;
 	
-	public AppController() {
-		// An fxml controller must have a public no-args constructor
-		// that does nothing.
-		// This controller can be omitted, but note that declaring one
-		// with-args constructor without explicitly declaring the no-args
-		// constructor will make the no-args constructor disappear.
-	}
-	@FXML
-	private void initialize() {
-		// Do the initialization here (instead of inside the no-args constructor).
-		topMenuController.setAppController(this);
+	public AppController(AppView view) {
+		menuController = view.getMenuController();
+		sessionsController = view.getSessionsController();
+
+		menuController.setAppController(this);
 		sessionsController.setAppController(this);
 		languageSetter = new LanguageSetter();
 	}

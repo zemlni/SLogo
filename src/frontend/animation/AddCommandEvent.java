@@ -15,7 +15,7 @@ public class AddCommandEvent extends CommandsViewEvent {
 	@Override
 	public double update(double dt) {
 		control.addCommand(command);
-		finished = true;
+		setFinishedTrue();
 		return dt;
 	}
 

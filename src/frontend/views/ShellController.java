@@ -1,8 +1,9 @@
 package frontend.views;
 
 import frontend.app.FrontEndController;
+import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.view.ShellView;
 import frontend.shell.Shell;
-import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import language.Language;
 
@@ -12,22 +13,22 @@ import language.Language;
  * shell (where the user enters commands one by one).
  * @author Matthew Tribby
  */
-public class ShellController implements InputController {
+public class ShellController implements InputController, IViewController {
 
-	@FXML
 	private ScrollPane shellBox;
 	private Shell shell;
-	
+
 	private FrontEndController frontEnd;
+	
+	public ShellController(ShellView view) {
+		shellBox = view.getShellBox();
+		shell = new Shell();
+		shellBox.setContent(shell);
+	}
+	
 	public void setFrontEndController(FrontEndController frontEnd) {
 		this.frontEnd = frontEnd;
 		shell.setFrontEndController(frontEnd);
-	}
-	
-	@FXML
-	private void initialize() {
-		shell = new Shell(frontEnd);
-		shellBox.setContent(shell);
 	}
 	
 	@Override

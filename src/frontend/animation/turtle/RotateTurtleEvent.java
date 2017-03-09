@@ -21,7 +21,8 @@ public class RotateTurtleEvent extends TurtleEvent {
 	@Override
 	public double update(double dt) {
 		if (a == a1) {
-			finished = true;
+			control.setTurtleAngle(id, a1);
+			setFinishedTrue();
 			return dt;
 		}
 		double da = a1 - a;
@@ -31,12 +32,11 @@ public class RotateTurtleEvent extends TurtleEvent {
 		}
 		if (da / v <= dt) { // action finished
 			control.setTurtleAngle(id, a1);
-			finished = true;
+			setFinishedTrue();
 			return dt - da / v;
 		} else { // action not finished
 			control.setTurtleAngle(id, a + v*dt);
 			a += v*dt;
-			finished = false;
 			return 0;
 		}
 	}

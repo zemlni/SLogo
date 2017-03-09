@@ -16,7 +16,7 @@ public class ShowErrorEvent extends InputViewEvent {
 	@Override
 	public double update(double dt) {
 		control.showError(errorMsg, bad);
-		finished = true;
+		setFinishedTrue();
 		return dt;
 	}
 
