@@ -19,9 +19,13 @@ public class TurtlePool {
 	
 	public TurtlePool(FrontEndController c){
 		turtleMap = new HashMap<Integer, TurtleModel>();
+		commandableTurtleList = new ArrayList<Integer>();
+		storedCommandableTurtleList = new ArrayList<Integer>();
 		totalTurtles = 0;
 		fcontrol = c;
 		currentActiveTurtle = 0;
+		addTurtleUpTo(1);
+		System.out.println(currentActiveTurtle);
 	}
 	
 	public void setCurrentActiveTurtle(int active){
@@ -43,11 +47,17 @@ public class TurtlePool {
 	 * adds new turtles up to the id
 	 */
 	public void addTurtleUpTo(int id){
+		System.out.println("timeeeee");
 		if(!turtleMap.containsKey(id)){
-			for(int currID = highestTurtleID() + 1; currID <= id; currID++){
+			for(int currID = highestTurtleID() + 1; currID <= (int)id; currID++){
 				totalTurtles++;
+//				System.out.println(highestTurtleID());
+				System.out.println(currID);
+				System.out.println(id);
+				System.out.println("Should see");
 				addToTurtleMap(currID);
 				addToCommandableTurtleList(currID);
+				currentActiveTurtle = currID;
 			}
 		}
 	}
