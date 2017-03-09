@@ -14,6 +14,7 @@ public class AddTurtleEvent extends TurtleEvent {
 	@Override
 	public double update(double dt) {
 		control.addTurtle(id);
+		setFinishedTrue();
 		return dt;
 	}
 
