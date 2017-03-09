@@ -13,7 +13,7 @@ public class TurtleModel {
 	private boolean visible;
 	private TurtleComputationsUnit tcu;
 	private int turtleIDNumber;
-	private double distanceTraveledToGetHome;
+	private double distanceTraveled;
 	private double angleTurned;
 	
 	public TurtleModel(int id, FrontEndController controller){
@@ -79,7 +79,7 @@ public class TurtleModel {
 	}
 	
 	private void storeDistanceFromHome(double dist){
-		distanceTraveledToGetHome = dist;
+		distanceTraveled = dist;
 	}
 	
 	public void hideAction(){
@@ -125,7 +125,13 @@ public class TurtleModel {
 	}
 	
 	public void setPositionAction(double xPos, double yPos){
-		
+		double oldX = this.xCoor;
+		double oldY = this.yCoor;
+		double newX = xPos;
+		double newY = yPos;
+		distanceTraveled = tcu.calcDistance(oldX, oldY, newX, newY);
+		updateTurtleModelPosition(newX, newY);
+		updateTurtleViewPosition(oldX, oldY, newX, newY);
 	}
 	
 	public void setTowardsAction(double xTow, double yTow){
@@ -157,8 +163,8 @@ public class TurtleModel {
 		this.setYCoor(newY);
 	}
 	
-	public double getDistanceTraveledToGetHome(){
-		return distanceTraveledToGetHome;
+	public double getDistanceTraveled(){
+		return distanceTraveled;
 	}
 
 	/*
