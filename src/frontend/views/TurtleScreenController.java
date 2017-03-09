@@ -26,8 +26,8 @@ public class TurtleScreenController implements IViewController {
 	private GraphicsContext gc;
 	private Map<Integer, TurtleImage> turtles; 
 	private Pane turtlePane;
-	public static final int X_OFFSET = 198;
-	public static final int Y_OFFSET = 143;
+	public static final int INITIAL_X_OFFSET = 198;
+	public static final int INITIAL_Y_OFFSET = 143;
 	public static final int CANVAS_WIDTH = 4000;
 	public static final int CANVAS_HEIGHT = 4000;
 	private FrontEndController frontEnd;
