@@ -107,4 +107,15 @@ public class TurtlePool {
 		commandableTurtleList = storedCommandableTurtleList;
 	}
 	
+	public void setPenDown(int id){
+		
+	}
+	
+	public void setPenUp(int id){
+		
+	}
+	
+	public void toggleTurtle(int id){
+
+	}
 }

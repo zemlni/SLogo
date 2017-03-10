@@ -67,6 +67,7 @@ public class TurtleModel {
 		double oldX = this.xCoor;
 		double oldY = this.yCoor;
 		returnHomeModelAndCalculateDistance(oldX, oldY);
+		updateTurtleViewPosition(oldX, oldY, this.xCoor, this.yCoor);
 		frontController.clearScreen();
 	}
 	
@@ -223,7 +224,6 @@ public class TurtleModel {
 	public boolean isVis(){
 		return visible;
 	}
-	
 	
 	
 }

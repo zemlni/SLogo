@@ -246,7 +246,7 @@ public class FrontEndController implements IViewController {
 	 * draw a line at the same time is penDown is true. 
 	 */
 	public void moveTurtle(int id, double x0, double y0, double x1, double y1, boolean penDown) {
-		System.out.println("SSDFJEIJWAFIJWEFJWAK");
+//		System.out.println("SSDFJEIJWAFIJWEFJWAK");
 		eventReceiver().add(new MoveTurtleEvent(turtleScreenController, id, x0, y0, x1, y1, penDown));
 	}
 	/**

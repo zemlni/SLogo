@@ -22,7 +22,6 @@ public class TellCommand extends TurtleCommand{
 			if(!getTurtlePool().cointainsTurtle(id)){
 				getTurtlePool().addTurtleUpTo(id);
 			}
-//			System.out.println("Hello" + id);
 			integerTellList.add(id);
 			getTurtlePool().setCurrentActiveTurtle(id);
 		}

@@ -24,14 +24,15 @@ public class SetPositionCommand extends TurtleCommand {
 
 		double newX = 0;
 		double newY = 0;
-		for (int i = 0; i < args.size(); i += 2) {
-			newX = getArgs().get(i).getValue();
-			newY = getArgs().get(i + 1).getValue();
-			for(TurtleModel t :turtles){
+
+		for(TurtleModel t :turtles){
+			for (int i = 0; i < args.size(); i += 2) {
+				newX = getArgs().get(i).getValue();
+				newY = getArgs().get(i + 1).getValue();
 				getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
 				t.setPositionAction(newX, newY);
 			}
 		}	 	
-		return turtles.get(turtles.size()).getDistanceTraveled();
+		return turtles.get(turtles.size()-1).getDistanceTraveled();
 	}
 }
