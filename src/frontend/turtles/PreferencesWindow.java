@@ -30,7 +30,7 @@ private ResourceBundle resources = ResourceBundle.getBundle("resources.ui/" + RE
 		Stage stage = new Stage();
 		Scene preferencesScene = new Scene(tabPane, WINDOW_WIDTH, WINDOW_HEIGHT);
 		stage.setScene(preferencesScene);
-		createButtons();
+		
 		stage.setTitle(resources.getString("PreferencesTitle"));
 		stage.show();
 	}
@@ -40,8 +40,6 @@ private ResourceBundle resources = ResourceBundle.getBundle("resources.ui/" + RE
 		buttons.setSpacing(10);
 		buttons.setAlignment(Pos.CENTER);
 		
-	
-		
 		ColorSelector backColor = new ColorSelector(resources.getString("BackColor"));
 		backColor.getColorPicker().setOnAction(e -> turtleScreenController.setBackground(backColor.getColorPicker().getValue()));
 		
@@ -49,7 +47,7 @@ private ResourceBundle resources = ResourceBundle.getBundle("resources.ui/" + RE
 		imageSelect.setOnAction(e -> turtleScreenController.changeTurtleImage());
 		
 		Button currentOnToggle = new Button(resources.getString("ShowCurrents"));
-		currentOnToggle.setOnAction(e -> turtleScreenController.updateTurtles());
+		//currentOnToggle.setOnAction(e -> turtleScreenController.());
 		
 		buttons.getChildren().addAll(backColor, imageSelect, currentOnToggle);
 		Group root = new Group();

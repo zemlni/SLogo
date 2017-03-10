@@ -3,7 +3,6 @@ package backend.turtlecommands;
 import backend.BackendController;
 import backend.Command;
 import backend.parser.Input;
-import backend.turtle.TurtleModel;
 import backend.turtle.TurtlePool;
 
 public abstract class TurtleCommand extends Command {

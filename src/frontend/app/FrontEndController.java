@@ -26,6 +26,7 @@ import frontend.nonfxml.FrontEndView;
 import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.InputView;
 import frontend.views.CommandsController;
+import frontend.views.DisplayController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
 import frontend.views.ScriptController;
@@ -61,6 +62,7 @@ public class FrontEndController implements IViewController {
 	private CommandsController commandsController;
 	private HistoryController historyController;
 	private BackendController backendController;
+	private DisplayController displayController;
 
 	private TabPane inputTabPane;
 
@@ -95,6 +97,7 @@ public class FrontEndController implements IViewController {
 		timer.start();
 
 		backendController = new BackendController(this);
+		displayController = new DisplayController();
 
 	}
 
@@ -311,6 +314,10 @@ public class FrontEndController implements IViewController {
 	public void hideTurtle(int id) {
 		eventReceiver().add(new HideTurtleEvent(turtleScreenController, id));
 	}
+	
+	public void updateCommandable(List<Integer> turtleIds){
+		turtleScreenController.updateCommandable(turtleIds);
+	}
 
 	/**
 	 * Clears the drawing screen, resets the turtle back to initial position and
@@ -357,7 +364,16 @@ public class FrontEndController implements IViewController {
 	public void toggleTurtle(int id) {
 		backendController.toggleTurtle(id);
 	}
-	
-	
-}
 
+	public void allPensUp() {
+		backendController.setAllPenUp();
+	}
+	
+	public void allPensDown(){
+		backendController.setAllPenDown();
+	}
+	
+	public DisplayController getDisplayController(){
+		return displayController;
+	}
+}
