@@ -379,12 +379,6 @@ public class FrontEndController implements IViewController {
 	}
 
 	public void allPensUp() {
-		Palette test = displayController.getPal();
-		int[] test2 = new int[]{8, 100, 200 , 100};
-		displayController.setPalette(test2);
-		int[] test3 = new int[]{7, 150, 0 , 300};
-		displayController.setPalette(test3);
-		test.show();
 		backendController.setAllPenUp();
 	}
 	

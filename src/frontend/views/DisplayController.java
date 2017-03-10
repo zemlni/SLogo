@@ -60,10 +60,6 @@ public class DisplayController {
 		
 	}
 	
-	public Palette getPal(){
-		return colorPalette;
-	}
-	
 	public void setPenSize(int width){
 		turtleScreenController.setPenThickness(width);
 	}
