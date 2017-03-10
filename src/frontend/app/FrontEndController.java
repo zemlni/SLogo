@@ -273,10 +273,19 @@ public class FrontEndController implements IViewController {
 		eventReceiver().add(new AddCommandEvent(commandsController, command));
 	}
 
+	/**
+	 * Removes the command from the Commands Controller which keeps tracks of
+	 * Commands on the front-end
+	 * 
+	 * @param command
+	 */
+	public void removeCommand(Command command) {
+		eventReceiver().add(new RemoveCommandEvent(commandsController, command));
+	}
+	
 	public void clearCommands(){
 		commandsController.clear();
 	}
-	
 
 	// change turtle view commands
 	/**
