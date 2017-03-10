@@ -1,9 +1,9 @@
 package frontend.nonfxml;
 
 import frontend.app.FrontEndController;
+import frontend.nonfxml.config.FrontEndConfig;
 import frontend.nonfxml.view.CommandsView;
 import frontend.nonfxml.view.HistoryView;
-import frontend.nonfxml.view.IControllableView;
 import frontend.nonfxml.view.ScriptView;
 import frontend.nonfxml.view.ShellView;
 import frontend.nonfxml.view.TurtleScreenView;
@@ -22,9 +22,10 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
-import language.Language;
+import utils.javafx.FX;
 
-public class FrontEndView extends SplitPane implements IControllableView {
+public class FrontEndView extends SplitPane implements IControllableView,
+	IConfigurableView {
 
 	private TurtleScreenView turtleScreenView;
 	private ScriptView scriptView;
@@ -38,12 +39,25 @@ public class FrontEndView extends SplitPane implements IControllableView {
 	private FrontEndController controller;
 	
 	public FrontEndView() {
-		turtleScreenView = new TurtleScreenView();
-		scriptView = new ScriptView();
-		shellView = new ShellView();
-		variablesView = new VariablesView();
-		commandsView = new CommandsView();
-		historyView = new HistoryView();
+		this(null);
+	}
+	
+	public FrontEndView(FrontEndConfig config) {
+		if (config == null) {
+			turtleScreenView = new TurtleScreenView();
+			scriptView = new ScriptView();
+			shellView = new ShellView();
+			variablesView = new VariablesView();
+			commandsView = new CommandsView();
+			historyView = new HistoryView(); 
+		} else {
+			turtleScreenView = new TurtleScreenView(config.getTurtleScreenConfig());
+			scriptView = new ScriptView();
+			shellView = new ShellView();
+			variablesView = new VariablesView(config.getVariablesConfig());
+			commandsView = new CommandsView(config.getCommandsConfig());
+			historyView = new HistoryView(config.getHistoryConfig()); 
+		}
 		
 		this.setOrientation(Orientation.HORIZONTAL);
 		
@@ -55,35 +69,28 @@ public class FrontEndView extends SplitPane implements IControllableView {
 		inputTabPane = new TabPane();
 		inputTabPane.setSide(Side.LEFT);
 		inputTabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-		Tab scriptTab = new Tab();
-		scriptTab.textProperty().bind(Language.createStringBinding("Script"));
-		scriptTab.setContent(scriptView);
-		Tab shellTab  = new Tab();
-		shellTab.textProperty().bind(Language.createStringBinding("Shell"));
-		shellTab.setContent(shellView);
+		Tab scriptTab = FX.tab("Script", scriptView);
+		Tab shellTab  = FX.tab("Shell", shellView);
 		inputTabPane.getTabs().addAll(scriptTab, shellTab);
 
 		leftPane.getItems().addAll(turtleScreenView, inputTabPane);
-		
 		
 		// right pane: variables, commands, and history windows
 		VBox rightPane = new VBox();
 		SplitPane.setResizableWithParent(rightPane, true);
 		rightPane.setMinWidth(0.0);
 		
-		TitledPane variablesPane = new TitledPane();
-		variablesPane.setContent(variablesView);
-		TitledPane commandsPane = new TitledPane();
-		commandsPane.setContent(commandsView);
-		TitledPane historyPane = new TitledPane();
-		historyPane.setContent(historyView);
+		TitledPane variablesPane = FX.titledPane("Variables", variablesView);
+		TitledPane commandsPane = FX.titledPane("Commands", commandsView);
+		TitledPane historyPane = FX.titledPane("History", historyView);
 		
-		rightPane.getChildren().addAll(variablesPane,
-				commandsPane, historyPane);
+		rightPane.getChildren().addAll(
+					variablesPane, commandsPane, historyPane
+				);
 		
 		this.getItems().addAll(leftPane, rightPane);
 		
-		controller = new FrontEndController(this);
+		controller = new FrontEndController(this);	
 	}
 	
 	public TurtleScreenController getTurtleScreenController() {
@@ -104,10 +111,25 @@ public class FrontEndView extends SplitPane implements IControllableView {
 	public HistoryController getHistoryController() {
 		return historyView.getController();
 	}
+	public TabPane getInputTabPane() {
+		return inputTabPane;
+	}
+	
 
 	@Override
 	public FrontEndController getController() {
 		return controller;
+	}
+
+	@Override
+	public FrontEndConfig getConfig() {
+		FrontEndConfig config = new FrontEndConfig(
+					turtleScreenView.getConfig(),
+					variablesView.getConfig(),
+					commandsView.getConfig(),
+					historyView.getConfig()
+				);
+		return config;
 	}
 	
 }

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import frontend.app.FrontEndController;
-import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.TurtleScreenView;
 import frontend.turtles.ImageSelector;
 import frontend.turtles.InfiniteTransformer;
@@ -26,16 +26,16 @@ public class TurtleScreenController implements IViewController {
 	private GraphicsContext gc;
 	private Map<Integer, TurtleImage> turtles; 
 	private Pane turtlePane;
-	public static final int X_OFFSET = 198;
-	public static final int Y_OFFSET = 143;
-	public static final int CANVAS_WIDTH = 4000;
-	public static final int CANVAS_HEIGHT = 4000;
+	public static final int INITIAL_X_OFFSET = 198;
+	public static final int INITIAL_Y_OFFSET = 143;
+	public static final int CANVAS_WIDTH = 400;
+	public static final int CANVAS_HEIGHT = 400;
 	private FrontEndController frontEnd;
 	private Transformer locTransformer;
 	
 	public TurtleScreenController(TurtleScreenView view) {
 		turtlePane = view.getTurtlePane();
-		locTransformer = new InfiniteTransformer(X_OFFSET, Y_OFFSET);
+		locTransformer = new InfiniteTransformer(INITIAL_X_OFFSET, INITIAL_Y_OFFSET);
 		turtles = new HashMap<Integer, TurtleImage>();
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = canvas.getGraphicsContext2D();

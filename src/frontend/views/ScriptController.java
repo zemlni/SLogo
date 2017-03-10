@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.IOException;
 
 import frontend.app.FrontEndController;
-import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.ScriptView;
 import javafx.scene.control.TextArea;
-import javafx.stage.FileChooser;
+import utils.FileChooserOption;
 import utils.MyFileIO;
+import utils.javafx.FX;
 
 
 /**
@@ -17,9 +18,6 @@ import utils.MyFileIO;
  * @author Matthew Tribby
  */
 public class ScriptController implements InputController, IViewController {
-	enum FileOp {
-		OPEN, SAVE
-	}
 	
 	private TextArea scriptArea;
 	private FrontEndController frontEnd;
@@ -43,20 +41,8 @@ public class ScriptController implements InputController, IViewController {
 		setText("");
 	}
 	
-	private File chooseFile(FileOp fileOp) {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setInitialDirectory(new File("."));
-		if (fileOp == FileOp.OPEN) {
-			fileChooser.setTitle("Open");
-			return fileChooser.showOpenDialog(null);
-		} else {
-			fileChooser.setTitle("Save As");
-			return fileChooser.showSaveDialog(null);
-		}
-	}
-
 	public void openFile() {
-		File file = chooseFile(FileOp.OPEN);
+		File file = MyFileIO.chooseFile(FileChooserOption.OPEN);
 		if (file != null) {
 			try {
 				String scriptText = MyFileIO.readTextFile(file.getAbsolutePath());
@@ -68,7 +54,7 @@ public class ScriptController implements InputController, IViewController {
 	}
 
 	public void saveFile() {
-		File file = chooseFile(FileOp.SAVE);
+		File file = MyFileIO.chooseFile(FileChooserOption.SAVE);
         if (file != null) {
             try {
             	MyFileIO.saveTextFile(file.getAbsolutePath(), getText());
@@ -80,8 +66,8 @@ public class ScriptController implements InputController, IViewController {
 
 	
 	@Override
-	public void showError(String error, String bad) {
-		frontEnd.showErrorAlert(error, bad);
+	public void showError(String errorMsgKey, String content) {
+		FX.alertError("ErrorTitle", errorMsgKey, content);
 	}
 	@Override
 	public void showText(String text) {

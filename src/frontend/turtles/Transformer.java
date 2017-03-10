@@ -42,6 +42,13 @@ public abstract class Transformer {
 		yBounds = y;
 	}
 	
+	public double getXBounds(){
+		return xBounds;
+	}
+	
+	public double getYBounds(){
+		return yBounds;
+	}
 	
 	
 }

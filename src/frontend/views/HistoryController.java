@@ -1,10 +1,14 @@
 package frontend.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import frontend.app.FrontEndController;
 import frontend.history.HistoryEntry;
+import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.HistoryView;
-import frontend.nonfxml.view.IViewController;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
 
@@ -31,6 +35,16 @@ public class HistoryController implements IViewController {
 	
 	public void addHistory(String history) {
 		historyBox.getChildren().add(new HistoryEntry(frontEnd, history));
+	}
+	public void addHistory(List<String> histories) {
+		histories.forEach(this::addHistory);
+	}
+	public List<String> getHistories() {
+		List<String> histories = new ArrayList<>();
+		for (Node entry : historyBox.getChildren()) {
+			histories.add(((HistoryEntry) entry).getText());
+		}
+		return histories;
 	}
 
 	public void clearHistory() {

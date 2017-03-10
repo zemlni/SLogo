@@ -1,20 +1,23 @@
 package frontend.nonfxml.view;
 
+import frontend.shell.Shell;
 import frontend.views.ShellController;
 import javafx.scene.control.ScrollPane;
 
-public class ShellView extends ScrollPane implements IControllableView {
+public class ShellView extends ScrollPane implements InputView {
 
-	private ScrollPane shellBox;
+	
+	private Shell shell;
 	private ShellController controller;
 	
 	public ShellView() {
-		shellBox = new ScrollPane();
+		shell = new Shell();
+		this.setContent(shell);
 		controller = new ShellController(this);
 	}
 	
-	public ScrollPane getShellBox() {
-		return shellBox;
+	public Shell getShell() {
+		return shell;
 	}
 	
 	@Override

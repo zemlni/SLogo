@@ -5,42 +5,28 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import language.Language;
+import utils.javafx.FX;
 
-public class ScriptView extends AnchorPane implements IControllableView {
+public class ScriptView extends AnchorPane implements InputView {
 
 	private TextArea scriptArea;
 	private ScriptController controller;
 	
 	public ScriptView() {
 		AnchorPane textPane = new AnchorPane();
-		AnchorPane.setTopAnchor(textPane, 0.0);
-		AnchorPane.setLeftAnchor(textPane, 0.0);
-		AnchorPane.setBottomAnchor(textPane, 0.0);
-		AnchorPane.setRightAnchor(textPane, 60.0);
-		
+		FX.setAnchors(textPane, 0.0, 60.0, 0.0, 0.0);
+
 		scriptArea = new TextArea();
-		AnchorPane.setTopAnchor(scriptArea, 5.0);
-		AnchorPane.setLeftAnchor(scriptArea, 5.0);
-		AnchorPane.setBottomAnchor(scriptArea, 5.0);
-		AnchorPane.setRightAnchor(scriptArea, 5.0);
+		FX.setAnchors(scriptArea, 5.0, 5.0, 5.0, 5.0);
 		
 		textPane.getChildren().add(scriptArea);
 
 		controller = new ScriptController(this);
 		
-		Button runBtn = new Button();
-		runBtn.textProperty().bind(Language.createStringBinding("Run"));
-		runBtn.setOnAction(e -> controller.run());
-		Button clearBtn = new Button();
-		clearBtn.textProperty().bind(Language.createStringBinding("Clear"));
-		clearBtn.setOnAction(e -> controller.clearArea());
-		Button openBtn = new Button();
-		openBtn.textProperty().bind(Language.createStringBinding("Open"));
-		openBtn.setOnAction(e -> controller.openFile());
-		Button saveBtn = new Button();
-		saveBtn.textProperty().bind(Language.createStringBinding("Save"));
-		saveBtn.setOnAction(e -> controller.saveFile());
+		Button runBtn = FX.button("Run", e -> controller.run());
+		Button clearBtn = FX.button("Clear", e -> controller.clearArea());
+		Button openBtn = FX.button("Open", e -> controller.openFile());
+		Button saveBtn = FX.button("Save", e -> controller.saveFile());
 		
 		VBox buttonsBox = new VBox();
 		buttonsBox.getChildren().addAll(runBtn, clearBtn, openBtn, saveBtn);
