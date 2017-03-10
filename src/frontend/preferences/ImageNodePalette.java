@@ -12,7 +12,7 @@ public class ImageNodePalette extends ImageView{
 	public ImageNodePalette(File imageFile){
 		Image image = new Image(imageFile.toURI().toString());
 		setImage(image);
-		this.setX(IMAGE_SIDE_LENGTH);
-		this.setY(IMAGE_SIDE_LENGTH);
+		this.setFitWidth(IMAGE_SIDE_LENGTH);
+		this.setFitHeight(IMAGE_SIDE_LENGTH);
 	}
 }

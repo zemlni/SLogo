@@ -14,7 +14,6 @@ public class TurtleTab extends PreferenceTab{
 	@Override
 	public void addButtons() {
 		Button imageSelect = FX.button("ImageSelect", e -> getController().changeTurtleImage());
-		
 		getRoot().getChildren().addAll(imageSelect, new ShowCommandableToggle(getController()), new TurtleSpeedButtons(getController()), new TurtleVisibleButtons(getController()));
 	}
 }
