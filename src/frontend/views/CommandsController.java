@@ -49,8 +49,26 @@ public class CommandsController implements IViewController {
 		}
 	}
 
-
-	public void clear() {
+	/**
+	 * CAN ONLY TAKE USER COMMANDS NEED TO UPDATE THIS API!!!!!!!
+	 * @param command
+	 * @throws Exception
+	 */
+	public void removeCommand(Command command) throws Exception {
+		UserCommand userCommand = (UserCommand) command;
+		String targetCommand = userCommand.getKey();
+		
+		if(commands.containsKey(targetCommand)){
+			for(int i = 0; i < commandsBox.getChildren().size(); i++){
+				if(targetCommand.equals(commandsBox.getChildren().get(i))){
+					commandsBox.getChildren().remove(i);
+					commands.remove(targetCommand);
+				}
+			}
+		}
+	}
+	
+	public void clear(){
 		commandsBox = new VBox();
 	}
 	
