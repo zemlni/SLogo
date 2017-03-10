@@ -7,6 +7,11 @@ import backend.Command;
 import backend.Variable;
 import backend.parser.Input;
 
+/**
+ * @author nikita This is the implementation of the Product command. An instance
+ *         of this class gets created when the parser identifies that the user
+ *         typed a Product command
+ */
 public class ProductCommand extends Command {
 
 	public ProductCommand(Input in, BackendController controller) {
@@ -14,7 +19,9 @@ public class ProductCommand extends Command {
 	}
 
 	/**
-	 * returns product of all arguments
+	 * returns product of all arguments. supports unlimited parameters
+	 * 
+	 * @returns the product of all arguments
 	 */
 	@Override
 	public double execute() {
@@ -23,8 +30,5 @@ public class ProductCommand extends Command {
 		for (Variable arg : args)
 			result *= arg.getValue();
 		return result;
-		// return getArgs().get(0).getValue() * getArgs().get(1).getValue();
-
 	}
-
 }

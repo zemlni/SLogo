@@ -2,6 +2,7 @@ package frontend.views;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import frontend.app.FrontEndController;
@@ -9,16 +10,19 @@ import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.TurtleScreenView;
 import frontend.turtles.ImageSelector;
 import frontend.turtles.InfiniteTransformer;
-import frontend.turtles.Point;
 import frontend.turtles.PreferencesWindow;
 import frontend.turtles.Transformer;
 import frontend.turtles.TurtleImage;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import language.Language;
+import utils.javafx.FX;
 
 	//For this class, need to establish handling multiple turtles with IDs
 public class TurtleScreenController implements IViewController {
@@ -48,7 +52,6 @@ public class TurtleScreenController implements IViewController {
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = canvas.getGraphicsContext2D();
 		turtlePane.getChildren().add(canvas);
-		addTurtle(1);
 		
 		turtlePane.widthProperty().addListener(e -> {locTransformer.setXBound(turtlePane.getWidth());});
 		turtlePane.heightProperty().addListener(e -> {locTransformer.setYBound(turtlePane.getHeight());});
@@ -82,8 +85,8 @@ public class TurtleScreenController implements IViewController {
 	}
 	
 	public void drawLine(double x0, double y0, double x1, double y1) {
-		Point original = locTransformer.translateLoc(x0, y0);
-		Point end = locTransformer.translateLoc(x1, y1);
+		Point2D original = locTransformer.translateLoc(x0, y0);
+		Point2D end = locTransformer.translateLoc(x1, y1);
 		locTransformer.drawLines(original, end, gc);
 	}
 	
@@ -93,10 +96,20 @@ public class TurtleScreenController implements IViewController {
 	
 	public void setPenColor(Color penColor){
 		gc.setStroke(penColor);
+		File folder = new File("src/resources.ui");
+		System.out.println(folder.listFiles());
 	}
 	
-	public void changePenThickness(double newWidth){
+	public Paint getPenColor(){
+		return gc.getStroke();
+	}
+	
+	public void setPenThickness(double newWidth){
 		gc.setLineWidth(newWidth);
+	}
+	
+	public double getPenWidth() {
+		return gc.getLineWidth();
 	}
 	
 	public void setBackground(Color color){
@@ -104,22 +117,22 @@ public class TurtleScreenController implements IViewController {
 	}
 	
 	private void createPreferencePanel(){
-		Button preferences = new Button("Preferences");
+		Button preferences = new Button();
+		preferences.textProperty().bind(Language.createStringBinding("PreferencesTitle"));
 		preferences.setOnAction(e -> new PreferencesWindow(this));
 		turtlePane.getChildren().add(preferences);
-	}
-	
-	public void updateTurtles(){
-		for(TurtleImage turtle : turtles.values()){
-			turtle.updateCurrent();
-		}
 	}
 	
 	public void changeTurtleImage(){
 		
 		ImageSelector imageSelector = new ImageSelector("Turtle Image");
+		
 		imageSelector.setInitialDirectory("images");
-			File imageFile = imageSelector.getFile();
+		File imageFile = imageSelector.getFile();
+		setTurtleImage(imageFile);
+	}
+	
+	public void setTurtleImage(File imageFile){
 		if(imageFile != null){
 			//http://stackoverflow.com/questions/7830951/how-can-i-load-computer-directory-images-in-javafx
 			Image turtleImage = new Image(imageFile.toURI().toString());
@@ -143,5 +156,19 @@ public class TurtleScreenController implements IViewController {
 	
 	public void hideTurtle(int id){
 		turtles.get(id).hide();
+	}
+	
+	public void allPensUp(){
+		frontEnd.allPensUp();
+	}
+	
+	public void allPensDown(){
+		frontEnd.allPensDown();
+	}
+
+	public void updateCommandable(List<Integer> turtleIds) {
+		for(Integer id : turtleIds){
+			turtles.get(id).updateCommandable();
+		}
 	}
 }

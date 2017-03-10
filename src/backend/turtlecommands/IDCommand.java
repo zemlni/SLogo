@@ -10,7 +10,6 @@ public class IDCommand extends TurtleCommand{
 	
 	@Override
 	public double execute(){
-		System.out.println("hi");
 		return getTurtlePool().getCurrentActiveTurtleID();
 	}
 }

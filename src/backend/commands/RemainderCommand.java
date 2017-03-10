@@ -7,6 +7,11 @@ import backend.Command;
 import backend.Variable;
 import backend.parser.Input;
 
+/**
+ * @author nikita This is the implementation of the Remainder command. An
+ *         instance of this class gets created when the parser identifies that
+ *         the user typed a Remainder command
+ */
 public class RemainderCommand extends Command {
 
 	public RemainderCommand(Input in, BackendController controller) {
@@ -14,7 +19,10 @@ public class RemainderCommand extends Command {
 	}
 
 	/**
-	 * returns first argument modulo the rest of the arguments
+	 * returns first argument modulo the rest of the arguments. supports
+	 * unlimited parameters
+	 * 
+	 * @return the first argument module the rest of the arguments
 	 */
 	@Override
 	public double execute() {
@@ -23,7 +31,5 @@ public class RemainderCommand extends Command {
 		for (int i = 1; i < args.size(); i++)
 			result = result % args.get(i).getValue();
 		return result;
-		// return getArgs().get(0).getValue() % getArgs().get(1).getValue();
 	}
-
 }

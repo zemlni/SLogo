@@ -14,11 +14,14 @@ public class HomeCommand extends TurtleCommand{
 
 	@Override
 	public double execute() {
-		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
+		getTurtlePool().getFrontController().startEventGrouping();
 		for(TurtleModel t :turtles){
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
 			t.homeAction();
-		}
+		}		
+		getTurtlePool().getFrontController().endEventGrouping();
+
 		return turtles.get(turtles.size() - 1).getDistanceTraveled();
 	}
 	

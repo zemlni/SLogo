@@ -1,13 +1,17 @@
 package frontend.views;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import backend.Variable;
 import frontend.app.FrontEndController;
+import frontend.history.HistoryEntry;
 import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.VariablesView;
 import frontend.variables.VariableEntry;
+import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
 
@@ -39,7 +43,7 @@ public class VariablesController implements IViewController {
 	}
 	
 	public void addVariable(Variable variable) {
-//		System.out.println("Add variable called in VariablesController");
+
 		if(!variableEntries.containsKey(variable.getKey())){
 			VariableEntry varEntry = new VariableEntry(variable);
 			variablesBox.getChildren().add(varEntry);
@@ -49,6 +53,10 @@ public class VariablesController implements IViewController {
 			variableEntries.get(variable.getKey()).changeValue(variable.getValue());
 		}
 	}
+	
+	public void addVariable(List<Variable> variables) {
+		variables.forEach(this::addVariable);
+	}
 
 	public void removeVariable(Variable variable) throws Exception {
 		
@@ -56,19 +64,6 @@ public class VariablesController implements IViewController {
 			variablesBox.getChildren().remove(variableEntries.get(variable.getKey()));
 			variableEntries.remove(variable.getKey());
 		}
-		
-		//String targetName = variable.getKey();
-		
-		/*
-		if(variableEntries.containsKey(targetName)){
-			for(int i = 0; i < variablesBox.getChildren().size(); i++){
-				if(targetName.equals(variablesBox.getChildren().get(i))){
-					variablesBox.getChildren().remove(i);
-					variableEntries.remove(targetName);
-				}
-			}
-		}
-		*/
 	}
 	
 	public Map<String, Variable> getVariables() {

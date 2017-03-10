@@ -18,6 +18,7 @@ public class VariablesView extends ScrollPane implements IControllableView, ICon
 	public VariablesView(VariablesConfig config) {
 		variablesBox = new VBox();
 		this.setContent(variablesBox);
+
 		if (config != null) {
 			controller = new VariablesController(this, config.getVariables()); 
 		} else {

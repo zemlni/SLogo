@@ -1,5 +1,7 @@
 package backend;
 
+import java.util.List;
+
 /**
  * Interface for the backend controller. This is external API. The backend
  * controller's evaluate method will be called from the front end when the user
@@ -12,8 +14,9 @@ public interface BackendControllerInterface {
 	 * 
 	 * @param command
 	 *            the command or script entered by the user
+	 * @return 
 	 */
-	public void evaluate(String command);
+	public boolean evaluate(String command, List<Integer> bearkPoints);
 	
 	public void setLanguage(String language);
 }

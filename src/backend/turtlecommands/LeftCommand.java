@@ -15,14 +15,17 @@ public class LeftCommand extends TurtleCommand {
 	@Override
 	public double execute() {
 		double deltaDir = 0;
-		for (Variable var : getArgs()) {
-			deltaDir = var.getValue();
-			List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
-			for(TurtleModel t :turtles){
-				getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
+		getTurtlePool().getFrontController().startEventGrouping();
+		for(TurtleModel t :turtles){
+			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+			for (Variable var : getArgs()) {
+				deltaDir = var.getValue();
 				t.leftAction(deltaDir);
 			}
 		}
+		getTurtlePool().getFrontController().endEventGrouping();
+
 		return deltaDir;
 	}
 

@@ -5,15 +5,19 @@ import java.util.List;
 import backend.BackendController;
 import backend.Variable;
 
+/**
+ * This class is the superclass for all expressions. It contains
+ */
 public abstract class Expression implements java.io.Serializable {
 	private static final long serialVersionUID = -1577736662474712482L;
+
 	private Expression parent;
-	private Expression breakPointParent;
 	private List<Expression> children;
 	private int numChildren;
 	private transient BackendController controller;
 	private Input info;
 	private String value = "";
+	private int lineNumber;
 
 	public Expression(Input info, BackendController controller, int numChildren) {
 		this(info, controller);
@@ -27,27 +31,46 @@ public abstract class Expression implements java.io.Serializable {
 			setInfo(info);
 	}
 
-	/*
-	 * public void setNumChildren(int numChildren) { this.numChildren =
-	 * numChildren; }
+	/**
+	 * Check if current execution mode is line by line. If so, return true if
+	 * this expression is still on the line of execution. Else return false. If
+	 * mode is not line by line, return true
 	 * 
-	 * public int getNumChildren() { return numChildren; }
+	 * @return true if this expression should be evaluated. else false
 	 */
+	public boolean checkLines() {
+		boolean sameLine = lineNumber == controller.getCurrentLine();
+		if (!sameLine)
+			getBackendController().setCurrentLine(lineNumber);
+		return sameLine || !controller.getByLine();
+	}
 
+	/**
+	 * Evaluate this expression and return a variable containing the result
+	 * 
+	 * @return the variable containing the result of the evaluation
+	 */
 	public abstract Variable evaluate();
 
 	public Input getInfo() {
 		return info;
 	}
-	public void setInfo(Input info){
-		this.info = new Input(info.getInput(), info.getIndex(), info.getBreakPoints());
+
+	public void setInfo(Input info) {
+		this.info = new Input(info.getInput(), info.getIndex(), info.getBreakPoints(), info.getLineNumbers());
 		this.value = info.get();
 	}
-	
-	public String getString(){
+
+	public String getString() {
 		return value;
 	}
 
+	/**
+	 * Add a child to the expression
+	 * 
+	 * @param expr
+	 *            the child to be added
+	 */
 	public void addChild(Expression expr) {
 		children.add(expr);
 	}
@@ -76,11 +99,16 @@ public abstract class Expression implements java.io.Serializable {
 	public int getNumChildren() {
 		return numChildren;
 	}
-	public void setNumChildren(int numChildren){
+
+	public void setNumChildren(int numChildren) {
 		this.numChildren = numChildren;
 	}
 
 	public void addChildren(List<Expression> children) {
 		this.children.addAll(children);
+	}
+
+	public void setLineNumber(int lineNumber) {
+		this.lineNumber = lineNumber;
 	}
 }
