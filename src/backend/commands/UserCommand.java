@@ -1,16 +1,13 @@
 package backend.commands;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import backend.BackendController;
 import backend.Command;
 import backend.UserCommandInterface;
 import backend.Variable;
-import backend.VariableException;
 import backend.parser.Expression;
 import backend.parser.Input;
 

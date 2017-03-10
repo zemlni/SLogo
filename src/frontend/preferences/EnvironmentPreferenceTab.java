@@ -1,19 +1,16 @@
 package frontend.preferences;
 
-import java.util.ResourceBundle;
 
 import frontend.views.TurtleScreenController;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import language.Language;
 
-public class PenPreferenceTab extends PreferenceTab {
+public class EnvironmentPreferenceTab extends PreferenceTab {
 	
-	public static final String RESOURCE_PACKAGE = "English";
-	private ResourceBundle resources = ResourceBundle.getBundle("resources.ui/" + RESOURCE_PACKAGE);
-	
-	public PenPreferenceTab(TurtleScreenController controller){
-		super(controller, "PenPrefs");
+	public EnvironmentPreferenceTab(TurtleScreenController controller){
+		super(controller, "EnviroPrefs");
 	}
 
 	public void addButtons() {
@@ -25,6 +22,9 @@ public class PenPreferenceTab extends PreferenceTab {
 		penThick.textProperty().bind(Language.createStringBinding("PenThick"));
 		penWidth.getChildren().addAll(penThick, new PenWidthSlider(getController()));
 	
-		getRoot().getChildren().addAll(penColor, penWidth, new PenUpDownButtons(getController()));
+		ColorSelector backColor = new ColorSelector(Color.WHITE, "BackColor");
+		backColor.getColorPicker().setOnAction(e -> getController().setBackground(backColor.getColorPicker().getValue()));
+		
+		getRoot().getChildren().addAll(penColor, penWidth, new PenUpDownButtons(getController()), backColor);
 	}
 }

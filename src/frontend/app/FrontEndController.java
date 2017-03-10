@@ -52,10 +52,6 @@ public class FrontEndController implements IViewController {
 		QUEUE, GROUP, INSTANT
 	}
 
-	private static final double INIT_MOVING_SPEED = 100;
-	private double v = INIT_MOVING_SPEED;
-	private static final double INIT_ROTATING_SPEED = 200;
-	private double vAngle = INIT_ROTATING_SPEED;
 
 	private static String sessionLanguage;
 
@@ -103,6 +99,7 @@ public class FrontEndController implements IViewController {
 		timer.start();
 
 		displayController = new DisplayController(turtleScreenController);
+		turtleScreenController.setDisplayController(displayController);
 		
 		if (variablesConfig != null) { 
 			backendController = new BackendController(this, variablesConfig.getVariables(), commandsConfig.getCommands()); 	

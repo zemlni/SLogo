@@ -19,7 +19,6 @@ import javafx.scene.layout.VBox;
  * @author Matthew Tribby
  */
 public class CommandsController implements IViewController {
-
 	
 	private VBox commandsBox;
 	private Map<String, CommandEntry> commands;
