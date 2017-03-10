@@ -118,12 +118,12 @@ public class TurtleScreenController implements IViewController {
 		turtles.get(id).hide();
 	}
 	
-	public void penUp(){
-		frontEnd.penUp();
+	public void allPensUp(){
+		frontEnd.allPensUp();
 	}
 	
-	public void penDown(){
-		frontEnd.penDown();
+	public void allPensDown(){
+		frontEnd.allPensDown();
 	}
 
 	public void updateCommandable(List<Integer> turtleIds) {

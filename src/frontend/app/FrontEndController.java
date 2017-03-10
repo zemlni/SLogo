@@ -362,12 +362,12 @@ public class FrontEndController implements IViewController {
 		backendController.toggleTurtle(id);
 	}
 
-	public void penUp() {
-	
+	public void allPensUp() {
+		backendController.setAllPenUp();
 	}
 	
-	public void penDown(){
-		
+	public void allPensDown(){
+		backendController.setAllPenDown();
 	}
 	
 	

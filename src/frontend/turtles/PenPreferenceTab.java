@@ -25,6 +25,6 @@ public class PenPreferenceTab extends PreferenceTab {
 		penThick.textProperty().bind(Language.createStringBinding("PenThick"));
 		penWidth.getChildren().addAll(penThick, new PenWidthSlider());
 	
-		getRoot().getChildren().addAll(penColor, penWidth, new PenUpDownButtons());
+		getRoot().getChildren().addAll(penColor, penWidth, new PenUpDownButtons(getController()));
 	}
 }
