@@ -59,7 +59,10 @@ public class CommandTable implements CommandTableInterface {
 	public void setCommands(Map<String, Command> commands){
 		this.commands = commands;
 		frontEndController.clearCommands();
-		for (String key: commands.keySet())
-			frontEndController.addCommand(commands.get(key));
+		for (String key: commands.keySet()){
+			if(commands.get(key) instanceof UserCommand){
+				frontEndController.addCommand((UserCommand) commands.get(key));
+			}
+		}
 	}
 }
