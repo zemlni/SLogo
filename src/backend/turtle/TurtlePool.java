@@ -24,7 +24,7 @@ public class TurtlePool {
 		totalTurtles = 0;
 		fcontrol = c;
 		currentActiveTurtle = 0;
-		addTurtleUpTo(1);
+		addTurtleUpTo(5);
 //		System.out.println(currentActiveTurtle);
 	}
 	
@@ -61,6 +61,7 @@ public class TurtlePool {
 				addToTurtleMap(currID);
 				addToCommandableTurtleList(currID);
 				currentActiveTurtle = currID;
+				
 			}
 		}
 	}
