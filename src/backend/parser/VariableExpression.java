@@ -3,6 +3,8 @@ package backend.parser;
 import backend.BackendController;
 import backend.Variable;
 import backend.VariableException;
+import backend.commands.DoTimesCommand;
+import backend.commands.ForCommand;
 import backend.commands.MakeUserInstructionCommand;
 import backend.commands.MakeVariableCommand;
 
@@ -29,18 +31,23 @@ public class VariableExpression extends Expression {
 	 */
 	@Override
 	public Variable evaluate() {
-		try {
-			return getBackendController().getParser().getVariableTable().getVariable(getString().substring(1));
-		} catch (VariableException e) {
-			if (getParent() instanceof MakeVariableCommand
-					|| getParent().getParent() instanceof MakeUserInstructionCommand) {
-				Variable var = new Variable(getString().substring(1), 0);
-				getBackendController().getParser().getVariableTable().setVariable(var);
-				return var;
-			} else {
-				getBackendController().getParser().complain(e);
-				return null;
+		if (checkLines()) {
+			try {
+				return getBackendController().getParser().getVariableTable().getVariable(getString().substring(1));
+			} catch (VariableException e) {
+				if (getParent() instanceof MakeVariableCommand
+						|| getParent().getParent() instanceof MakeUserInstructionCommand
+						|| getParent().getParent() instanceof DoTimesCommand
+						|| getParent().getParent() instanceof ForCommand) {
+					Variable var = new Variable(getString().substring(1), 0);
+					// getBackendController().getParser().getVariableTable().setVariable(var);
+					return var;
+				} else {
+					getBackendController().getParser().complain(e);
+					return null;
+				}
 			}
-		}
+		} else
+			return null;
 	}
 }

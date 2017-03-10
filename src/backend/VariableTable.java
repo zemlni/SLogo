@@ -7,7 +7,7 @@ import frontend.app.FrontEndController;
 /**
  * @author nikita This class is the implementation of the Variable table. It is
  *         created and maintained inside the parser. It has methods for
- *         updating, getting and setting variables that are defiend by the user
+ *         updating, getting and setting variables that are defined by the user
  *         or the users functions. The front end is updated accordingly.
  */
 public class VariableTable implements VariableTableInterface {
@@ -61,7 +61,6 @@ public class VariableTable implements VariableTableInterface {
 	@Override
 	public void removeVariable(Variable var) {
 		variables.remove(var.getKey().toUpperCase());
-		System.out.println(variables.keySet());
 		try {
 			frontEndController.removeVariable(var);
 		} catch (Exception e) {

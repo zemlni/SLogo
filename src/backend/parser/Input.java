@@ -15,16 +15,18 @@ public class Input {
 	private String[] input;
 	private List<Integer> breakPoints;
 	private int count;
-
-	public Input(String[] input, List<Integer> breakPoints) {
-		this(input, 0, breakPoints);
+	private List<Integer> lineNumbers;
+	
+	public Input(String[] input, List<Integer> breakPoints, List<Integer> lineNumbers) {
+		this(input, 0, breakPoints, lineNumbers);
 	}
 
-	public Input(String[] input, int index, List<Integer> breakPoints) {
+	public Input(String[] input, int index, List<Integer> breakPoints, List<Integer> lineNumbers) {
 		this.input = input;
 		this.index = index;
 		this.breakPoints = breakPoints;
 		count = 0;
+		this.lineNumbers = lineNumbers;
 	}
 
 	public void setExpression(Expression expr) {
@@ -78,5 +80,17 @@ public class Input {
 
 	public Expression getPrevious() {
 		return previous;
+	}
+
+	public void finish() {
+		this.index = this.input.length;
+	}
+	
+	public int getLineNumber(){
+		return lineNumbers.get(index);
+	}
+	
+	public List<Integer> getLineNumbers(){
+		return lineNumbers;
 	}
 }

@@ -30,7 +30,9 @@ public class TreeParser implements ParserInterface {
 	private BackendController controller;
 	private List<Entry<String, Pattern>> commandSymbols;
 	private List<Entry<String, Pattern>> syntaxSymbols;
-	public static final String WHITESPACE_NEWLINE = "\\s+|\\n+";
+	private static final String WHITESPACE = "\\s+";
+	private static final String NEWLINE = "\\n+";
+	private static final String WHITESPACE_NEWLINE = WHITESPACE + "|" + NEWLINE;
 	private CommandTable commandTable;
 	private VariableTable variableTable;
 
@@ -111,6 +113,7 @@ public class TreeParser implements ParserInterface {
 	 *            the exception that was thrown
 	 */
 	public void complain(Exception e) {
+		e.printStackTrace();
 		String error = "";
 		String message = "";
 		if (e instanceof IndexOutOfBoundsException)
@@ -121,37 +124,34 @@ public class TreeParser implements ParserInterface {
 		}
 		controller.getFrontEndController().showError(error, message);
 	}
-
+	
+	private Object getInstance(String path, Input name) throws Exception {
+		Class<?> clazz = Class.forName(path);
+		Constructor<?> ctor = clazz.getDeclaredConstructor(name.getClass(), controller.getClass());
+		return ctor.newInstance(name, controller);
+	}
+	
 	private Command makeCommand(Input name) throws CommandException {
 		Command cur = null;
 		try {
-			Class<?> clazz = Class.forName("backend.commands." + getCommandSymbol(name.get()) + "Command");
-			Constructor<?> ctor = clazz.getDeclaredConstructor(name.getClass(), controller.getClass());
-			cur = (Command) ctor.newInstance(name, controller);
-			cur.setInfo(name);
-			return cur;
+			cur = (Command) getInstance("backend.commands." + getCommandSymbol(name.get()) + "Command", name);
 		} catch (Exception e) {
 			try {
-				Class<?> clazz = Class.forName("backend.turtlecommands." + getCommandSymbol(name.get()) + "Command");
-				Constructor<?> ctor = clazz.getDeclaredConstructor(name.getClass(), controller.getClass());
-				cur = (Command) ctor.newInstance(name, controller);
-				cur.setInfo(name);
-				return cur;
+				cur = (Command) getInstance("backend.turtlecommands." + getCommandSymbol(name.get()) + "Command", name);
 			} catch (Exception e1) {
 				try {
 					Command temp = commandTable.getCommand(name.get());
 					cur = new Command(name, controller);
 					cur.setInfo(name);
 					cur.setNumArgs(temp.getNumArgs());
-					System.out.println("INSIDE CREATION: " + temp.getNumArgs());
 					return cur;
 				} catch (Exception e2) {
 					cur = new Command(name, controller);
-					return cur;
 				}
 			}
-
 		}
+		cur.setInfo(name);
+		return cur;
 	}
 
 	private Expression makeExpression(Input name) throws VariableException {
@@ -160,13 +160,13 @@ public class TreeParser implements ParserInterface {
 			if (getSyntaxSymbol(name.get()).equals("Command")) {
 				expr = makeCommand(name);
 			} else {
-				Class<?> clazz = Class.forName("backend.parser." + getSyntaxSymbol(name.get()) + "Expression");
-				Constructor<?> ctor = clazz.getDeclaredConstructor(name.getClass(), controller.getClass());
-				expr = (Expression) ctor.newInstance(name, controller);
+				expr = (Expression) getInstance("backend.parser." + getSyntaxSymbol(name.get()) + "Expression", name);
 			}
 		} catch (Exception e) {
 			throw new VariableException(name.get());
 		}
+		if (expr != null)
+			expr.setLineNumber(name.getLineNumber());
 		return expr;
 	}
 
@@ -183,23 +183,30 @@ public class TreeParser implements ParserInterface {
 	 */
 	@Override
 	public Expression parse(String input, List<Integer> breakPoints) {
-		String[] tempSplit = input.split("\\n+");
+		List<Integer> lineNumbers = new ArrayList<Integer>();
+		String[] lineSplit = input.split(NEWLINE);
 		String tempString = "";
-		for (int i = 0; i < tempSplit.length; i++) {
+		for (int i = 0; i < lineSplit.length; i++) {
 			if (breakPoints.contains(new Integer(i + 1)))
-				tempSplit[i] = "!" + tempSplit[i];
-			if (!(tempSplit[i].trim().charAt(0) == '#' && tempSplit[i].trim().length() > 0)) {
-				tempString += tempSplit[i] + " ";
+				lineSplit[i] = "!" + lineSplit[i];
+			String[] spaceSplit = lineSplit[i].split(WHITESPACE);
+			for (int j = 0; j < spaceSplit.length; j++) {
+				if (lineSplit[i].trim().length() > 0 && !(lineSplit[i].trim().charAt(0) == '#')) {
+					lineNumbers.add(i + 1);
+					tempString += spaceSplit[j] + " ";
+				}
 			}
 		}
 		String[] split = tempString.split(WHITESPACE_NEWLINE);
-		Input in = new Input(split, breakPoints);
+		Input in = new Input(split, breakPoints, lineNumbers);
 		Expression top = new ListStartExpression(controller);
 		while (in.getIndex() < in.getLength()) {
 			in = parse(in);
-			top.addChild(in.getExpression());
-			in.getExpression().setParent(top);
-			in.incrementIndex();
+			if (in.getExpression() != null) {
+				top.addChild(in.getExpression());
+				in.getExpression().setParent(top);
+				in.incrementIndex();
+			}
 		}
 		return top;
 	}
@@ -212,6 +219,8 @@ public class TreeParser implements ParserInterface {
 			cur = makeExpression(in);
 		} catch (Exception e) {
 			complain(e);
+			in.finish();
+			return in;
 		}
 		int numArgs = cur.getNumChildren();
 		while (numArgs > 0 && in.getIndex() < in.getLength() - 1) {

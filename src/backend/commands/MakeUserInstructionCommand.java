@@ -21,7 +21,7 @@ public class MakeUserInstructionCommand extends Command {
 
 	public MakeUserInstructionCommand(Input in1, BackendController controller) {
 		super(in1, controller, 2);
-		in = new Input(in1.getInput(), in1.getIndex(), in1.getBreakPoints());
+		in = new Input(in1.getInput(), in1.getIndex(), in1.getBreakPoints(), in1.getLineNumbers());
 		in.incrementIndex();
 		name = in.get();
 		in.incrementIndex();

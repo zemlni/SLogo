@@ -22,7 +22,8 @@ public class BreakPointExpression extends Expression {
 	 */
 	@Override
 	public Variable evaluate() {
-		getBackendController().setBreakPointExpression(this.getChildren().get(0));
+		if (checkLines())
+			getBackendController().setBreakPointExpression(this.getChildren().get(0));
 		return null;
 	}
 }

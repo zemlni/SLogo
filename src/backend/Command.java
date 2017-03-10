@@ -3,6 +3,7 @@ package backend;
 import java.util.ArrayList;
 import java.util.List;
 
+import backend.commands.MakeUserInstructionCommand;
 import backend.commands.UserCommand;
 import backend.parser.Expression;
 import backend.parser.Input;
@@ -71,8 +72,10 @@ public class Command extends Expression implements CommandInterface {
 				getBackendController().getParser().complain(e);
 				return null;
 			}
-		} else
+		} else if (getParent() instanceof MakeUserInstructionCommand)
 			return new Variable(name, 0);
+		getBackendController().getParser().complain(new CommandException(name));
+		return null;
 	}
 
 	@Override
