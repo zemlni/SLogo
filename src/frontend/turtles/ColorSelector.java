@@ -4,6 +4,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.*;
 import language.Language;
 
@@ -13,7 +14,7 @@ public class ColorSelector extends HBox {
 	public static final int MAX_HEIGHT = 40;
 	private Font font = new Font(12);
 
-	public ColorSelector (String titleKey){
+	public ColorSelector (Paint paint, String titleKey){
 		colorPicker = new ColorPicker();
 		colorPicker.setMaxWidth(MAX_WIDTH);
 		colorPicker.setMaxHeight(MAX_HEIGHT);
