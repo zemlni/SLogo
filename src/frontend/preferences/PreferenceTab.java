@@ -14,7 +14,7 @@ public abstract class PreferenceTab extends Tab{
 		turtleScreenController = controller;
 	
 		this.textProperty().bind(Language.createStringBinding(titleKey));
-		tabRoot = new VBox();
+		tabRoot = new VBox(10);
 		setContent(tabRoot);
 		addButtons();
 	}

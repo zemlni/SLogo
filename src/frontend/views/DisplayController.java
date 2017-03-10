@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import frontend.preferences.ColorNodePalette;
+import frontend.preferences.ImageNodePalette;
 import frontend.preferences.Palette;
 import frontend.preferences.PaletteEntry;
 import frontend.preferences.PaletteIndexAlert;
@@ -22,6 +23,7 @@ public class DisplayController {
 	private int shape = 0;
 	private TurtleScreenController turtleScreenController;
 	private Palette colorPalette;
+	private Palette imagePalette;
 
 
 
@@ -50,6 +52,12 @@ public class DisplayController {
 			entries.add(new PaletteEntry(new ColorNodePalette(colors.get(index)), index));
 		}
 		colorPalette = new Palette(entries);
+		
+		ArrayList<PaletteEntry> imageEntries = new ArrayList<PaletteEntry>();
+		for(Integer index : turtleImages.keySet()){
+			imageEntries.add(new PaletteEntry(new ImageNodePalette(turtleImages.get(index)), index));
+		}
+		imagePalette = new Palette(imageEntries);
 	}
 	
 	public void showColorPalette(){
