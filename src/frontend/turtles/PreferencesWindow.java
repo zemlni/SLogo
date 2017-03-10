@@ -40,8 +40,8 @@ private ResourceBundle resources = ResourceBundle.getBundle("resources.ui/" + RE
 		buttons.setSpacing(10);
 		buttons.setAlignment(Pos.CENTER);
 		
-		ColorSelector backColor = new ColorSelector(resources.getString("BackColor"));
-		backColor.getColorPicker().setOnAction(e -> turtleScreenController.setBackground(backColor.getColorPicker().getValue()));
+		//ColorSelector backColor = new ColorSelector(resources.getString("BackColor"));
+		//backColor.getColorPicker().setOnAction(e -> turtleScreenController.setBackground(backColor.getColorPicker().getValue()));
 		
 		Button imageSelect = new Button(resources.getString("ImageSelect"));
 		imageSelect.setOnAction(e -> turtleScreenController.changeTurtleImage());
@@ -49,7 +49,7 @@ private ResourceBundle resources = ResourceBundle.getBundle("resources.ui/" + RE
 		Button currentOnToggle = new Button(resources.getString("ShowCurrents"));
 		//currentOnToggle.setOnAction(e -> turtleScreenController.());
 		
-		buttons.getChildren().addAll(backColor, imageSelect, currentOnToggle);
+		//buttons.getChildren().addAll(backColor, imageSelect, currentOnToggle);
 		Group root = new Group();
 		root.getChildren().add(buttons);
 	}

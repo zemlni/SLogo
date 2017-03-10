@@ -97,7 +97,7 @@ public class FrontEndController implements IViewController {
 		timer.start();
 
 		backendController = new BackendController(this);
-		displayController = new DisplayController();
+		displayController = new DisplayController(turtleScreenController);
 
 	}
 
