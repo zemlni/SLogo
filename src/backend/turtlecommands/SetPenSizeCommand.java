@@ -1,31 +1,31 @@
 package backend.turtlecommands;
 
 import backend.BackendController;
-import backend.Command;
 import backend.Variable;
+import backend.commands.SimpleCommand;
 import backend.parser.Input;
 
 /**
- * @author nikita set the size of the pen
+ * @author nikita set the size of the pen. Supports unlimited parameters
  */
-public class SetPenSizeCommand extends Command {
+public class SetPenSizeCommand extends SimpleCommand {
 
 	public SetPenSizeCommand(Input info, BackendController controller) {
 		super(info, controller, 1);
 	}
 
 	/**
-	 * set the size of the pen. Supports unlimited parameters.
+	 * set the size of the pen to index.
 	 * 
-	 * @return the value of the last argument
+	 * @param index
+	 *            the index to be set
+	 * @param curArg
+	 *            the next arg, not relevant for this method
+	 * @return the index that was set
 	 */
 	@Override
-	public double execute() {
-		double ret = 0;
-		for (Variable var : getArgs()) {
-			ret = var.getValue();
-			getBackendController().getFrontEndController().getDisplayController().setPenSize((int) ret);
-		}
-		return ret;
+	public double run(double index, Variable curArg) {
+		getBackendController().getFrontEndController().getDisplayController().setPenSize((int) index);
+		return index;
 	}
 }

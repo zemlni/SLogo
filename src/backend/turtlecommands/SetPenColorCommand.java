@@ -1,31 +1,31 @@
 package backend.turtlecommands;
 
 import backend.BackendController;
-import backend.Command;
 import backend.Variable;
+import backend.commands.SimpleCommand;
 import backend.parser.Input;
 
 /**
- * @author nikita Set the color of the pen.
+ * @author nikita Set the color of the pen. Supports unlimited parameters
  */
-public class SetPenColorCommand extends Command {
+public class SetPenColorCommand extends SimpleCommand {
 
 	public SetPenColorCommand(Input info, BackendController controller) {
 		super(info, controller, 1);
 	}
 
 	/**
-	 * Set the color of the pen. Supports unlimited parameters
+	 * set the pen color to the index indicated by result
 	 * 
-	 * @return the value of the last color set
+	 * @param result
+	 *            the index to be set
+	 * @param curArg
+	 *            the next argument, not needed for this example
+	 * @return the index that was set
 	 */
 	@Override
-	public double execute() {
-		double ret = 0;
-		for (Variable var : getArgs()) {
-			ret = var.getValue();
-			getBackendController().getFrontEndController().getDisplayController().setPenColor((int) ret);
-		}
-		return ret;
+	public double run(double result, Variable curArg) {
+		getBackendController().getFrontEndController().getDisplayController().setPenColor((int) result);
+		return result;
 	}
 }

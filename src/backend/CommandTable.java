@@ -1,6 +1,7 @@
 package backend;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import backend.commands.UserCommand;
 import frontend.app.FrontEndController;
@@ -12,7 +13,7 @@ import frontend.app.FrontEndController;
  *         is updated accordingly.
  */
 public class CommandTable implements CommandTableInterface {
-	private HashMap<String, Command> commands;
+	private Map<String, Command> commands;
 	private FrontEndController frontEndController;
 
 	public CommandTable(FrontEndController frontEndController) {
@@ -49,5 +50,16 @@ public class CommandTable implements CommandTableInterface {
 		commands.put(newCommand.getKey().toUpperCase(), newCommand);
 		if (newCommand instanceof UserCommand)
 			frontEndController.addCommand(newCommand);
+	}
+	
+	public Map<String, Command> getCommands(){
+		return commands;
+	}
+	
+	public void setCommands(Map<String, Command> commands){
+		this.commands = commands;
+		frontEndController.clearCommands();
+		for (String key: commands.keySet())
+			frontEndController.addCommand(commands.get(key));
 	}
 }
