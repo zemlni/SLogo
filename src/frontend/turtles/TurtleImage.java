@@ -1,6 +1,7 @@
 package frontend.turtles;
 
 import frontend.app.FrontEndController;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
@@ -55,7 +56,7 @@ public class TurtleImage {
 	
 	public void moveTo(double x, double y){
 		
-		Point location = locTransformer.translateLoc(x, y);
+		Point2D location = locTransformer.translateLoc(x, y);
 		location = locTransformer.getTurtleLoc(location);
 		turtleImage.setX(location.getX() - TURTLE_WIDTH/2);
 		turtleImage.setY(location.getY() - TURTLE_HEIGHT/2);

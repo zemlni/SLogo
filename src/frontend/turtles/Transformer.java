@@ -1,6 +1,7 @@
 package frontend.turtles;
 
 
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -22,15 +23,15 @@ public abstract class Transformer {
 		yBounds = 2*yOff;
 	}
 	
-	public Point translateLoc(double x, double y){
-		return new Point(xOff + x, yOff - y);
+	public Point2D translateLoc(double x, double y){
+		return new Point2D(xOff + x, yOff - y);
 	}
 
-	public abstract Point getTurtleLoc(Point location);
+	public abstract Point2D getTurtleLoc(Point2D location);
 	
-	public abstract void drawLines(Point start, Point end, GraphicsContext gc);
+	public abstract void drawLines(Point2D start, Point2D end, GraphicsContext gc);
 	
-	public double getSlope(Point first, Point second){
+	public double getSlope(Point2D first, Point2D second){
 		return (second.getY()-first.getY())/(second.getX()-first.getX());
 	}
 	
