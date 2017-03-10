@@ -30,4 +30,12 @@ The turtle screen shows the turtles and the drawn lines. There is a Preferences 
 
 There is also a Color Palette button, which when clicked shows the available colors and their indices.
 
-#### 
+#### Sessions and Menu:
+
+Each session stores an independent workspace, and there are tabs to switch sessions. Users can use the New button on the top menu to create a new session tab, the Open button to open a saved session, the Save button to save the current session.
+
+A saved session stores the information of variables, commands, history, and user preferences of turtle screen outlook. 
+
+The Help button shows a JavaFX browser with the commands website as the default help page.
+
+There is a language button, which allows the user to choose language for both the user interface and the language of the SLogo commands.
