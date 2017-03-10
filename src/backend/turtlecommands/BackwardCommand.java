@@ -12,9 +12,10 @@ public class BackwardCommand extends TurtleCommand{
 		super(in, controller, 1);
 	}
 	
+	@Override
 	public double execute(){
 		double backwardAmount = 0;
-
+		getTurtlePool().getFrontController().startEventGrouping();
 		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
 		for(TurtleModel t :turtles){
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
@@ -23,7 +24,8 @@ public class BackwardCommand extends TurtleCommand{
 				t.moveBackwardsAction(backwardAmount);
 			}
 		}
-		
+		getTurtlePool().getFrontController().endEventGrouping();
+
 		return backwardAmount;
 	}
 

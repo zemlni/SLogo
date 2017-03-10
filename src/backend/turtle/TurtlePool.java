@@ -27,6 +27,19 @@ public class TurtlePool {
 		addTurtleUpTo(1); //initialize with 1 turtle already on the screen
 	}
 	
+	public List<TurtleModel> getAllTurtleModels(){
+		List<TurtleModel> turtles = new ArrayList<TurtleModel>();
+		for(TurtleModel t : turtleMap.values()){
+			turtles.add(t);
+		}
+		return turtles;
+		
+	}
+	
+	public FrontEndController getFrontController(){
+		return fcontrol;
+	}
+	
 	public void setCurrentActiveTurtle(int active){
 		currentActiveTurtle = active;
 	}

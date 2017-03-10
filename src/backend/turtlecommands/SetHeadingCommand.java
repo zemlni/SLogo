@@ -19,6 +19,7 @@ public class SetHeadingCommand extends TurtleCommand {
 	@Override
 	public double execute() {
 		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
+		getTurtlePool().getFrontController().startEventGrouping();
 
 		for(TurtleModel t :turtles){
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
@@ -28,6 +29,8 @@ public class SetHeadingCommand extends TurtleCommand {
 				t.setHeadingAction(heading);
 			}
 		}
+		getTurtlePool().getFrontController().endEventGrouping();
+
 		return turtles.get(turtles.size() - 1).getAngleTurned();
 	}
 }

@@ -67,7 +67,7 @@ public class TurtleModel {
 		double oldX = this.xCoor;
 		double oldY = this.yCoor;
 		returnHomeModelAndCalculateDistance(oldX, oldY);
-		updateTurtleViewPosition(oldX, oldY, this.xCoor, this.yCoor);
+		updateTurtleViewPosition(this.xCoor, this.xCoor, this.xCoor, this.yCoor);
 		frontController.clearScreen();
 	}
 	
