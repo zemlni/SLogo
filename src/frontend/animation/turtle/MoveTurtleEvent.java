@@ -1,11 +1,11 @@
 package frontend.animation.turtle;
 
+import frontend.app.FrontEndController;
 import frontend.views.TurtleScreenController;
 
 public class MoveTurtleEvent extends TurtleEvent {
-	private static final double INIT_MOVING_SPEED = 100;
-	private static double v = INIT_MOVING_SPEED;
 	
+	private FrontEndController frontEndController;
 	private int id;
 	private double x; // current position
 	private double y;
@@ -13,9 +13,10 @@ public class MoveTurtleEvent extends TurtleEvent {
 	private double y1;
 	private boolean penDown;
 	
-	public MoveTurtleEvent(TurtleScreenController control, int id,
-			double x0, double y0, double x1, double y1, boolean penDown) {
+	public MoveTurtleEvent(TurtleScreenController control, FrontEndController frontEndController,
+			int id,	double x0, double y0, double x1, double y1, boolean penDown) {
 		super(control);
+		this.frontEndController = frontEndController;
 		this.id = id;
 		this.x = x0;
 		this.y = y0;
@@ -23,19 +24,14 @@ public class MoveTurtleEvent extends TurtleEvent {
 		this.y1 = y1;
 		this.penDown = penDown;
 	}
-	
-	public static void speedUp() {
-		setSpeed(v * 1.5);
-	}
-	public static void slowDown() {
-		setSpeed(v * 2.0 / 3);
-	}
-	private static void setSpeed(double newV) {
-		v = newV;
+
+	private double v() {
+		return frontEndController.getTurtleMovingSpeed();
 	}
 
 	@Override
 	public double update(double dt) {
+		double v = v();
 		double dx = x1 - x;
 		double dy = y1 - y;
 		double dist = Math.sqrt(dx*dx+dy*dy);

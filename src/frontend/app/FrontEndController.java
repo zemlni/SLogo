@@ -46,6 +46,10 @@ public class FrontEndController implements IViewController {
 	public enum EventMode {
 		QUEUE, GROUP, INSTANT
 	}
+	private static final double INIT_MOVING_SPEED = 100;
+	private double v = INIT_MOVING_SPEED;
+	private static final double INIT_ROTATING_SPEED = 200;
+	private double vAngle = INIT_ROTATING_SPEED;
 	
 	private static String sessionLanguage;
 	
@@ -201,8 +205,23 @@ public class FrontEndController implements IViewController {
 		}
 		historyController.addHistory(input);
 		backendController.evaluate(input);
+
 	}
 
+	
+	// Turtle speed
+	public double getTurtleMovingSpeed() {
+		return v;
+	}
+	public double getTurtleRotatingSpeed() {
+		return vAngle;
+	}
+	public void speedUp() {
+		v = v * 1.5;
+	}
+	public void slowDown() {
+		v = v * 2.0 / 3;
+	}
 	
 	// variables view
 	/**
@@ -247,13 +266,13 @@ public class FrontEndController implements IViewController {
 	 */
 	public void moveTurtle(int id, double x0, double y0, double x1, double y1, boolean penDown) {
 		System.out.println("SSDFJEIJWAFIJWEFJWAK");
-		eventReceiver().add(new MoveTurtleEvent(turtleScreenController, id, x0, y0, x1, y1, penDown));
+		eventReceiver().add(new MoveTurtleEvent(turtleScreenController, this, id, x0, y0, x1, y1, penDown));
 	}
 	/**
 	 * Rotate turtle(id) from startAngle to endAngle. 
 	 */
 	public void rotateTurtle(int id, double startAngle, double endAngle) {
-		eventReceiver().add(new RotateTurtleEvent(turtleScreenController, id, startAngle, endAngle));
+		eventReceiver().add(new RotateTurtleEvent(turtleScreenController, this, id, startAngle, endAngle));
 	}
 	public void addTurtle(int id) {
 		eventReceiver().add(new AddTurtleEvent(turtleScreenController, id));

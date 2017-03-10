@@ -1,32 +1,39 @@
 package frontend.animation.turtle;
 
+import frontend.app.FrontEndController;
 import frontend.views.TurtleScreenController;
 
 public class RotateTurtleEvent extends TurtleEvent {
-	private static final double INIT_ROTATING_SPEED = 20;
-	private double vAbs = INIT_ROTATING_SPEED;
 	
+	private FrontEndController frontEndController;
 	private int id;
 	private double a; // current angle
 	private double a1; // target angle
 	// the angle increases clock-wise
 	
-	public RotateTurtleEvent(TurtleScreenController control, int id, double angleStart, double angleEnd) {
+	
+	public RotateTurtleEvent(TurtleScreenController control, FrontEndController frontEndController,
+			int id, double angleStart, double angleEnd) {
 		super(control);
+		this.frontEndController = frontEndController;
 		this.id = id;
 		this.a = angleStart;
 		this.a1 = angleEnd;
 	}
 
+	private double v() {
+		return frontEndController.getTurtleRotatingSpeed();
+	}
+	
 	@Override
 	public double update(double dt) {
+		double v = v();
 		if (a == a1) {
 			control.setTurtleAngle(id, a1);
 			setFinishedTrue();
 			return dt;
 		}
 		double da = a1 - a;
-		double v = vAbs;
 		if (da < 0) {
 			v = -v;
 		}
