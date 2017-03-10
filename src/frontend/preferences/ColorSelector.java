@@ -1,4 +1,4 @@
-package frontend.turtles;
+package frontend.preferences;
 
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;

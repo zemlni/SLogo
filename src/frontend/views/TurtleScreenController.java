@@ -8,9 +8,9 @@ import java.util.Map;
 import frontend.app.FrontEndController;
 import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.TurtleScreenView;
-import frontend.turtles.ImageSelector;
+import frontend.preferences.ImageSelector;
+import frontend.preferences.PreferencesWindow;
 import frontend.turtles.InfiniteTransformer;
-import frontend.turtles.PreferencesWindow;
 import frontend.turtles.Transformer;
 import frontend.turtles.TurtleImage;
 import javafx.geometry.Point2D;
@@ -18,6 +18,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -75,8 +78,6 @@ public class TurtleScreenController implements IViewController {
 	
 	public void setPenColor(Color penColor){
 		gc.setStroke(penColor);
-		File folder = new File("src/resources.ui");
-		System.out.println(folder.listFiles());
 	}
 	
 	public Paint getPenColor(){
