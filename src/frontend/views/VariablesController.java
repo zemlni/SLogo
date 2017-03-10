@@ -5,7 +5,7 @@ import java.util.Map;
 
 import backend.Variable;
 import frontend.app.FrontEndController;
-import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.VariablesView;
 import frontend.variables.VariableEntry;
 import javafx.scene.layout.VBox;
@@ -32,6 +32,7 @@ public class VariablesController implements IViewController {
 	}
 	
 	public void addVariable(Variable variable) {
+		System.out.println("Add variable called in VariablesController");
 		if(!variableEntries.containsKey(variable.getKey())){
 			VariableEntry varEntry = new VariableEntry(variable);
 			variablesBox.getChildren().add(varEntry);

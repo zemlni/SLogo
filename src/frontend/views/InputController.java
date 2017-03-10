@@ -1,6 +1,6 @@
 package frontend.views;
 
-import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.IViewController;
 
 /**
  * A common interface for handling user command input,

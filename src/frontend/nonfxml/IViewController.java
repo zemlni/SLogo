@@ -1,4 +1,4 @@
-package frontend.nonfxml.view;
+package frontend.nonfxml;
 
 public interface IViewController {
 

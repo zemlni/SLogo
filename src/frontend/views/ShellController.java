@@ -1,10 +1,9 @@
 package frontend.views;
 
 import frontend.app.FrontEndController;
-import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.ShellView;
 import frontend.shell.Shell;
-import javafx.scene.control.ScrollPane;
 import language.Language;
 
 
@@ -15,15 +14,12 @@ import language.Language;
  */
 public class ShellController implements InputController, IViewController {
 
-	private ScrollPane shellBox;
 	private Shell shell;
 
 	private FrontEndController frontEnd;
 	
 	public ShellController(ShellView view) {
-		shellBox = view.getShellBox();
-		shell = new Shell();
-		shellBox.setContent(shell);
+		shell = view.getShell();
 	}
 	
 	public void setFrontEndController(FrontEndController frontEnd) {

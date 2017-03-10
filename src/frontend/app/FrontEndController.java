@@ -9,7 +9,6 @@ import backend.Command;
 import backend.Variable;
 import frontend.animation.AddCommandEvent;
 import frontend.animation.AddVariableEvent;
-import frontend.animation.AlertEvent;
 import frontend.animation.AnimatedEvent;
 import frontend.animation.AppendTextEvent;
 import frontend.animation.RemoveCommandEvent;
@@ -17,13 +16,14 @@ import frontend.animation.RemoveVariableEvent;
 import frontend.animation.ShowErrorEvent;
 import frontend.animation.ShowTextEvent;
 import frontend.animation.SynchronizedEventGroup;
+import frontend.animation.turtle.AddTurtleEvent;
 import frontend.animation.turtle.ClearScreenEvent;
 import frontend.animation.turtle.HideTurtleEvent;
 import frontend.animation.turtle.MoveTurtleEvent;
 import frontend.animation.turtle.RotateTurtleEvent;
 import frontend.animation.turtle.ShowTurtleEvent;
 import frontend.nonfxml.FrontEndView;
-import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.InputView;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
@@ -252,6 +252,9 @@ public class FrontEndController implements IViewController {
 	public void rotateTurtle(int id, double startAngle, double endAngle) {
 		eventReceiver().add(new RotateTurtleEvent(turtleScreenController, id, startAngle, endAngle));
 	}
+	public void addTurtle(int id) {
+		eventReceiver().add(new AddTurtleEvent(turtleScreenController, id));
+	}
 	/**
 	 * Show turtle(id).
 	 */
@@ -278,13 +281,7 @@ public class FrontEndController implements IViewController {
 		return ((InputView) inputTabPane.getSelectionModel()
 				.getSelectedItem().getContent()).getController();
 	}
-	/**
-	 * Might be called in input controllers to show error in alert window.
-	 * @param errorMsg
-	 */
-	public void showErrorAlert(String errorMsg, String bad) {
-		eventReceiver().add(new AlertEvent(errorMsg, bad));
-	}
+
 	/**
 	 * Displays an error that has occurred during the processing of a certain command/function
 	 * @param errorMsg String representation of error

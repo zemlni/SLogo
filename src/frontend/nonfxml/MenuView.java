@@ -1,11 +1,10 @@
 package frontend.nonfxml;
 
 import frontend.app.MenuController;
-import frontend.nonfxml.view.IControllableView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
-import language.Language;
+import utils.javafx.FX;
 
 public class MenuView extends HBox implements IControllableView {
 
@@ -17,18 +16,10 @@ public class MenuView extends HBox implements IControllableView {
 		languageBox = new ComboBox<String>();
 		controller = new MenuController(this);
 		
-		Button newBtn = new Button();
-		newBtn.textProperty().bind(Language.createStringBinding("New"));
-		newBtn.setOnAction(e -> controller.addNewSession());
-		Button openBtn = new Button();
-		openBtn.textProperty().bind(Language.createStringBinding("Open"));
-		openBtn.setOnAction(e -> controller.openSession());
-		Button saveBtn = new Button();
-		saveBtn.textProperty().bind(Language.createStringBinding("Save"));
-		saveBtn.setOnAction(e -> controller.saveSession());
-		Button helpBtn = new Button();
-		helpBtn.textProperty().bind(Language.createStringBinding("Help"));
-		helpBtn.setOnAction(e -> controller.openHelpPage());
+		Button newBtn = FX.button("New", e -> controller.addNewSession());
+		Button openBtn = FX.button("Open", e -> controller.openSession());
+		Button saveBtn = FX.button("Save", e -> controller.saveSession());
+		Button helpBtn = FX.button("Help", e -> controller.openHelpPage());
 		
 		this.getChildren().addAll(newBtn, openBtn, saveBtn, helpBtn, languageBox);
 	}
