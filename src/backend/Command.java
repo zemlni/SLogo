@@ -7,8 +7,9 @@ import backend.commands.UserCommand;
 import backend.parser.Expression;
 import backend.parser.Input;
 
-public class Command extends Expression implements CommandInterface {
+public class Command extends Expression implements CommandInterface, java.io.Serializable {
 
+	private static final long serialVersionUID = -999830543243605085L;
 	private int numArgs;
 	private List<Variable> args;
 	private String name;
@@ -29,6 +30,8 @@ public class Command extends Expression implements CommandInterface {
 
 	private boolean isDefinedLangCommand(String name) {
 		try {
+			// TODO
+			System.out.println("Null Pointer Exception here");
 			getBackendController().getParser().getCommandSymbol(name);
 			return true;
 		} catch (CommandException e) {
@@ -104,4 +107,10 @@ public class Command extends Expression implements CommandInterface {
 		}
 		return ret; 
 	}
+	
+	@Override
+	public String toString() {
+		return "Command "+name;
+	}
+	
 }

@@ -1,12 +1,13 @@
 package backend;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import frontend.app.FrontEndController;
 
 public class VariableTable implements VariableTableInterface {
 
-	private HashMap<String, Variable> variables;
+	private Map<String, Variable> variables;
 	private FrontEndController frontEndController;
 
 	public VariableTable(FrontEndController frontEndController) {
@@ -46,4 +47,10 @@ public class VariableTable implements VariableTableInterface {
 		return variables.keySet().contains(name.toUpperCase());
 	}
 
+	public void setVariables(Map<String, Variable> variables) {
+		this.variables = variables;
+	}
+	public Map<String, Variable> getVariables(){
+		return variables;
+	}
 }

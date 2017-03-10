@@ -22,15 +22,18 @@ public class CommandsController implements IViewController {
 
 	
 	private VBox commandsBox;
-	private Map<String, CommandEntry> commands;
+	private Map<String, CommandEntry> commandEntries;
 	private FrontEndController frontEnd;
 	
 	public CommandsController(CommandsView view) {
 		commandsBox = view.getCommandsBox();
+		commandEntries = new HashMap<String, CommandEntry>();
 	}
-	
-	public CommandsController(){
-		commands = new HashMap<String, CommandEntry>();
+	public CommandsController(CommandsView view, Map<String, Command> commands) {
+		this(view);
+		for (String cmdKey : commands.keySet()) {
+			addCommand(commands.get(cmdKey));
+		}
 	}
 	
 	public void setFrontEndController(FrontEndController frontEndController){
@@ -39,13 +42,13 @@ public class CommandsController implements IViewController {
 	
 	public void addCommand(Command command) {
 		UserCommand userCommand = (UserCommand) command;
-		if(commands.containsKey(userCommand.getKey())){
-			commands.get(userCommand.getKey()).updateCommand(userCommand);
+		if(commandEntries.containsKey(userCommand.getKey())){
+			commandEntries.get(userCommand.getKey()).updateCommand(userCommand);
 		}
 		else{
 			CommandEntry commandEntry = new CommandEntry(userCommand);
 			commandsBox.getChildren().add(commandEntry);
-			commands.put(userCommand.getKey(), commandEntry);
+			commandEntries.put(userCommand.getKey(), commandEntry);
 		}
 	}
 
@@ -58,14 +61,22 @@ public class CommandsController implements IViewController {
 		UserCommand userCommand = (UserCommand) command;
 		String targetCommand = userCommand.getKey();
 		
-		if(commands.containsKey(targetCommand)){
+		if(commandEntries.containsKey(targetCommand)){
 			for(int i = 0; i < commandsBox.getChildren().size(); i++){
 				if(targetCommand.equals(commandsBox.getChildren().get(i))){
 					commandsBox.getChildren().remove(i);
-					commands.remove(targetCommand);
+					commandEntries.remove(targetCommand);
 				}
 			}
 		}
+	}
+	
+	public Map<String, Command> getCommands() {
+		Map<String, Command> commands = new HashMap<>();
+		for (String cmdKey : commandEntries.keySet()) {
+			commands.put(cmdKey.toUpperCase(), commandEntries.get(cmdKey).getCommand());
+		}
+		return commands;
 	}
 	
 }

@@ -5,12 +5,13 @@ import java.util.List;
 import backend.BackendController;
 import backend.Variable;
 
-public abstract class Expression {
+public abstract class Expression implements java.io.Serializable {
+	private static final long serialVersionUID = -1577736662474712482L;
 	private Expression parent;
 	private Expression breakPointParent;
 	private List<Expression> children;
 	private int numChildren;
-	private BackendController controller;
+	private transient BackendController controller;
 	private Input info;
 	private String value = "";
 
@@ -65,6 +66,11 @@ public abstract class Expression {
 
 	public BackendController getBackendController() {
 		return controller;
+	}
+	// TODO: written by Keping. This is bad code.
+	// Only to be used when reloading an expression
+	public void setBackendController(BackendController controller) {
+		this.controller = controller;
 	}
 
 	public int getNumChildren() {

@@ -1,6 +1,8 @@
 package backend;
 
-public class Variable implements VariableInterface {
+public class Variable implements VariableInterface, java.io.Serializable {
+
+	private static final long serialVersionUID = 2157544570506055205L;
 	private double value;
 	private String key;
 	private String info;

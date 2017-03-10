@@ -16,10 +16,13 @@ public class CommandsView extends ScrollPane implements IControllableView, IConf
 		this(null);
 	}
 	public CommandsView(CommandsConfig config) {
-		// TODO load config
 		commandsBox = new VBox();
 		this.setContent(commandsBox);
-		controller = new CommandsController(this);
+		if (config != null) {
+			controller = new CommandsController(this, config.getCommands());
+		} else {
+			controller = new CommandsController(this);
+		}
 	}
 	
 	public VBox getCommandsBox() {
@@ -33,8 +36,7 @@ public class CommandsView extends ScrollPane implements IControllableView, IConf
 
 	@Override
 	public CommandsConfig getConfig() {
-		// TODO get config
-		return new CommandsConfig();
+		return new CommandsConfig(controller.getCommands());
 	}
 	
 }

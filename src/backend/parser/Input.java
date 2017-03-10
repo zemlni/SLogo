@@ -2,7 +2,7 @@ package backend.parser;
 
 import java.util.List;
 
-public class Input {
+public class Input implements java.io.Serializable {
 	private Expression expr;
 	private Expression previous;
 	private int index;

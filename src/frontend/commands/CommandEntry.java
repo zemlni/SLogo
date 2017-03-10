@@ -1,5 +1,6 @@
 package frontend.commands;
 
+import backend.Command;
 import backend.commands.UserCommand;
 import javafx.scene.control.Button;
 
@@ -22,6 +23,9 @@ public class CommandEntry extends Button {
 	
 	public String getName(){
 		return commandName;
+	}
+	public Command getCommand() {
+		return userCommand;
 	}
 	
 	public void updateCommand(UserCommand command){

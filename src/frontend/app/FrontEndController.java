@@ -24,6 +24,8 @@ import frontend.animation.turtle.RotateTurtleEvent;
 import frontend.animation.turtle.ShowTurtleEvent;
 import frontend.nonfxml.FrontEndView;
 import frontend.nonfxml.IViewController;
+import frontend.nonfxml.config.CommandsConfig;
+import frontend.nonfxml.config.VariablesConfig;
 import frontend.nonfxml.view.InputView;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
@@ -68,6 +70,9 @@ public class FrontEndController implements IViewController {
 	private EventMode eventMode;
 	
 	public FrontEndController(FrontEndView view) {
+		this(view, null, null);
+	}
+	public FrontEndController(FrontEndView view, VariablesConfig variablesConfig, CommandsConfig commandsConfig) {
 		sessionLanguage = Language.getLanguage();
 		
 		turtleScreenController = view.getTurtleScreenController();
@@ -78,7 +83,6 @@ public class FrontEndController implements IViewController {
 		historyController = view.getHistoryController();
 		inputTabPane = view.getInputTabPane();
 		
-		// TODO set the sub controllers
 		turtleScreenController.setFrontEndController(this);
 		shellController.setFrontEndController(this);
 		scriptController.setFrontEndController(this);
@@ -88,8 +92,11 @@ public class FrontEndController implements IViewController {
 		initAnimation();
 		timer.start();
 		
-		backendController = new BackendController(this);
-
+		if (variablesConfig != null) { 
+			backendController = new BackendController(this, variablesConfig.getVariables(), commandsConfig.getCommands()); 	
+		} else {
+			backendController = new BackendController(this); 	
+		}
 	}
 	
 	

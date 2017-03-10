@@ -24,6 +24,9 @@ public class VariableEntry extends Button{
 	public String getName(){
 		return variableName;
 	}
+	public Variable getVariable() {
+		return variable;
+	}
 	
 	public void changeValue(String value){
 		changeValue(Double.parseDouble(value));

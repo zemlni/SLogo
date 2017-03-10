@@ -1,12 +1,13 @@
 package backend;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import backend.commands.UserCommand;
 import frontend.app.FrontEndController;
 
 public class CommandTable implements CommandTableInterface {
-	private HashMap<String, Command> commands;
+	private Map<String, Command> commands;
 	private FrontEndController frontEndController;
 
 	public CommandTable(FrontEndController frontEndController) {
@@ -17,6 +18,9 @@ public class CommandTable implements CommandTableInterface {
 	@Override
 	public Command getCommand(String name) throws CommandException {
 		Command ret = commands.get(name.toUpperCase());
+		// TODO: print 
+		System.out.println("Currnet command table:");
+		System.out.println(commands);
 		System.out.println("GETCOMMAND: " + name.toUpperCase() + " RESULT: " + commands.get(name.toUpperCase()));
 		if (ret == null)
 			throw new CommandException(name);
@@ -30,6 +34,16 @@ public class CommandTable implements CommandTableInterface {
 		commands.put(newCommand.getKey().toUpperCase(), newCommand);
 		if (newCommand instanceof UserCommand)
 			frontEndController.addCommand(newCommand);
+	}
+	
+	public void setCommands(Map<String, Command> commands) {
+		this.commands = commands;
+	}
+	
+	public Map<String, Command> getCommands(){
+		System.out.println("Commands to be saved:");
+		System.out.println(commands);
+		return commands;
 	}
 
 	@Override

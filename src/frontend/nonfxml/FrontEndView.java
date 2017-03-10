@@ -90,7 +90,11 @@ public class FrontEndView extends SplitPane implements IControllableView,
 		
 		this.getItems().addAll(leftPane, rightPane);
 		
-		controller = new FrontEndController(this);	
+		if (config == null) { 
+			controller = new FrontEndController(this); 
+		} else {
+			controller = new FrontEndController(this, config.getVariablesConfig(), config.getCommandsConfig());
+		}
 	}
 	
 	public TurtleScreenController getTurtleScreenController() {

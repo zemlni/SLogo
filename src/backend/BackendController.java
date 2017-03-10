@@ -2,6 +2,7 @@ package backend;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import backend.parser.Expression;
 import backend.parser.TreeParser;
@@ -22,6 +23,16 @@ public class BackendController implements BackendControllerInterface {
 		this.fcontroller = frontEndController;
 		setLanguage("English");
 		turtlePool = new TurtlePool(frontEndController);
+	}
+
+	public BackendController(FrontEndController frontEndController, Map<String, Variable> variables, 
+			Map<String, Command> commands) {
+		this(frontEndController);
+		parser.getVariableTable().setVariables(variables);
+		parser.getCommandTable().setCommands(commands);
+		for (String cmdKey : commands.keySet()) {
+			commands.get(cmdKey).setBackendController(this);
+		}
 	}
 
 	public TurtlePool getTurtlePool() {
@@ -62,5 +73,10 @@ public class BackendController implements BackendControllerInterface {
 	public void setVariable(Variable var) {
 		parser.getVariableTable().setVariable(var);
 	}
-
+	public Map<String, Command> getCommands(){
+		return parser.getCommandTable().getCommands();
+	}
+	public Map<String, Variable> getVariables(){
+		return parser.getVariableTable().getVariables();
+	}
 }

@@ -47,6 +47,8 @@ public class AppController implements IViewController {
 			in.close();
 			fileIn.close();
 		} catch (Exception e) {
+			//TODO
+			e.printStackTrace();
 			FX.alertError("ErrorTitle", "ConfigOpenError", file.getName());
 		}
 		if (frontEndConfig != null) {
@@ -63,8 +65,9 @@ public class AppController implements IViewController {
 			out.writeObject(sessionsController.getCurrentSession().getConfig());
 			out.close();
 			fileOut.close();
-			System.out.printf("Serialized data saved");
 		} catch (Exception e) {
+			// TODO
+			e.printStackTrace();
 			FX.alertError("ErrorTitle", "ConfigSaveError", file.getName());
 		}
 	}
