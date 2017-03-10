@@ -7,6 +7,7 @@ import java.util.Map;
 
 import frontend.app.FrontEndController;
 import frontend.nonfxml.IViewController;
+import frontend.nonfxml.config.TurtleScreenConfig;
 import frontend.nonfxml.view.TurtleScreenView;
 import frontend.preferences.ImageSelector;
 import frontend.preferences.PreferencesWindow;
@@ -46,6 +47,14 @@ public class TurtleScreenController implements IViewController {
 	private Transformer locTransformer;
 	
 	public TurtleScreenController(TurtleScreenView view) {
+		initialize(view);
+		displayController = new DisplayController(this);
+	}
+	public TurtleScreenController(TurtleScreenView view, TurtleScreenConfig turtleScreenConfig) {
+		initialize(view);
+		displayController = new DisplayController(this, turtleScreenConfig.getDisplayConfig());
+	}
+	private void initialize(TurtleScreenView view) {
 		turtlePane = view.getTurtlePane();
 		locTransformer = new InfiniteTransformer(INITIAL_X_OFFSET, INITIAL_Y_OFFSET);
 
@@ -59,6 +68,7 @@ public class TurtleScreenController implements IViewController {
 		
 		createPreferencePanel();
 	}
+	
 	
 	public void setFrontEndController(FrontEndController frontEndController){
 		frontEnd =frontEndController;
@@ -79,8 +89,11 @@ public class TurtleScreenController implements IViewController {
 		v = v * 2.0 / 3;
 	}
 		
-	public void setDisplayController(DisplayController displayController) {
-		this.displayController = displayController;
+	public DisplayController getDisplayController() {
+		return displayController;
+	}
+	public TurtleScreenConfig getTurtleScreenConfig() {
+		return new TurtleScreenConfig(displayController.getConfig());
 	}
 	
 	public void setLocationTransformer(Transformer transformer){
@@ -121,6 +134,7 @@ public class TurtleScreenController implements IViewController {
 	}
 	
 	public void setBackground(Color color){
+		System.out.println("Set background color in turtleScreenController: " + color);
 		turtlePane.setStyle("-fx-background-color: #" + color.toString().substring(2));
 	}
 	

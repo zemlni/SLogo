@@ -62,7 +62,6 @@ public class FrontEndController implements IViewController {
 	private CommandsController commandsController;
 	private HistoryController historyController;
 	private BackendController backendController;
-	private DisplayController displayController;
 
 	private TabPane inputTabPane;
 
@@ -98,9 +97,6 @@ public class FrontEndController implements IViewController {
 		initAnimation();
 		timer.start();
 
-		displayController = new DisplayController(turtleScreenController);
-		turtleScreenController.setDisplayController(displayController);
-		
 		if (variablesConfig != null) { 
 			backendController = new BackendController(this, variablesConfig.getVariables(), commandsConfig.getCommands()); 	
 		} else {
@@ -378,6 +374,6 @@ public class FrontEndController implements IViewController {
 	}
 	
 	public DisplayController getDisplayController(){
-		return displayController;
+		return turtleScreenController.getDisplayController();
 	}
 }

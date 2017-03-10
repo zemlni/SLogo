@@ -11,11 +11,10 @@ public class TurtleScreenView extends Pane implements IControllableView, IConfig
 	private TurtleScreenController controller;
 	
 	public TurtleScreenView() {
-		this(null);
+		controller = new TurtleScreenController(this);
 	}
 	public TurtleScreenView(TurtleScreenConfig config) {
-		// TODO: load config
-		controller = new TurtleScreenController(this);
+		controller = new TurtleScreenController(this, config);
 	}
 
 	public Pane getTurtlePane() {
@@ -29,8 +28,7 @@ public class TurtleScreenView extends Pane implements IControllableView, IConfig
 
 	@Override
 	public TurtleScreenConfig getConfig() {
-		// TODO get config
-		return new TurtleScreenConfig();
+		return controller.getTurtleScreenConfig();
 	}
 	
 }

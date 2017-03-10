@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import frontend.nonfxml.view.DisplayConfig;
 import frontend.preferences.ColorNodePalette;
 import frontend.preferences.ImageNodePalette;
 import frontend.preferences.Palette;
@@ -14,38 +15,59 @@ import frontend.preferences.PaletteIndexAlert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import utils.javafx.FX;
-/**@author matt nikita
+/**@author matt, nikita, keping
  * */
 public class DisplayController {
 	private Map<Integer, Color> colors;
 	private Map<Integer, File> turtleImages;
-	private int penColor = 0;
-	private int shape = 0;
+
 	private TurtleScreenController turtleScreenController;
 	private Palette colorPalette;
 	private Palette imagePalette;
 
-
+	private static final int INIT_PEN_SIZE = 1;
+	private static final int INIT_SHAPE_INDEX = 0;
+	private static final int INIT_BACKGROUND_INDEX = 5;
+	private static final int INIT_PEN_COLOR_INDEX = 0;
+	private int penSize = INIT_PEN_SIZE; 
+	private int shapeIndex = INIT_SHAPE_INDEX;
+	private int backgroundIndex = INIT_BACKGROUND_INDEX;
+	private int penColorIndex = INIT_PEN_COLOR_INDEX;
+	
 
 	public DisplayController(TurtleScreenController controller){
+		initialize();
 		turtleScreenController = controller;
-		//default values
-		colors = new HashMap<Integer, Color>(){{
-			put(0, Color.BLACK);
-			put(1, Color.BLUE);
-			put(2, Color.GREEN);
-			put(3, Color.ORANGE);
-			put(4, Color.RED);
-			put(5, Color.WHITE);
-			put(6, Color.YELLOW);
-		}};
+		syncConfig();
+	}
+	public DisplayController(TurtleScreenController controller, DisplayConfig config) {
+		initialize();
+		turtleScreenController = controller;
+		penSize = config.getPenSize();
+		shapeIndex = config.getShapeIndex();
+		backgroundIndex = config.getBackgroundIndex();
+		penColorIndex = config.getPenColorIndex();
+		syncConfig();
+	}
+	private void initialize() {
+		// From Keping: I've changed here to not use double brace initialization
+		// The syntax is unusual, and will perhaps cause trouble.
+		// http://stackoverflow.com/questions/1958636/what-is-double-brace-initialization-in-java
 		
 		//default values
-		turtleImages = new HashMap<Integer, File>(){{
-			put(0, new File("turtle.png"));
-			put(1, new File("turtle2.png"));
-		}};
+		colors = new HashMap<Integer, Color>();
+		colors.put(0, Color.BLACK);
+		colors.put(1, Color.BLUE);
+		colors.put(2, Color.GREEN);
+		colors.put(3, Color.ORANGE);
+		colors.put(4, Color.RED);
+		colors.put(5, Color.WHITE);
+		colors.put(6, Color.YELLOW);	
 		
+		//default values
+		turtleImages = new HashMap<Integer, File>();
+		turtleImages.put(0, new File("turtle.png"));
+		turtleImages.put(1, new File("turtle2.png"));
 		
 		ArrayList<PaletteEntry> entries = new ArrayList<PaletteEntry>();
 		for(Integer index : colors.keySet()){
@@ -59,12 +81,20 @@ public class DisplayController {
 		}
 		imagePalette = new Palette(imageEntries);
 	}
+	private void syncConfig() {
+		setPenSize(penSize);
+		setShape(shapeIndex);
+		setBackground(backgroundIndex);
+		setPenColor(penColorIndex);
+	}
+	
 	
 	public void showColorPalette(){
 		colorPalette.show();
 	}
 	
 	public void setPenSize(int width){
+		penSize = width;
 		turtleScreenController.setPenThickness(width);
 	}
 	
@@ -81,14 +111,13 @@ public class DisplayController {
 		}
 	}
 	
-	
 	public void setShape(int index){
 		if(turtleImages.get(index) == null){
 			new PaletteIndexAlert(AlertType.ERROR);
 		}
 		else{
 			turtleScreenController.setTurtleImage(turtleImages.get(index));
-			shape = index;
+			shapeIndex = index;
 		}
 	}
 	
@@ -97,7 +126,8 @@ public class DisplayController {
 			new PaletteIndexAlert(AlertType.ERROR);
 		}
 		else{
-			turtleScreenController.setBackground(colors.get(index));	
+			turtleScreenController.setBackground(colors.get(index));
+			backgroundIndex = index;
 		}
 	}
 	
@@ -107,16 +137,19 @@ public class DisplayController {
 		}
 		else{
 			turtleScreenController.setPenColor(colors.get(index));
-			penColor = index;
+			penColorIndex = index;
 		}
 	}
 	
 	public int getPenColor(){
-		return penColor;
+		return penColorIndex;
 	}
-
 	
 	public int getShape(){
-		return shape;
+		return shapeIndex;
+	}
+	
+	public DisplayConfig getConfig() {
+		return new DisplayConfig(penSize, shapeIndex, backgroundIndex, penColorIndex);
 	}
 }
