@@ -102,6 +102,7 @@ public class TurtlePool {
 	public void setTurtleListToSpecified(List<Integer> turtleIDList){
 		storeCurrentlyActive();
 		commandableTurtleList = turtleIDList;
+		fcontrol.updateCommandable(commandableTurtleList);
 	}
 	
 	private void storeCurrentlyActive(){
@@ -110,6 +111,7 @@ public class TurtlePool {
 	
 	public void restoreTurtleListToOriginalCommandable(){
 		commandableTurtleList = storedCommandableTurtleList;
+		fcontrol.updateCommandable(commandableTurtleList);
 	}
 	
 //	public void setPenDown(int id){
