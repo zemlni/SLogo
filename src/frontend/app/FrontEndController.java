@@ -40,6 +40,7 @@ import frontend.views.VariablesController;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.TabPane;
 import language.Language;
+import utils.javafx.FX;
 
 /**
  * The role of this controller is to oversee and direct all of the objects that
@@ -61,7 +62,9 @@ public class FrontEndController implements IViewController {
 	private VariablesController variablesController;
 	private CommandsController commandsController;
 	private HistoryController historyController;
+	
 	private BackendController backendController;
+	private boolean debugging;
 
 	private TabPane inputTabPane;
 
@@ -205,6 +208,19 @@ public class FrontEndController implements IViewController {
 		eventMode = EventMode.QUEUE;
 	}
 
+	
+	private void syncBackendLanguage() {
+		if (!sessionLanguage.equals(Language.getLanguage())) {
+			sessionLanguage = Language.getLanguage();
+			backendController.setLanguage(sessionLanguage);
+		}
+	}
+	private boolean isDebugging() {
+		return debugging;
+	}
+	private void setDebugging(boolean val) {
+		debugging = val;
+	}
 	/**
 	 * Passes the string input on the command line / current script line to the
 	 * back-end to be processed
@@ -212,14 +228,28 @@ public class FrontEndController implements IViewController {
 	 * @param input
 	 */
 	public void evaluate(String input) {
-		if (!sessionLanguage.equals(Language.getLanguage())) {
-			sessionLanguage = Language.getLanguage();
-			backendController.setLanguage(sessionLanguage);
-		}
+		if (isDebugging()) { return; }
+		syncBackendLanguage();
 		historyController.addHistory(input);
-		// TODO: change this
-		List<Integer> breakPoints = new ArrayList<Integer>();
-		backendController.evaluate(input, breakPoints);
+		backendController.evaluate(input, new ArrayList<Integer>());
+	}
+	/**
+	 * Enter debugging mode. Breakpoints are the line numbers
+	 * of the lines where breakpoints exists.
+	 * @param input
+	 * @param breakpoints
+	 */
+	public void debug(String input, List<Integer> breakpoints) {
+		if (isDebugging()) { return; }
+		syncBackendLanguage();
+		System.out.println("Break points: "+ breakpoints);
+		backendController.evaluate(input, breakpoints);
+	}
+	public void step() {
+		if (!isDebugging()) { return; }
+		if (backendController.evaluateStep()) {
+			setDebugging(false);
+		}
 	}
 
 	// variables view
@@ -340,7 +370,7 @@ public class FrontEndController implements IViewController {
 	 *            String representation of error
 	 */
 	public void showError(String errorMsg, String bad) {
-		eventReceiver().add(new ShowErrorEvent(inputController(), errorMsg, bad));
+		FX.alertError("ErrorTitle", errorMsg, bad);
 	}
 
 	/**

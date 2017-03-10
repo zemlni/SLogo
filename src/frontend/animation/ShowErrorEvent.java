@@ -2,6 +2,11 @@ package frontend.animation;
 
 import frontend.views.InputController;
 
+/**
+ * showAndWait is not allowed during animation or layout processing!
+ * @author keping
+ */
+@Deprecated
 public class ShowErrorEvent extends InputViewEvent {
 
 	private String errorMsg;
