@@ -354,7 +354,10 @@ public class FrontEndController implements IViewController {
 		eventReceiver().add(new AppendTextEvent(inputController(), text));
 	}
 
-	public void changeSelect(int id) {
-		// backendController.changeSelect(id)
+	public void toggleTurtle(int id) {
+		backendController.toggleTurtle(id);
 	}
+	
+	
 }
+
