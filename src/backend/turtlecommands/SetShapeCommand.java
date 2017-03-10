@@ -1,32 +1,32 @@
 package backend.turtlecommands;
 
 import backend.BackendController;
-import backend.Command;
 import backend.Variable;
+import backend.commands.SimpleCommand;
 import backend.parser.Input;
 
 /**
- * @author nikita set the shape of the turtle
+ * @author nikita set the shape of the turtle. Supports unlimited parameters.
  */
-public class SetShapeCommand extends Command {
+public class SetShapeCommand extends SimpleCommand {
 
 	public SetShapeCommand(Input info, BackendController controller) {
 		super(info, controller, 1);
 	}
 
 	/**
-	 * set the shape of the turtle. Supports unlimited parameters.
+	 * set the shape to the current index
 	 * 
-	 * @return the index of the last set shape.
+	 * @param result
+	 *            the index to be set
+	 * @param curArg
+	 *            the next arg, not relevant for this method
+	 * @return the index that was set
 	 */
 	@Override
-	public double execute() {
-		double ret = 0;
-		for (Variable var : getArgs()) {
-			ret = var.getValue();
-			getBackendController().getFrontEndController().getDisplayController().setShape((int) ret);
-		}
-		return ret;
+	public double run(double result, Variable curArg) {
+		getBackendController().getFrontEndController().getDisplayController().setShape((int) result);
+		return result;
 	}
 
 }
