@@ -22,14 +22,21 @@ import javafx.scene.paint.Color;
 
 	//For this class, need to establish handling multiple turtles with IDs
 public class TurtleScreenController implements IViewController {
-	private Canvas canvas;
-	private GraphicsContext gc;
-	private Map<Integer, TurtleImage> turtles; 
-	private Pane turtlePane;
+	private static final double INIT_MOVING_SPEED = 1000;
+	private static final double INIT_ROTATING_SPEED = 200;
 	public static final int INITIAL_X_OFFSET = 198;
 	public static final int INITIAL_Y_OFFSET = 143;
 	public static final int CANVAS_WIDTH = 400;
 	public static final int CANVAS_HEIGHT = 400;
+
+	private double v = INIT_MOVING_SPEED;
+	private double vAngle = INIT_ROTATING_SPEED;
+	
+	private Canvas canvas;
+	private GraphicsContext gc;
+	private Map<Integer, TurtleImage> turtles; 
+	private Pane turtlePane;
+
 	private FrontEndController frontEnd;
 	private Transformer locTransformer;
 	
@@ -51,6 +58,20 @@ public class TurtleScreenController implements IViewController {
 	
 	public void setFrontEndController(FrontEndController frontEndController){
 		frontEnd =frontEndController;
+	}
+	
+	// Turtle speed
+	public double getTurtleMovingSpeed() {
+		return v;
+	}
+	public double getTurtleRotatingSpeed() {
+		return vAngle;
+	}
+	public void speedUp() {
+		v = v * 1.5;
+	}
+	public void slowDown() {
+		v = v * 2.0 / 3;
 	}
 	
 	public void addTurtle(int idNumber){

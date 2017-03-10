@@ -1,11 +1,9 @@
 package frontend.animation.turtle;
 
-import frontend.app.FrontEndController;
 import frontend.views.TurtleScreenController;
 
 public class MoveTurtleEvent extends TurtleEvent {
 	
-	private FrontEndController frontEndController;
 	private int id;
 	private double x; // current position
 	private double y;
@@ -13,10 +11,9 @@ public class MoveTurtleEvent extends TurtleEvent {
 	private double y1;
 	private boolean penDown;
 	
-	public MoveTurtleEvent(TurtleScreenController control, FrontEndController frontEndController,
+	public MoveTurtleEvent(TurtleScreenController control,
 			int id,	double x0, double y0, double x1, double y1, boolean penDown) {
 		super(control);
-		this.frontEndController = frontEndController;
 		this.id = id;
 		this.x = x0;
 		this.y = y0;
@@ -26,7 +23,7 @@ public class MoveTurtleEvent extends TurtleEvent {
 	}
 
 	private double v() {
-		return frontEndController.getTurtleMovingSpeed();
+		return control.getTurtleMovingSpeed();
 	}
 
 	@Override

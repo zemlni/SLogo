@@ -32,6 +32,6 @@ public class SetPositionCommand extends TurtleCommand {
 				t.setPositionAction(newX, newY);
 			}
 		}	 	
-		return turtles.get(turtles.size()).getDistanceTraveled();
+		return turtles.get(turtles.size() - 1).getDistanceTraveled();
 	}
 }
