@@ -16,10 +16,12 @@ public class HistoryView extends ScrollPane implements IControllableView, IConfi
 		this(null);
 	}
 	public HistoryView(HistoryConfig config) {
-		// TODO load config
 		historyBox = new VBox();
 		this.setContent(historyBox);
 		controller = new HistoryController(this);
+		if (config != null) {
+			controller.addHistory(config.getHistories());
+		}
 	}
 	
 	public VBox getHistoryBox() {
@@ -33,8 +35,7 @@ public class HistoryView extends ScrollPane implements IControllableView, IConfi
 
 	@Override
 	public HistoryConfig getConfig() {
-		// TODO get config
-		return new HistoryConfig();
+		return new HistoryConfig(controller.getHistories());
 	}
 
 }
