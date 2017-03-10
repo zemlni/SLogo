@@ -3,32 +3,28 @@ package frontend.app;
 import java.io.IOException;
 
 import frontend.help.BrowserWindow;
+import frontend.nonfxml.IViewController;
+import frontend.nonfxml.MenuView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 
-public class MenuController {
+public class MenuController implements IViewController {
 
-	@FXML
 	private ComboBox<String> languageBox;
 	private AppController appController;
 
+	public MenuController(MenuView view) {
+		languageBox = view.getLanguageBox();
+		initLanguageBox();
+	}
 
 	public void setAppController(AppController appController) {
 		this.appController = appController;
 	}
 
-	@FXML
-	private void initialize() {
-		initLanguageBox();
-	}
-
 	private void initLanguageBox() {
-		languageBox.getItems().addAll(
-				"English",
-				"中文"
-			);
+		languageBox.getItems().addAll("English", "中文");
 		languageBox.setValue("English");
 		languageBox.valueProperty().addListener(new ChangeListener<String>() {
 			@Override
@@ -39,27 +35,28 @@ public class MenuController {
 			}
 		});
 	}
-	
 
-	@FXML
-	private void addNewSession() throws IOException {
+	public void addNewSession() {
 		appController.addNewSession();
 	}
-
-	@FXML
-	private void openHelpPage() {
+	public void openSession() {
+		appController.openSession();
+	}
+	public void saveSession() {
+		appController.saveSession();
+	}
+	public void openHelpPage() {
 		try {
-			BrowserWindow helpPage = new BrowserWindow("http://www.cs.duke.edu/courses/compsci308/spring17/assign/03_slogo/commands.php");
+			BrowserWindow helpPage = new BrowserWindow(
+					"http://www.cs.duke.edu/courses/compsci308/spring17/assign/03_slogo/commands.php");
 			helpPage.show();
 		} catch (IOException e) {
 			System.out.println("Sorry Cannot show help page :(");
 		}
 	}
-	
+
 	private void changeLanguageTo(String language) {
 		appController.changeLanguageTo(language);
 	}
-	
-	
 
 }

@@ -1,46 +1,81 @@
 package frontend.app;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
+import frontend.nonfxml.AppView;
+import frontend.nonfxml.FrontEndView;
+import frontend.nonfxml.IViewController;
+import frontend.nonfxml.config.FrontEndConfig;
+import javafx.stage.FileChooser;
 import language.LanguageSetter;
+import utils.FileChooserOption;
+import utils.MyFileIO;
+import utils.javafx.FX;
 
-public class AppController {
+public class AppController implements IViewController {
+	private static final FileChooser.ExtensionFilter SLOGO_CONF_EXT = new FileChooser.ExtensionFilter("SLogo config file", "*.logo_conf");
 
-	@FXML
-	private AnchorPane anchorPane;
-	@FXML
-	private MenuController topMenuController;
-	@FXML
+	private MenuController menuController;
 	private SessionsController sessionsController;
 	private LanguageSetter languageSetter;
-	
-	public AppController() {
-		// An fxml controller must have a public no-args constructor
-		// that does nothing.
-		// This controller can be omitted, but note that declaring one
-		// with-args constructor without explicitly declaring the no-args
-		// constructor will make the no-args constructor disappear.
-	}
-	@FXML
-	private void initialize() {
-		// Do the initialization here (instead of inside the no-args constructor).
-		topMenuController.setAppController(this);
+
+	public AppController(AppView view) {
+		menuController = view.getMenuController();
+		sessionsController = view.getSessionsController();
+
+		menuController.setAppController(this);
 		sessionsController.setAppController(this);
 		languageSetter = new LanguageSetter();
 	}
-	
-	public void addNewSession() throws IOException {
+
+	public void addNewSession() {
 		sessionsController.addNewSession();
 	}
+
+	public void openSession() {
+		File file = MyFileIO.chooseFile(FileChooserOption.OPEN, SLOGO_CONF_EXT);
+		if (file == null) { return; }
+		FrontEndConfig frontEndConfig = null;
+		try {
+			FileInputStream fileIn = new FileInputStream(file);
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			frontEndConfig = (FrontEndConfig) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (Exception e) {
+			FX.alertError("ErrorTitle", "ConfigOpenError", file.getName());
+		}
+		if (frontEndConfig != null) {
+			sessionsController.addSession(new FrontEndView(frontEndConfig));
+		}
+	}
+
+	public void saveSession() {
+		File file = MyFileIO.chooseFile(FileChooserOption.SAVE, SLOGO_CONF_EXT);
+		if (file == null) { return; }
+		try {
+			FileOutputStream fileOut = new FileOutputStream(file);
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(sessionsController.getCurrentSession().getConfig());
+			out.close();
+			fileOut.close();
+			System.out.printf("Serialized data saved");
+		} catch (Exception e) {
+			FX.alertError("ErrorTitle", "ConfigSaveError", file.getName());
+		}
+	}
+
 	public void changeLanguageTo(String language) {
-		 // TODO: use something better than if 
+		// TODO: use something better than if
 		if (language.equals("中文")) {
 			languageSetter.setLanguage("Chinese");
 		} else if (language.equals("English")) {
 			languageSetter.setLanguage("English");
 		}
 	}
-	
+
 }

@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.IOException;
 
 import frontend.app.FrontEndController;
-import javafx.fxml.FXML;
+import frontend.nonfxml.IViewController;
+import frontend.nonfxml.view.ScriptView;
 import javafx.scene.control.TextArea;
-import javafx.stage.FileChooser;
+import utils.FileChooserOption;
 import utils.MyFileIO;
+import utils.javafx.FX;
 
 
 /**
@@ -15,14 +17,14 @@ import utils.MyFileIO;
  * can write scripts of SLogo commands that can be executed.
  * @author Matthew Tribby
  */
-public class ScriptController implements InputController {
-	enum FileOp {
-		OPEN, SAVE
-	}
+public class ScriptController implements InputController, IViewController {
 	
-	@FXML
 	private TextArea scriptArea;
 	private FrontEndController frontEnd;
+	
+	public ScriptController(ScriptView view){
+		scriptArea = view.getScriptArea();
+	}
 	
 	public void setFrontEndController(FrontEndController frontEnd) {
 		this.frontEnd = frontEnd;
@@ -31,30 +33,16 @@ public class ScriptController implements InputController {
 	private void setText(String text) { scriptArea.setText(text); }
 	
 	
-	@FXML
-	private void run() {
+	public void run() {
 		frontEnd.evaluate(getText());
 	}
 	
-	@FXML
-	private void clearArea() {
+	public void clearArea() {
 		setText("");
 	}
 	
-	private File chooseFile(FileOp fileOp) {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setInitialDirectory(new File("."));
-		if (fileOp == FileOp.OPEN) {
-			fileChooser.setTitle("Open");
-			return fileChooser.showOpenDialog(null);
-		} else {
-			fileChooser.setTitle("Save As");
-			return fileChooser.showSaveDialog(null);
-		}
-	}
-	@FXML
-	private void openFile() throws Exception {
-		File file = chooseFile(FileOp.OPEN);
+	public void openFile() {
+		File file = MyFileIO.chooseFile(FileChooserOption.OPEN);
 		if (file != null) {
 			try {
 				String scriptText = MyFileIO.readTextFile(file.getAbsolutePath());
@@ -64,9 +52,9 @@ public class ScriptController implements InputController {
 			}
 		}
 	}
-	@FXML
-	private void saveFile() {
-		File file = chooseFile(FileOp.SAVE);
+
+	public void saveFile() {
+		File file = MyFileIO.chooseFile(FileChooserOption.SAVE);
         if (file != null) {
             try {
             	MyFileIO.saveTextFile(file.getAbsolutePath(), getText());
@@ -78,8 +66,8 @@ public class ScriptController implements InputController {
 
 	
 	@Override
-	public void showError(String error, String bad) {
-		frontEnd.showErrorAlert(error, bad);
+	public void showError(String errorMsgKey, String content) {
+		FX.alertError("ErrorTitle", errorMsgKey, content);
 	}
 	@Override
 	public void showText(String text) {

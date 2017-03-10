@@ -7,8 +7,24 @@ import java.util.List;
 import backend.BackendController;
 import backend.Command;
 import backend.Variable;
-import frontend.animation.AnimatedAction;
-import frontend.animation.MoveDrawLineAction;
+import frontend.animation.AddCommandEvent;
+import frontend.animation.AddVariableEvent;
+import frontend.animation.AnimatedEvent;
+import frontend.animation.AppendTextEvent;
+import frontend.animation.RemoveCommandEvent;
+import frontend.animation.RemoveVariableEvent;
+import frontend.animation.ShowErrorEvent;
+import frontend.animation.ShowTextEvent;
+import frontend.animation.SynchronizedEventGroup;
+import frontend.animation.turtle.AddTurtleEvent;
+import frontend.animation.turtle.ClearScreenEvent;
+import frontend.animation.turtle.HideTurtleEvent;
+import frontend.animation.turtle.MoveTurtleEvent;
+import frontend.animation.turtle.RotateTurtleEvent;
+import frontend.animation.turtle.ShowTurtleEvent;
+import frontend.nonfxml.FrontEndView;
+import frontend.nonfxml.IViewController;
+import frontend.nonfxml.view.InputView;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
@@ -17,65 +33,94 @@ import frontend.views.ShellController;
 import frontend.views.TurtleScreenController;
 import frontend.views.VariablesController;
 import javafx.animation.AnimationTimer;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TabPane;
 import language.Language;
 
-
 /**
- * The role of this controller is to oversee and direct all of the
- *  objects that make up the front-end of the SLogo program.
+ * The role of this controller is to oversee and direct all of the objects that
+ * make up the front-end of the SLogo program.
+ * 
  * @author Matthew Tribby, Keping Wang
  */
-public class FrontEndController {
+public class FrontEndController implements IViewController {
+	public enum EventMode {
+		QUEUE, GROUP, INSTANT
+	}
 
-	
+	private static final double INIT_MOVING_SPEED = 100;
+	private double v = INIT_MOVING_SPEED;
+	private static final double INIT_ROTATING_SPEED = 200;
+	private double vAngle = INIT_ROTATING_SPEED;
+
 	private static String sessionLanguage;
-	
-	@FXML
+
 	private TurtleScreenController turtleScreenController;
-	@FXML
 	private ShellController shellController;
-	@FXML
 	private ScriptController scriptController;
-	@FXML
 	private VariablesController variablesController;
-	@FXML
 	private CommandsController commandsController;
-	@FXML
 	private HistoryController historyController;
 	private BackendController backendController;
-	
-	@FXML
+
 	private TabPane inputTabPane;
-	
+
 	// animation
-	private long prevNanos = 0;
+	private long prevNanos;
 	private AnimationTimer timer;
-	private LinkedList<AnimatedAction> actionsQueue;
-	
-	
-	@FXML
-	private void initialize() {
+	private LinkedList<AnimatedEvent> eventQueue;
+	private LinkedList<AnimatedEvent> instantEventQueue; // gets executed before
+															// eventQueue
+	private List<AnimatedEvent> eventGroupBuffer;
+	private EventMode eventMode;
+
+	public FrontEndController(FrontEndView view) {
 		sessionLanguage = Language.getLanguage();
+
+		turtleScreenController = view.getTurtleScreenController();
+		shellController = view.getShellController();
+		scriptController = view.getScriptController();
+		variablesController = view.getVariablesController();
+		commandsController = view.getCommandsController();
+		historyController = view.getHistoryController();
+		inputTabPane = view.getInputTabPane();
+
+		// TODO set the sub controllers
 		turtleScreenController.setFrontEndController(this);
 		shellController.setFrontEndController(this);
-		
-		System.out.println("changed code");
-		
 		scriptController.setFrontEndController(this);
 		variablesController.setFrontEndController(this);
 		commandsController.setFrontEndController(this);
 		historyController.setFrontEndController(this);
-		backendController = new BackendController(this);
 		initAnimation();
-		actionsQueue = new LinkedList<>();
 		timer.start();
+
+		backendController = new BackendController(this);
+
 	}
-	
+
+	private List<AnimatedEvent> eventReceiver() {
+		return eventReceiver(eventMode);
+	}
+
+	private List<AnimatedEvent> eventReceiver(EventMode mode) {
+		switch (mode) {
+		case QUEUE:
+			return eventQueue;
+		case GROUP:
+			return eventGroupBuffer;
+		case INSTANT:
+			return instantEventQueue;
+		default:
+			return eventQueue;
+		}
+	}
+
 	private void initAnimation() {
+		eventQueue = new LinkedList<>();
+		instantEventQueue = new LinkedList<>();
+		eventGroupBuffer = new ArrayList<>();
+		eventMode = EventMode.QUEUE;
+		prevNanos = 0;
 		timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
@@ -87,30 +132,76 @@ public class FrontEndController {
 				long deltaNanos = now - prevNanos;
 				prevNanos = now;
 				double dt = deltaNanos / 1.0e9;
-				
-				AnimatedAction action = null;
-				while (dt > 0 && !actionsQueue.isEmpty()) {
-					action = actionsQueue.pollFirst();
+
+				while (!instantEventQueue.isEmpty()) {
+					instantEventQueue.pollFirst().update(Double.POSITIVE_INFINITY);
+				}
+
+				AnimatedEvent action = null;
+				while (dt > 0 && !eventQueue.isEmpty()) {
+					action = eventQueue.pollFirst();
 					dt = action.update(dt);
 				}
 				if (dt == 0 && !action.isFinished()) {
-					actionsQueue.addFirst(action);
+					eventQueue.addFirst(action);
 				}
 			}
 		};
 	}
-	
-	public void moveDrawLineAction(double x0, double y0, double x1, double y1) {
-		AnimatedAction action = new MoveDrawLineAction(this, x0, y0, x1, y1);
-		actionsQueue.addLast(action);
-	}
-	public void turtleRotateAction(double angle) {
-		
-	}
-	
+
+	// Switch event queue and group modes.
 	/**
-	 * Passes the string input on the command line / current
-	 * script line to the back-end to be processed
+	 * In Queue Mode, the events are executed in order, and takes "time" to
+	 * execute.
+	 */
+	public void switchToQueueMode() {
+		if (eventMode == EventMode.GROUP) {
+			putGroupToQueue();
+		}
+		eventMode = EventMode.QUEUE;
+	}
+
+	/**
+	 * In Instant Mode, the events will be executed instantly.
+	 */
+	public void switchToInstantMode() {
+		if (eventMode == EventMode.GROUP) {
+			putGroupToQueue();
+		}
+		eventMode = EventMode.INSTANT;
+	}
+
+	private void putGroupToQueue() {
+		if (!eventGroupBuffer.isEmpty()) {
+			AnimatedEvent group = new SynchronizedEventGroup(eventGroupBuffer);
+			eventQueue.add(group);
+			eventGroupBuffer = new ArrayList<>();
+		}
+	}
+
+	/**
+	 * After event grouping is started, all events received will be put is a
+	 * group, and then when {@link endEventGrouping} is called, this action
+	 * group will be put into the event queue. All the animated events within a
+	 * group start together, the group finishes when all events within finish.
+	 */
+	public void startEventGrouping() {
+		eventMode = EventMode.GROUP;
+		eventGroupBuffer = new ArrayList<AnimatedEvent>();
+	}
+
+	/**
+	 * Put the event group to the event queue. Then switch to event queue mode.
+	 */
+	public void endEventGrouping() {
+		putGroupToQueue();
+		eventMode = EventMode.QUEUE;
+	}
+
+	/**
+	 * Passes the string input on the command line / current script line to the
+	 * back-end to be processed
+	 * 
 	 * @param input
 	 */
 	public void evaluate(String input) {
@@ -119,146 +210,150 @@ public class FrontEndController {
 			backendController.setLanguage(sessionLanguage);
 		}
 		historyController.addHistory(input);
-		//TODO: change this
+		// TODO: change this
 		List<Integer> breakPoints = new ArrayList<Integer>();
 		backendController.evaluate(input, breakPoints);
 	}
 
+	// Turtle speed
+	public double getTurtleMovingSpeed() {
+		return v;
+	}
+
+	public double getTurtleRotatingSpeed() {
+		return vAngle;
+	}
+
+	public void speedUp() {
+		v = v * 1.5;
+	}
+
+	public void slowDown() {
+		v = v * 2.0 / 3;
+	}
+
 	// variables view
 	/**
-	 * Will ensure that a variable is added visually to the Variable window. If the variable
-	 * is already present then it will update the current variable to reflect the new value
-	 * @param variable the Variable instance to be added
+	 * Will ensure that a variable is added visually to the Variable window. If
+	 * the variable is already present then it will update the current variable
+	 * to reflect the new value
+	 * 
+	 * @param variable
+	 *            the Variable instance to be added
 	 */
 	public void addVariable(Variable variable) {
-		variablesController.addVariable(variable);	
+		eventReceiver().add(new AddVariableEvent(variablesController, variable));
 	}
 
 	/**
-	 * Removes the visual representation of a Variable that is currently shown 
+	 * Removes the visual representation of a Variable that is currently shown
 	 * in the Variable window
+	 * 
 	 * @param variable
-	 * @throws Exception if variable that is trying to be removed does not currently
-	 * exist in the front-end. This exception will be more specifically defined.
 	 */
-	public void removeVariable(Variable variable) throws Exception {
-		variablesController.removeVariable(variable);
+	public void removeVariable(Variable variable) {
+		eventReceiver().add(new RemoveVariableEvent(variablesController, variable));
 	}
 
 	// commands view
 	/**
-	 * Adds a command to the Commands Controller which keep tracks of Commands on the
-	 * front-end
+	 * Adds a command to the Commands Controller which keep tracks of Commands
+	 * on the front-end
+	 * 
 	 * @param command
 	 */
 	public void addCommand(Command command) {
-		commandsController.addCommand(command);
+		eventReceiver().add(new AddCommandEvent(commandsController, command));
 	}
+
 	/**
-	 * Removes the command from the Commands Controller which keeps tracks of Commands on
-	 * the front-end
+	 * Removes the command from the Commands Controller which keeps tracks of
+	 * Commands on the front-end
+	 * 
 	 * @param command
-	 * @throws Exception if command that is trying to be removed doesn't exist
 	 */
-	public void removeCommand(Command command) throws Exception {
-		commandsController.removeCommand(command);	
+	public void removeCommand(Command command) {
+		eventReceiver().add(new RemoveCommandEvent(commandsController, command));
 	}
-	
-	// turtle view
+
+	// change turtle view commands
 	/**
-	 * Moves the turtle (or visual point of pen) to a certain specified location
-	 * @param x new x-coordinate
-	 * @param y new y-coordinate
+	 * Move turtle(id) from (x0, y0) to (x1, y1), draw a line at the same time
+	 * is penDown is true.
 	 */
-	public void moveTurtleTo(double x, double y) {
-		turtleScreenController.moveTurtleTo(x, y);
+	public void moveTurtle(int id, double x0, double y0, double x1, double y1, boolean penDown) {
+		System.out.println("SSDFJEIJWAFIJWEFJWAK");
+		eventReceiver().add(new MoveTurtleEvent(turtleScreenController, this, id, x0, y0, x1, y1, penDown));
 	}
+
 	/**
-	 * Draws a line which is useful for tracking the turtle's/pen's movement
-	 * @param x0 starting x
-	 * @param y0 starting y
-	 * @param x1 ending x
-	 * @param y1 ending y
+	 * Rotate turtle(id) from startAngle to endAngle.
 	 */
-	public void drawLine(double x0, double y0, double x1, double y1) {
-		//Test line:
-		//backendController.setVariable(new Variable("test", 15 ));
-		turtleScreenController.drawLine(x0, y0, x1, y1);
+	public void rotateTurtle(int id, double startAngle, double endAngle) {
+		eventReceiver().add(new RotateTurtleEvent(turtleScreenController, this, id, startAngle, endAngle));
 	}
+
+	public void addTurtle(int id) {
+		eventReceiver().add(new AddTurtleEvent(turtleScreenController, id));
+	}
+
 	/**
-	 * Sets the new angle of the turtle/pen. This determines how the turtle/pen will move
-	 * around the screen.
-	 * @param angle Angle specified in degrees
+	 * Show turtle(id).
 	 */
-	public void setTurtleAngle(double angle) {
-		turtleScreenController.setTurtleAngle(angle);
+	public void showTurtle(int id) {
+		eventReceiver().add(new ShowTurtleEvent(turtleScreenController, id));
 	}
-	
+
 	/**
-	 * Shows the turtle image visibly. If the turtle is already showing, this will 
-	 * have no effect
+	 * Hide turtle(id).
 	 */
-	public void showTurtle(){
-		turtleScreenController.showTurtle();
+	public void hideTurtle(int id) {
+		eventReceiver().add(new HideTurtleEvent(turtleScreenController, id));
 	}
-	
+
 	/**
-	 * Hides the turtle image visibly. If the turtle is already hidden, this will
-	 * have no effect
-	 */
-	public void hideTurtle(){
-		turtleScreenController.hideTurtle();
-	}
-	
-	
-	/**
-	 * Clears the drawing screen, resets the turtle back to initial position and gets
-	 * rid of all drawn lines
+	 * Clears the drawing screen, resets the turtle back to initial position and
+	 * gets rid of all drawn lines
 	 */
 	public void clearScreen() {
-		turtleScreenController.clearScreen();
+		eventReceiver().add(new ClearScreenEvent(turtleScreenController));
 	}
 
 	// user input view: shell view and script view
 	private InputController inputController() {
-		// TODO: there is a piece of code depending on the relative
-		// order of the shell tab and script tab.
-		if (inputTabPane.getSelectionModel().getSelectedIndex() == 1) {
-			return shellController;
-		} else {
-			return scriptController;
-		}
+		return ((InputView) inputTabPane.getSelectionModel().getSelectedItem().getContent()).getController();
 	}
+
 	/**
-	 * Might be called in input controllers to show error in alert window.
+	 * Displays an error that has occurred during the processing of a certain
+	 * command/function
+	 * 
 	 * @param errorMsg
-	 */
-	public void showErrorAlert(String errorMsg, String bad) {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle(Language.getWord("ErrorTitle"));
-		alert.setContentText(Language.getWord(errorMsg) + bad);
-		alert.showAndWait();
-	}
-	/**
-	 * Displays an error that has occurred during the processing of a certain command/function
-	 * @param errorMsg String representation of error
+	 *            String representation of error
 	 */
 	public void showError(String errorMsg, String bad) {
-		inputController().showError(errorMsg, bad);
+		eventReceiver().add(new ShowErrorEvent(inputController(), errorMsg, bad));
 	}
+
 	/**
 	 * Displays any text that the user may need to see
+	 * 
 	 * @param text
 	 */
 	public void showText(String text) {
-		System.out.println("show text: "+text);
-		inputController().showText(text);
+		eventReceiver().add(new ShowTextEvent(inputController(), text));
 	}
+
 	/**
 	 * Append text to the input view
+	 * 
 	 * @param text
 	 */
 	public void appendText(String text) {
-		inputController().appendText(text);
+		eventReceiver().add(new AppendTextEvent(inputController(), text));
+	}
+
+	public void changeSelect(int id) {
+		// backendController.changeSelect(id)
 	}
 }

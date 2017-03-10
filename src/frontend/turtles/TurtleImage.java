@@ -1,22 +1,42 @@
 package frontend.turtles;
 
+import frontend.app.FrontEndController;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
 
 public class TurtleImage {
 	public static final int TURTLE_HEIGHT = 30;
 	public static final int TURTLE_WIDTH = 30;
 	private ImageView turtleImage;
+	private Circle currentCircle;
+	private boolean current = true;
+	private boolean currentOn = true;
+	public static final int CURRENT_CIRCLE_RADIUS = 4;
+	private FrontEndController frontEnd;
+	private Transformer locTransformer;
+	private int id;
 	
-	public TurtleImage(double startingX, double startingY){
+	public TurtleImage(int idNumber, Transformer locationTransformer, double startingX, double startingY, FrontEndController frontEnd){
 		setInitialImage();
-		move(startingX, startingY);
 		turtleImage.setFitWidth(TURTLE_WIDTH);
 		turtleImage.setFitHeight(TURTLE_HEIGHT);
+		currentCircle = new Circle(4);
+		locTransformer = locationTransformer;
+		moveTo(startingX, startingY);
+		this.frontEnd = frontEnd;
+		id = idNumber;	
+		turtleImage.setOnMouseClicked(e -> {switchState();});
 	}
 	
-	public TurtleImage(){
-		this(0.0, 0.0);
+	public TurtleImage(int idNumber, Transformer locationTransformer, FrontEndController frontEnd){
+		this(idNumber, locationTransformer, 0.0, 0.0, frontEnd);
+	}
+	
+	private void switchState(){
+		current = !current;
+		currentCircle.setVisible(current && currentOn);
+		frontEnd.changeSelect(id);
 	}
 	
 	private void setInitialImage(){
@@ -30,7 +50,6 @@ public class TurtleImage {
 	}
 	
 	public void setAngle(double angle){
-		//double val = -(turtleImage.getRotate()) + angle;
 		turtleImage.setRotate(angle);
 	}
 
@@ -38,17 +57,34 @@ public class TurtleImage {
 		return turtleImage;
 	}
 	
-	public void move(double x, double y){
-		turtleImage.setX(x - TURTLE_WIDTH/2);
-		turtleImage.setY(y - TURTLE_HEIGHT/2);
+	public void moveTo(double x, double y){
+		
+		Point location = locTransformer.translateLoc(x, y);
+		location = locTransformer.getTurtleLoc(location);
+		turtleImage.setX(location.getX() - TURTLE_WIDTH/2);
+		turtleImage.setY(location.getY() - TURTLE_HEIGHT/2);
+		currentCircle.setCenterX(location.getX());
+		currentCircle.setCenterY(location.getY());
+	
 	}
 	
-	public void showImage(){
+	public void show(){
 		turtleImage.setVisible(true);
+		currentCircle.setVisible(current && currentOn);
 	}
 	
-	public void hideImage(){
+	public void hide(){
 		turtleImage.setVisible(false);
+		turtleImage.setVisible(false);
+	}
+
+	public Circle getCircle() {
+		return currentCircle;
+	}
+
+	public void updateCurrent() {
+		currentOn = !currentOn;
+		currentCircle.setVisible(current && currentOn);
 	}
 	
 }
