@@ -7,6 +7,11 @@ import backend.Command;
 import backend.Variable;
 import backend.parser.Input;
 
+/**
+ * @author nikita This is the implementation of the NotEqual command. An
+ *         instance of this class gets created when the parser identifies that
+ *         the user typed a NotEqual command
+ */
 public class NotEqualCommand extends Command {
 
 	public NotEqualCommand(Input in, BackendController controller) {
@@ -14,7 +19,10 @@ public class NotEqualCommand extends Command {
 	}
 
 	/**
-	 * returns if none of the arguments are equal. results in n^2 complexity.
+	 * returns 1 if none of the arguments are equal. else returns 0. supports
+	 * unlimited parameters
+	 * 
+	 * @return 1 if none of the arguments are equal. else return 0
 	 */
 	@Override
 	public double execute() {
@@ -26,8 +34,5 @@ public class NotEqualCommand extends Command {
 			}
 		}
 		return 1;
-		// return getArgs().get(0).getValue() != getArgs().get(1).getValue() ? 1
-		// : 0;
 	}
-
 }

@@ -5,6 +5,11 @@ import backend.Command;
 import backend.Variable;
 import backend.parser.Input;
 
+/**
+ * @author nikita This is the implementation of the Or command. An instance of
+ *         this class gets created when the parser identifies that the user
+ *         typed a Or command
+ */
 public class OrCommand extends Command {
 
 	public OrCommand(Input in, BackendController controller) {
@@ -12,7 +17,10 @@ public class OrCommand extends Command {
 	}
 
 	/**
-	 * return 1 if at least one argument is nonzero
+	 * return 1 if at least one argument is nonzero. else return 0 supports
+	 * unlimited parameters.
+	 * 
+	 * @return 1 if at least one argument is nonzero else return 0.
 	 */
 	@Override
 	public double execute() {
@@ -21,8 +29,5 @@ public class OrCommand extends Command {
 				return 1;
 		}
 		return 0;
-		// return (getArgs().get(0).getValue() != 0 ||
-		// getArgs().get(1).getValue() != 0) ? 1 : 0;
 	}
-
 }

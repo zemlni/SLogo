@@ -25,7 +25,5 @@ public interface CommandInterface {
 
 	public List<Variable> getArgs();
 
-	public void setArgs(List<Variable> vars);
-
 	public void setNumArgs(int numArgs);
 }

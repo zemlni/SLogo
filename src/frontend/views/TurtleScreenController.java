@@ -36,6 +36,7 @@ public class TurtleScreenController implements IViewController {
 	public TurtleScreenController(TurtleScreenView view) {
 		turtlePane = view.getTurtlePane();
 		locTransformer = new InfiniteTransformer(INITIAL_X_OFFSET, INITIAL_Y_OFFSET);
+
 		turtles = new HashMap<Integer, TurtleImage>();
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = canvas.getGraphicsContext2D();
