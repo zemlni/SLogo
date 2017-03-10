@@ -9,6 +9,7 @@ import frontend.app.FrontEndController;
 import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.TurtleScreenView;
 import frontend.preferences.ImageSelector;
+import frontend.preferences.Palette;
 import frontend.preferences.PreferencesWindow;
 import frontend.turtles.InfiniteTransformer;
 import frontend.turtles.Transformer;

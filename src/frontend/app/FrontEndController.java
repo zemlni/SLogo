@@ -26,6 +26,9 @@ import frontend.animation.turtle.ShowTurtleEvent;
 import frontend.nonfxml.FrontEndView;
 import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.InputView;
+import frontend.preferences.ColorNodePalette;
+import frontend.preferences.Palette;
+import frontend.preferences.PaletteEntry;
 import frontend.views.CommandsController;
 import frontend.views.DisplayController;
 import frontend.views.HistoryController;
@@ -36,6 +39,7 @@ import frontend.views.TurtleScreenController;
 import frontend.views.VariablesController;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.TabPane;
+import javafx.scene.paint.Color;
 import language.Language;
 
 /**
@@ -375,6 +379,12 @@ public class FrontEndController implements IViewController {
 	}
 
 	public void allPensUp() {
+		Palette test = displayController.getPal();
+		int[] test2 = new int[]{8, 100, 200 , 100};
+		displayController.setPalette(test2);
+		int[] test3 = new int[]{7, 150, 0 , 300};
+		displayController.setPalette(test3);
+		test.show();
 		backendController.setAllPenUp();
 	}
 	
