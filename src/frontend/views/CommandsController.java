@@ -68,4 +68,8 @@ public class CommandsController implements IViewController {
 		}
 	}
 	
+	public void clear(){
+		commandsBox = new VBox();
+	}
+	
 }

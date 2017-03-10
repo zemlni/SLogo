@@ -1,8 +1,7 @@
-package frontend.turtles;
+package frontend.preferences;
 
 
 import java.util.ResourceBundle;
-
 
 import frontend.views.TurtleScreenController;
 import javafx.geometry.Pos;

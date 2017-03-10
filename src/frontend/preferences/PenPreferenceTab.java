@@ -1,4 +1,4 @@
-package frontend.turtles;
+package frontend.preferences;
 
 import java.util.ResourceBundle;
 

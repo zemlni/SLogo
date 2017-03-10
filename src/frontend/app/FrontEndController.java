@@ -258,6 +258,10 @@ public class FrontEndController implements IViewController {
 		eventReceiver().add(new RemoveVariableEvent(variablesController, variable));
 	}
 
+	public void clearVariables(){
+		variablesController.clear();
+	}
+	
 	// commands view
 	/**
 	 * Adds a command to the Commands Controller which keep tracks of Commands
@@ -277,6 +281,10 @@ public class FrontEndController implements IViewController {
 	 */
 	public void removeCommand(Command command) {
 		eventReceiver().add(new RemoveCommandEvent(commandsController, command));
+	}
+	
+	public void clearCommands(){
+		commandsController.clear();
 	}
 
 	// change turtle view commands

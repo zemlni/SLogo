@@ -1,6 +1,7 @@
-package frontend.turtles;
+package frontend.preferences;
 
 import frontend.views.TurtleScreenController;
+import javafx.scene.control.ToggleButton;
 
 
 public class TurtleTab extends PreferenceTab{

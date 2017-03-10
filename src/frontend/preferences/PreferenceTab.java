@@ -1,4 +1,4 @@
-package frontend.turtles;
+package frontend.preferences;
 
 import frontend.views.TurtleScreenController;
 import javafx.scene.control.Tab;
