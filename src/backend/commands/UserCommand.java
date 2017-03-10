@@ -7,6 +7,7 @@ import backend.BackendController;
 import backend.Command;
 import backend.UserCommandInterface;
 import backend.Variable;
+import backend.VariableException;
 import backend.parser.Expression;
 import backend.parser.Input;
 
@@ -42,14 +43,18 @@ public class UserCommand extends Command implements UserCommandInterface {
 		for (int i = 0; i < argNames.size(); i++) {
 			String varName = argNames.get(i).getKey();
 			double newVal = getChildren().get(i).evaluate().getValue();
-			old.add(newVal);
+			try{
+				double oldVal = getBackendController().getParser().getVariableTable().getVariable(varName).getValue();
+				old.add(oldVal);
+			}
+			catch (VariableException e){}
 			getBackendController().setVariable(new Variable(varName, newVal));
 		}
 		double ret = commands.evaluate().getValue();
 		for (int i = 0; i < old.size(); i++) {
 			String varName = argNames.get(i).getKey();
-			double newVal = old.get(i);
-			getBackendController().getParser().getVariableTable().removeVariable(new Variable(varName, newVal));
+			double oldVal = old.get(i);
+			getBackendController().getParser().getVariableTable().setVariable(new Variable(varName, oldVal));
 		}
 		return ret;
 	}
