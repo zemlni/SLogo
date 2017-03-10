@@ -20,6 +20,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import language.Language;
+import utils.javafx.FX;
 
 	//For this class, need to establish handling multiple turtles with IDs
 public class TurtleScreenController implements IViewController {
@@ -74,8 +77,16 @@ public class TurtleScreenController implements IViewController {
 		gc.setStroke(penColor);
 	}
 	
-	public void changePenThickness(double newWidth){
+	public Paint getPenColor(){
+		return gc.getStroke();
+	}
+	
+	public void setPenThickness(double newWidth){
 		gc.setLineWidth(newWidth);
+	}
+	
+	public double getPenWidth() {
+		return gc.getLineWidth();
 	}
 	
 	public void setBackground(Color color){
@@ -83,7 +94,8 @@ public class TurtleScreenController implements IViewController {
 	}
 	
 	private void createPreferencePanel(){
-		Button preferences = new Button("Preferences");
+		Button preferences = new Button();
+		preferences.textProperty().bind(Language.createStringBinding("PreferencesTitle"));
 		preferences.setOnAction(e -> new PreferencesWindow(this));
 		turtlePane.getChildren().add(preferences);
 	}
@@ -91,8 +103,13 @@ public class TurtleScreenController implements IViewController {
 	public void changeTurtleImage(){
 		
 		ImageSelector imageSelector = new ImageSelector("Turtle Image");
+		
 		imageSelector.setInitialDirectory("images");
-			File imageFile = imageSelector.getFile();
+		File imageFile = imageSelector.getFile();
+		setTurtleImage(imageFile);
+	}
+	
+	public void setTurtleImage(File imageFile){
 		if(imageFile != null){
 			//http://stackoverflow.com/questions/7830951/how-can-i-load-computer-directory-images-in-javafx
 			Image turtleImage = new Image(imageFile.toURI().toString());

@@ -10,11 +10,10 @@ public class ImageSelector{
 	FileChooser fileChooser;
 	File imageFile;
 	
-	public ImageSelector(String title){
+	public ImageSelector(String titleKey){
 		//Code inspired from the link
 		//https://docs.oracle.com/javase/8/javafx/api/javafx/stage/FileChooser.html
 		fileChooser = new FileChooser();
-		fileChooser.setTitle(title);
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
 		imageFile = fileChooser.showOpenDialog(new Stage());
 	}
