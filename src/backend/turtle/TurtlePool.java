@@ -108,14 +108,19 @@ public class TurtlePool {
 	}
 	
 	public void setPenDown(int id){
-		
+		turtleMap.get(id).setPenDown();
 	}
 	
 	public void setPenUp(int id){
-		
+		turtleMap.get(id).setPenUp();
 	}
 	
 	public void toggleTurtle(int id){
-
+		if(commandableTurtleList.contains(id)){
+			commandableTurtleList.remove((Integer) id);
+		} else {
+			commandableTurtleList.add(id);
+		}
+		
 	}
 }

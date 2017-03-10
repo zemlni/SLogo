@@ -225,5 +225,13 @@ public class TurtleModel {
 		return visible;
 	}
 	
+	public void setPenDown(){
+		this.penDown = true;
+	}
+	
+	public void setPenUp(){
+		this.penDown = false;
+	}
+	
 	
 }

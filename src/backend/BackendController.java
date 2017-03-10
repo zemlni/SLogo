@@ -34,15 +34,15 @@ public class BackendController implements BackendControllerInterface {
 	}
 	
 	public void toggleTurtle(int id){
-		
+		turtlePool.toggleTurtle(id);
 	}
 	
 	public void setPenDown(int id){
-		
+		turtlePool.setPenDown(id);
 	}
 	
 	public void setPenUp(int id){
-		
+		turtlePool.setPenUp(id);
 	}
 
 	/**
