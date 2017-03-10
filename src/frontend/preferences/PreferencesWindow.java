@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import frontend.views.TurtleScreenController;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
@@ -31,15 +32,8 @@ private ResourceBundle resources = ResourceBundle.getBundle("resources.ui/" + RE
 		stage.show();
 	}
 	
-	public void createButtons(){
-
-		
-		//ColorSelector backColor = new ColorSelector(resources.getString("BackColor"));
-		//backColor.getColorPicker().setOnAction(e -> turtleScreenController.setBackground(backColor.getColorPicker().getValue()));
-		
-		Button imageSelect = new Button(resources.getString("ImageSelect"));
-		imageSelect.setOnAction(e -> turtleScreenController.changeTurtleImage());
-		
+	public void addTab(Tab tab){
+		tabPane.getTabs().add(tab);
 	}
 }
 

@@ -13,6 +13,7 @@ public class BrowserWindow extends Stage {
 	public static final String MAIN_PAGE_RESOURCE = "/frontend/help/browser-view.fxml";
     public static final String DEFAULT_RESOURCE_PACKAGE = "resources/ui/";
     public static final String LANGUAGE = "English";
+    public static final String IMAGE_FILE = "turtle.png";
     private static ResourceBundle resourceBundle;
     
     public static final double WIDTH = 700;
@@ -30,7 +31,7 @@ public class BrowserWindow extends Stage {
         this.setTitle(resourceBundle.getString("Title"));
         this.setScene(scene);
         this.sizeToScene();
-        this.getIcons().add(new Image("turtle.png"));
+        this.getIcons().add(new Image(IMAGE_FILE));
 	}
     
 }

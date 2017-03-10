@@ -47,14 +47,14 @@ These are to allow for different priorities of the commands passed from backend,
 
 ####Internal API for Front-End
 
-#####public class LocationTransformer 
+#####public abstract class LocationTransformer 
 This is a new class that has been added to allow for different strategies in turtle screen movement. For example different implementations of it could mean the screen is infinite, unbounded, etc. 
 1. Constructor: public LocationTransformer(double xOffset, double yOffset)
-2. Translate Points to understandable for JavaFX: public Point translateLoc(double x, double y)
-3. Finds turtle adjusted Location based on new location: public void findTurtleLoc(Point location) 
-4. Draws lines: public void drawLines(Point start, Point end, GraphicsContext gc)
+2. Translate Points to understandable for JavaFX canvas (meaning 0,0 is in top left corner): public Point2D translateLoc(double x, double y)
+3. Finds turtle adjusted Location based on new location: public abstract void findTurtleLoc(Point2D location) 
+4. Draws lines: public abstract void drawLines(Point2D start, Point2D end, GraphicsContext gc)
 5. Sets bounds for when screen shift size: public void setBounds(double xBoundary, double yBoundary)
-6. Gets turtle current location: public Point getTurtleLoc()
+6. Gets turtle current location: public Point2D getTurtleLoc()
 
 #####TurtleScreenController: 
 formerly titled Turtle Controller. Changed name to more accurately reflect that this controller was for handling the screen where turtle moves.
@@ -96,8 +96,30 @@ wish to extend the basic visual display of a command.
 1. Constructor: public CommandEntry(UserCommand command)
 2. Gets Command Name: public String getName()
 3. Visually updates command: public void updateCommand(UserCommand command)
- 
 
+#####public class Palette 
+Class which is flexibly designed to be a basis for palettes of different varieties. Needed to show different colors assigned to indices. Could be useful for extension. 
+1. Constructor: public Palette(List<PaletteEntry> entries)
+2. Shows the palette: public void show(){
+3. Hides the palette: public void hide(){
+4. Adds to the palette / replaces old index: public void add(PaletteEntry entry)
+
+#####public class PaletteEntry extends VBox {
+Flexible class which is designed to allow for a wide range of JavaFX components to be made into a suitable entry into the Palette class mentioned above. Kept it general by accepting a node as a parameter.
+1. Constructor: public PaletteEntry(Node node, int index){
+2. Index associated with node value: public int getIndex(){
+
+######public class PreferencesWindow 
+Basis for building a selection of preferences for the user. The important method in this class is addTab which lets you add to the pre-existing tabs of preferences, ideal for extensions. 
+1. constructor: public PreferencesWindow(TurtleScreenController turtleScreenControl){
+2. Add tab to window: public void addTab(Tab tab)
+
+#####public abstract class PreferenceTab extends Tab{
+This class is useful for being a building block for a preferences tab to put in the preferences window.
+1. Constructor: public PreferenceTab(TurtleScreenController controller, String titleKey){	
+2. Implemented in a way specific to each tab: public abstract void addButtons();	
+3. Used to allow subclasses to access controller: public TurtleScreenController getController(){
+	
 ## Backend External API Changes:
 ```
 class BackendController{
