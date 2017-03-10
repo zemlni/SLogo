@@ -24,9 +24,7 @@ public class TurtlePool {
 		totalTurtles = 0;
 		fcontrol = c;
 		currentActiveTurtle = 0;
-		addTurtleUpTo(5);
-		System.out.println(turtleMap.size());
-//		System.out.println(currentActiveTurtle);
+		addTurtleUpTo(1); //initialize with 1 turtle already on the screen
 	}
 	
 	public void setCurrentActiveTurtle(int active){
@@ -52,10 +50,6 @@ public class TurtlePool {
 	 * adds new turtles up to the id
 	 */
 	public void addTurtleUpTo(int id){
-		/*
-		 * TODO: needs to call the frontEndController to create a new turtle in the frontEnd
-		 */
-//		System.out.println("timeeeee");
 		if(!turtleMap.containsKey(id)){
 			for(int currID = highestTurtleID() + 1; currID <= (int)id; currID++){
 				totalTurtles++;
@@ -84,9 +78,7 @@ public class TurtlePool {
 		return turtleMap.get(id);
 	}
 	
-	// TurtlePool.getActiveTurtles()
-	// foreach(turtleModel turtle : turtleList)
-	public List<TurtleModel> getActiveTurtles(){
+	public List<TurtleModel> getCommandableTurtleModels(){
 		List<TurtleModel> turtleList = new ArrayList<TurtleModel>();
 		for(int activeTurtleID : commandableTurtleList){
 			turtleList.add(retrieveTurtleFromMap(activeTurtleID));
@@ -103,8 +95,39 @@ public class TurtlePool {
 		storedCommandableTurtleList = commandableTurtleList;
 	}
 	
-	public void restoreTurtleListToActive(){
+	public void restoreTurtleListToOriginalCommandable(){
 		commandableTurtleList = storedCommandableTurtleList;
 	}
 	
+//	public void setPenDown(int id){
+//		turtleMap.get(id).setPenDown();
+//	}
+//	
+//	public void setPenUp(int id){
+//		turtleMap.get(id).setPenUp();
+//	}
+	
+	public void setAllPenUp(){
+		for(TurtleModel t :turtleMap.values()){
+			t.setPenUp();
+		}
+	}
+	public void setAllPenDown(){
+		for(TurtleModel t :turtleMap.values()){
+			t.setPenDown();
+		}
+	}
+	
+	public void toggleTurtle(int id){
+		if(commandableTurtleList.contains(id)){
+			commandableTurtleList.remove((Integer) id);
+		} else {
+			commandableTurtleList.add(id);
+		}
+		
+	}
+	
+	public List<Integer> getCommandableTurtleIntegers(){
+		return commandableTurtleList;
+	}
 }

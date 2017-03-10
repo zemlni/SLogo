@@ -18,11 +18,13 @@ public class SetHeadingCommand extends TurtleCommand {
 	 */
 	@Override
 	public double execute() {
-		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
-		for (Variable var : getArgs()) {
-			double heading = var.getValue();
-			for(TurtleModel t :turtles){
-				getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
+
+		for(TurtleModel t :turtles){
+			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+
+			for (Variable var : getArgs()) {
+				double heading = var.getValue();
 				t.setHeadingAction(heading);
 			}
 		}

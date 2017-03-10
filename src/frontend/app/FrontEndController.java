@@ -287,6 +287,7 @@ public class FrontEndController implements IViewController {
 	public void moveTurtle(int id, double x0, double y0, double x1, double y1, boolean penDown) {
 		System.out.println("SSDFJEIJWAFIJWEFJWAK");
 		eventReceiver().add(new MoveTurtleEvent(turtleScreenController, this, id, x0, y0, x1, y1, penDown));
+
 	}
 
 	/**
@@ -312,6 +313,10 @@ public class FrontEndController implements IViewController {
 	 */
 	public void hideTurtle(int id) {
 		eventReceiver().add(new HideTurtleEvent(turtleScreenController, id));
+	}
+	
+	public void updateCommandable(List<Integer> turtleIds){
+		turtleScreenController.updateCommandable(turtleIds);
 	}
 
 	/**
@@ -356,8 +361,16 @@ public class FrontEndController implements IViewController {
 		eventReceiver().add(new AppendTextEvent(inputController(), text));
 	}
 
-	public void changeSelect(int id) {
-		// backendController.changeSelect(id)
+	public void toggleTurtle(int id) {
+		backendController.toggleTurtle(id);
+	}
+
+	public void allPensUp() {
+		backendController.setAllPenUp();
+	}
+	
+	public void allPensDown(){
+		backendController.setAllPenDown();
 	}
 	
 	public DisplayController getDisplayController(){

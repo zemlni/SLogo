@@ -10,12 +10,13 @@ public class TurtleImage {
 	public static final int TURTLE_WIDTH = 30;
 	private ImageView turtleImage;
 	private Circle currentCircle;
-	private boolean current = true;
+	private boolean commandable = true;
 	private boolean currentOn = true;
 	public static final int CURRENT_CIRCLE_RADIUS = 4;
 	private FrontEndController frontEnd;
 	private Transformer locTransformer;
 	private int id;
+	public static final String INITIAL_TURTLE_IMAGE = "turtle.png";
 	
 	public TurtleImage(int idNumber, Transformer locationTransformer, double startingX, double startingY, FrontEndController frontEnd){
 		setInitialImage();
@@ -26,22 +27,17 @@ public class TurtleImage {
 		moveTo(startingX, startingY);
 		this.frontEnd = frontEnd;
 		id = idNumber;	
-		turtleImage.setOnMouseClicked(e -> {switchState();});
+		turtleImage.setOnMouseClicked(e -> {toggleCommandable();});
 	}
 	
 	public TurtleImage(int idNumber, Transformer locationTransformer, FrontEndController frontEnd){
 		this(idNumber, locationTransformer, 0.0, 0.0, frontEnd);
 	}
 	
-	private void switchState(){
-		current = !current;
-		currentCircle.setVisible(current && currentOn);
-		frontEnd.changeSelect(id);
-	}
 	
 	private void setInitialImage(){
 		//Images gotten from open clipart site: https://openclipart.org/detail/1024/turtle
-		Image turtle = new Image(getClass().getClassLoader().getResourceAsStream("turtle.png"));
+		Image turtle = new Image(getClass().getClassLoader().getResourceAsStream(INITIAL_TURTLE_IMAGE));
 		turtleImage = new ImageView(turtle);
 	}
 	
@@ -70,7 +66,7 @@ public class TurtleImage {
 	
 	public void show(){
 		turtleImage.setVisible(true);
-		currentCircle.setVisible(current && currentOn);
+		currentCircle.setVisible(commandable && currentOn);
 	}
 	
 	public void hide(){
@@ -82,9 +78,24 @@ public class TurtleImage {
 		return currentCircle;
 	}
 
-	public void updateCurrent() {
+	private void toggleCommandable(){
+		commandable = !commandable;
+		updateCircle();
+		frontEnd.toggleTurtle(id);
+	}
+	
+	public void updateCommandable(){
+		commandable = true;
+		updateCircle();
+	}
+	
+	public void toggleShowCommandable() {
 		currentOn = !currentOn;
-		currentCircle.setVisible(current && currentOn);
+		updateCircle();
+	}
+	
+	private void updateCircle(){
+		currentCircle.setVisible(commandable && currentOn);
 	}
 	
 }

@@ -34,7 +34,9 @@ public class TurtleComputationsUnit {
 	public double calcTowardsTurn(double x, double y, double towX, double towY, double dir) {
 		double currX = x;
 		double currY = y;
-
+		
+		double atan = Math.toDegrees(Math.atan((currX - towX) / (currY - towY)));
+		
 		if (currX == towX && towY > currY) {
 			return 0;
 		} else if (currX == towX && towY < currY) {
@@ -43,16 +45,20 @@ public class TurtleComputationsUnit {
 			return 90;
 		} else if (currY == towY && towX < currX) {
 			return 270;
-		} else if (towX > currX && towY > currY) {
-			return 0 + Math.atan((currX - towX) / (currY - towY));
-		} else if (towX > currX && towY < currY) {
-			return 180 - Math.atan((currX - towX) / (currY - towY));
-		} else if (towX < currX && towY > currY) {
-			return 180 + Math.atan((currX - towX) / (currY - towY));
-		} else if (towX < currX && towY < currY) {
-			return 360 - Math.atan((currX - towX) / (currY - towY));
-		} else {
+		}
+		if (
+//				towX > currX && 
+				towY > currY) {
+			return 0 + atan;
+		} else if (towY < currY) {
+			return 180 + atan;
+		} 
+//		else if (towX < currX && towY > currY) {
+//			return 360 + atan;
+//		} 
+		else {
 			return dir;
 		}
+
 	}
 }

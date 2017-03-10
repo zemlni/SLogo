@@ -28,9 +28,29 @@ public class BackendController implements BackendControllerInterface {
 		setLanguage("English");
 		turtlePool = new TurtlePool(frontEndController);
 	}
-
+	
 	public TurtlePool getTurtlePool() {
 		return turtlePool;
+	}
+	
+	public void toggleTurtle(int id){
+		turtlePool.toggleTurtle(id);
+	}
+	
+//	public void setPenDown(int id){
+//		turtlePool.setPenDown(id);
+//	}
+//	
+//	public void setPenUp(int id){
+//		turtlePool.setPenUp(id);
+//	}
+	
+	public void setAllPenDown(){
+		turtlePool.setAllPenDown();
+	}
+	
+	public void setAllPenUp(){
+		turtlePool.setAllPenUp();
 	}
 
 	/**
