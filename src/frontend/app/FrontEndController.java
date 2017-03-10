@@ -103,6 +103,7 @@ public class FrontEndController implements IViewController {
 
 		backendController = new BackendController(this);
 		displayController = new DisplayController(turtleScreenController);
+		turtleScreenController.setDisplayController(displayController);
 
 	}
 
