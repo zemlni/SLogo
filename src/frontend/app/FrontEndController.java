@@ -7,6 +7,7 @@ import java.util.List;
 import backend.BackendController;
 import backend.Command;
 import backend.Variable;
+import backend.commands.UserCommand;
 import frontend.animation.AddCommandEvent;
 import frontend.animation.AddVariableEvent;
 import frontend.animation.AnimatedEvent;
@@ -269,7 +270,7 @@ public class FrontEndController implements IViewController {
 	 * 
 	 * @param command
 	 */
-	public void addCommand(Command command) {
+	public void addCommand(UserCommand command) {
 		eventReceiver().add(new AddCommandEvent(commandsController, command));
 	}
 
@@ -279,7 +280,7 @@ public class FrontEndController implements IViewController {
 	 * 
 	 * @param command
 	 */
-	public void removeCommand(Command command) {
+	public void removeCommand(UserCommand command) {
 		eventReceiver().add(new RemoveCommandEvent(commandsController, command));
 	}
 	

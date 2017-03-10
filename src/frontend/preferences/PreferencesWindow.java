@@ -25,7 +25,7 @@ private ResourceBundle resources = ResourceBundle.getBundle("resources.ui/" + RE
 		turtleScreenController = turtleScreenControl;
 		
 		tabPane = new TabPane();
-		tabPane.getTabs().add(new PenPreferenceTab(turtleScreenControl));
+		tabPane.getTabs().addAll(new PenPreferenceTab(turtleScreenControl), new TurtleTab(turtleScreenController));
 		Stage stage = new Stage();
 		Scene preferencesScene = new Scene(tabPane, WINDOW_WIDTH, WINDOW_HEIGHT);
 		stage.setScene(preferencesScene);
@@ -35,9 +35,7 @@ private ResourceBundle resources = ResourceBundle.getBundle("resources.ui/" + RE
 	}
 	
 	public void createButtons(){
-		VBox buttons = new VBox();
-		buttons.setSpacing(10);
-		buttons.setAlignment(Pos.CENTER);
+
 		
 		//ColorSelector backColor = new ColorSelector(resources.getString("BackColor"));
 		//backColor.getColorPicker().setOnAction(e -> turtleScreenController.setBackground(backColor.getColorPicker().getValue()));
@@ -45,12 +43,6 @@ private ResourceBundle resources = ResourceBundle.getBundle("resources.ui/" + RE
 		Button imageSelect = new Button(resources.getString("ImageSelect"));
 		imageSelect.setOnAction(e -> turtleScreenController.changeTurtleImage());
 		
-		Button currentOnToggle = new Button(resources.getString("ShowCurrents"));
-		//currentOnToggle.setOnAction(e -> turtleScreenController.());
-		
-		//buttons.getChildren().addAll(backColor, imageSelect, currentOnToggle);
-		Group root = new Group();
-		root.getChildren().add(buttons);
 	}
 }
 

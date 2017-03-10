@@ -90,8 +90,8 @@ public class TurtleImage {
 		updateCircle();
 	}
 	
-	public void toggleShowCommandable() {
-		currentOn = !currentOn;
+	public void updateShowCommandable(boolean show) {
+		currentOn = show;
 		updateCircle();
 	}
 	

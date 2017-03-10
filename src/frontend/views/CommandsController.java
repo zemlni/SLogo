@@ -37,26 +37,20 @@ public class CommandsController implements IViewController {
 		frontEnd =frontEndController;
 	}
 	
-	public void addCommand(Command command) {
-		UserCommand userCommand = (UserCommand) command;
-		if(commands.containsKey(userCommand.getKey())){
-			commands.get(userCommand.getKey()).updateCommand(userCommand);
+	public void addCommand(UserCommand command) {
+		if(commands.containsKey(command.getKey())){
+			commands.get(command.getKey()).updateCommand(command);
 		}
 		else{
-			CommandEntry commandEntry = new CommandEntry(userCommand);
+			CommandEntry commandEntry = new CommandEntry(command);
 			commandsBox.getChildren().add(commandEntry);
-			commands.put(userCommand.getKey(), commandEntry);
+			commands.put(command.getKey(), commandEntry);
 		}
 	}
 
-	/**
-	 * CAN ONLY TAKE USER COMMANDS NEED TO UPDATE THIS API!!!!!!!
-	 * @param command
-	 * @throws Exception
-	 */
-	public void removeCommand(Command command) throws Exception {
-		UserCommand userCommand = (UserCommand) command;
-		String targetCommand = userCommand.getKey();
+
+	public void removeCommand(UserCommand command) throws Exception {
+		String targetCommand = command.getKey();
 		
 		if(commands.containsKey(targetCommand)){
 			for(int i = 0; i < commandsBox.getChildren().size(); i++){

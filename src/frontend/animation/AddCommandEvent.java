@@ -1,13 +1,13 @@
 package frontend.animation;
 
-import backend.Command;
+import backend.commands.UserCommand;
 import frontend.views.CommandsController;
 
 public class AddCommandEvent extends CommandsViewEvent {
 
-	private Command command;
+	private UserCommand command;
 	
-	public AddCommandEvent(CommandsController control, Command command) {
+	public AddCommandEvent(CommandsController control, UserCommand command) {
 		super(control);
 		this.command = command;
 	}
