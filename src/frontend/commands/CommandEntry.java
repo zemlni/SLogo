@@ -1,6 +1,7 @@
 package frontend.commands;
 
 import backend.commands.UserCommand;
+import frontend.variables.VariableEntry;
 import javafx.scene.control.Button;
 
 public class CommandEntry extends Button {

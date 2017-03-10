@@ -151,4 +151,10 @@ public class TurtleScreenController implements IViewController {
 			turtles.get(id).updateCommandable();
 		}
 	}
+	
+	public void updateShowCommandable(boolean show){
+		for(TurtleImage turtle : turtles.values()){
+			turtle.updateShowCommandable(show);
+		}
+	}
 }

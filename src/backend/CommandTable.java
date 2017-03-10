@@ -48,6 +48,6 @@ public class CommandTable implements CommandTableInterface {
 		commands.remove(newCommand.getKey().toUpperCase());
 		commands.put(newCommand.getKey().toUpperCase(), newCommand);
 		if (newCommand instanceof UserCommand)
-			frontEndController.addCommand(newCommand);
+			frontEndController.addCommand((UserCommand) newCommand);
 	}
 }
