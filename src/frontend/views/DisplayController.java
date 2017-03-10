@@ -7,8 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import frontend.preferences.ColorNodePalette;
+import frontend.preferences.ImageNodePalette;
 import frontend.preferences.Palette;
 import frontend.preferences.PaletteEntry;
+import frontend.preferences.PaletteIndexAlert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -49,15 +52,10 @@ public class DisplayController {
 			entries.add(new PaletteEntry(new ColorNodePalette(colors.get(index)), index));
 		}
 		colorPalette = new Palette(entries);
-		
-		ArrayList<PaletteEntry> entries2 = new ArrayList<PaletteEntry>();
-		for(Integer index : turtleImages.keySet()){
-			Image turtleImage = new Image(turtleImages.get(index).toURI().toString());
-			ImageView turtle = new ImageView();
-			turtle.setImage(turtleImage);
-			entries2.add(new PaletteEntry(turtle, index));
-		}
-		
+	}
+	
+	public void showColorPalette(){
+		colorPalette.show();
 	}
 	
 	public void setPenSize(int width){
@@ -79,21 +77,29 @@ public class DisplayController {
 	
 	
 	public void setShape(int index){
-		if(index >= 0 && index <= turtleImages.size()){
+		if(turtleImages.get(index) == null){
+			new PaletteIndexAlert(AlertType.ERROR);
+		}
+		else{
 			turtleScreenController.setTurtleImage(turtleImages.get(index));
 			shape = index;
 		}
 	}
 	
 	public void setBackground(int index){
-		if(index >= 0 && index <= colors.size()){
-			turtleScreenController.setBackground(colors.get(index));
-			
+		if(colors.get(index) == null){
+			new PaletteIndexAlert(AlertType.ERROR);
+		}
+		else{
+			turtleScreenController.setBackground(colors.get(index));	
 		}
 	}
 	
 	public void setPenColor(int index){
-		if(index >= 0 && index <= colors.size()){
+		if(colors.get(index) == null){
+			new PaletteIndexAlert(AlertType.ERROR);
+		}
+		else{
 			turtleScreenController.setPenColor(colors.get(index));
 			penColor = index;
 		}

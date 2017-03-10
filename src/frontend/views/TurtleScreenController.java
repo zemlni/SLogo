@@ -22,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -39,6 +40,7 @@ public class TurtleScreenController implements IViewController {
 	public static final int CANVAS_WIDTH = 400;
 	public static final int CANVAS_HEIGHT = 400;
 	private FrontEndController frontEnd;
+	private DisplayController displayController;
 	private Transformer locTransformer;
 	
 	public TurtleScreenController(TurtleScreenView view) {
@@ -58,6 +60,10 @@ public class TurtleScreenController implements IViewController {
 	
 	public void setFrontEndController(FrontEndController frontEndController){
 		frontEnd =frontEndController;
+	}
+	
+	public void setDisplayController(DisplayController displayController) {
+		this.displayController = displayController;
 	}
 	
 	public void addTurtle(int idNumber){
@@ -98,10 +104,16 @@ public class TurtleScreenController implements IViewController {
 	}
 	
 	private void createPreferencePanel(){
+		HBox buttonPanel = new HBox();
 		Button preferences = new Button();
 		preferences.textProperty().bind(Language.createStringBinding("PreferencesTitle"));
 		preferences.setOnAction(e -> new PreferencesWindow(this));
-		turtlePane.getChildren().add(preferences);
+		
+		Button colorPal = new Button();
+		colorPal.textProperty().bind(Language.createStringBinding("ColorPal"));
+		colorPal.setOnAction(e -> displayController.showColorPalette());
+		buttonPanel.getChildren().addAll(preferences, colorPal);
+		turtlePane.getChildren().add(buttonPanel);
 	}
 	
 	public void changeTurtleImage(){
@@ -158,4 +170,6 @@ public class TurtleScreenController implements IViewController {
 			turtle.updateShowCommandable(show);
 		}
 	}
+
+	
 }
