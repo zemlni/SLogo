@@ -3,7 +3,6 @@ package frontend.app;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -11,11 +10,14 @@ import frontend.nonfxml.AppView;
 import frontend.nonfxml.FrontEndView;
 import frontend.nonfxml.IViewController;
 import frontend.nonfxml.config.FrontEndConfig;
+import javafx.stage.FileChooser;
 import language.LanguageSetter;
 import utils.FileChooserOption;
 import utils.MyFileIO;
+import utils.javafx.FX;
 
 public class AppController implements IViewController {
+	private static final FileChooser.ExtensionFilter SLOGO_CONF_EXT = new FileChooser.ExtensionFilter("SLogo config file", "*.logo_conf");
 
 	private MenuController menuController;
 	private SessionsController sessionsController;
@@ -35,7 +37,8 @@ public class AppController implements IViewController {
 	}
 
 	public void openSession() {
-		File file = MyFileIO.chooseFile(FileChooserOption.OPEN);
+		File file = MyFileIO.chooseFile(FileChooserOption.OPEN, SLOGO_CONF_EXT);
+		if (file == null) { return; }
 		FrontEndConfig frontEndConfig = null;
 		try {
 			FileInputStream fileIn = new FileInputStream(file);
@@ -43,10 +46,8 @@ public class AppController implements IViewController {
 			frontEndConfig = (FrontEndConfig) in.readObject();
 			in.close();
 			fileIn.close();
-		} catch (IOException i) {
-			i.printStackTrace();
-		} catch (ClassNotFoundException c) {
-			c.printStackTrace();
+		} catch (Exception e) {
+			FX.alertError("ErrorTitle", "ConfigOpenError", file.getName());
 		}
 		if (frontEndConfig != null) {
 			sessionsController.addSession(new FrontEndView(frontEndConfig));
@@ -54,7 +55,8 @@ public class AppController implements IViewController {
 	}
 
 	public void saveSession() {
-		File file = MyFileIO.chooseFile(FileChooserOption.SAVE);
+		File file = MyFileIO.chooseFile(FileChooserOption.SAVE, SLOGO_CONF_EXT);
+		if (file == null) { return; }
 		try {
 			FileOutputStream fileOut = new FileOutputStream(file);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -63,7 +65,7 @@ public class AppController implements IViewController {
 			fileOut.close();
 			System.out.printf("Serialized data saved");
 		} catch (Exception e) {
-			e.printStackTrace();
+			FX.alertError("ErrorTitle", "ConfigSaveError", file.getName());
 		}
 	}
 

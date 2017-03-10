@@ -3,9 +3,11 @@ package utils.javafx;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import language.Language;
 
@@ -66,6 +68,13 @@ public class FX {
 		tab.textProperty().bind(Language.createStringBinding(textKey));
 		tab.setContent(content);
 		return tab;
+	}
+	
+	public static void alertError(String errorTitleKey, String errorBodyKey, String content) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle(Language.getWord(errorTitleKey));
+		alert.setContentText(Language.getWord(errorBodyKey) + content);
+		alert.showAndWait();
 	}
 	
 }

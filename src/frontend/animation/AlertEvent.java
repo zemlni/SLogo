@@ -1,8 +1,6 @@
 package frontend.animation;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import language.Language;
+import utils.javafx.FX;
 
 public class AlertEvent extends AnimatedEvent {
 
@@ -16,10 +14,7 @@ public class AlertEvent extends AnimatedEvent {
 	
 	@Override
 	public double update(double dt) {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle(Language.getWord("ErrorTitle"));
-		alert.setContentText(Language.getWord(errorMsg) + bad);
-		alert.showAndWait();
+		FX.alertError("ErrorTitle", errorMsg, bad);
 		setFinishedTrue();
 		return dt;
 	}
