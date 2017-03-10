@@ -16,7 +16,7 @@ public class ForwardCommand extends TurtleCommand {
 
 	public double execute() {
 		double forwardAmount = 0;
-		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
 		for (TurtleModel t : turtles) {
 			System.out.println(turtles.size());
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());

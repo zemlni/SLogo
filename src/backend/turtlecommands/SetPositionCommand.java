@@ -20,7 +20,7 @@ public class SetPositionCommand extends TurtleCommand {
 	@Override
 	public double execute() {
 		List<Variable> args = getArgs();
-		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
 
 		double newX = 0;
 		double newY = 0;

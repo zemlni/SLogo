@@ -26,7 +26,8 @@ public class TellCommand extends TurtleCommand{
 			getTurtlePool().setCurrentActiveTurtle(id);
 		}
 		getTurtlePool().setTurtleListToSpecified(integerTellList);
-
+		// TODO: call the frontend api to tell it which turtles are "selected"
+		//frontendmethod(getTurtlePool().getCommandableTurtleList());
 		return getTurtlePool().getCurrentActiveTurtleID();
 	}
 }

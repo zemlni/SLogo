@@ -78,7 +78,7 @@ public class TurtlePool {
 		return turtleMap.get(id);
 	}
 	
-	public List<TurtleModel> getActiveTurtles(){
+	public List<TurtleModel> getCommandableTurtleModels(){
 		List<TurtleModel> turtleList = new ArrayList<TurtleModel>();
 		for(int activeTurtleID : commandableTurtleList){
 			turtleList.add(retrieveTurtleFromMap(activeTurtleID));
@@ -95,16 +95,27 @@ public class TurtlePool {
 		storedCommandableTurtleList = commandableTurtleList;
 	}
 	
-	public void restoreTurtleListToActive(){
+	public void restoreTurtleListToOriginalCommandable(){
 		commandableTurtleList = storedCommandableTurtleList;
 	}
 	
-	public void setPenDown(int id){
-		turtleMap.get(id).setPenDown();
-	}
+//	public void setPenDown(int id){
+//		turtleMap.get(id).setPenDown();
+//	}
+//	
+//	public void setPenUp(int id){
+//		turtleMap.get(id).setPenUp();
+//	}
 	
-	public void setPenUp(int id){
-		turtleMap.get(id).setPenUp();
+	public void setAllPenUp(){
+		for(TurtleModel t :turtleMap.values()){
+			t.setPenUp();
+		}
+	}
+	public void setAllPenDown(){
+		for(TurtleModel t :turtleMap.values()){
+			t.setPenDown();
+		}
 	}
 	
 	public void toggleTurtle(int id){
@@ -114,5 +125,9 @@ public class TurtlePool {
 			commandableTurtleList.add(id);
 		}
 		
+	}
+	
+	public List<Integer> getCommandableTurtleIntegers(){
+		return commandableTurtleList;
 	}
 }

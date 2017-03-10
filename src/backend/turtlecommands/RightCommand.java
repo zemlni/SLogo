@@ -15,7 +15,7 @@ public class RightCommand extends TurtleCommand {
 	@Override
 	public double execute() {
 		double deltaDir = 0;
-		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
 		for(TurtleModel t :turtles){
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
 			for (Variable var : getArgs()) {

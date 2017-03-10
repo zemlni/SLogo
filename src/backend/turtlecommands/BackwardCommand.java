@@ -15,7 +15,7 @@ public class BackwardCommand extends TurtleCommand{
 	public double execute(){
 		double backwardAmount = 0;
 
-		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
 		for(TurtleModel t :turtles){
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
 			for(Variable var: getArgs()){

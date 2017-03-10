@@ -37,12 +37,20 @@ public class BackendController implements BackendControllerInterface {
 		turtlePool.toggleTurtle(id);
 	}
 	
-	public void setPenDown(int id){
-		turtlePool.setPenDown(id);
+//	public void setPenDown(int id){
+//		turtlePool.setPenDown(id);
+//	}
+//	
+//	public void setPenUp(int id){
+//		turtlePool.setPenUp(id);
+//	}
+	
+	public void setAllPenDown(){
+		turtlePool.setAllPenDown();
 	}
 	
-	public void setPenUp(int id){
-		turtlePool.setPenUp(id);
+	public void setAllPenUp(){
+		turtlePool.setAllPenUp();
 	}
 
 	/**

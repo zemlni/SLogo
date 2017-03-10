@@ -20,7 +20,7 @@ public class SetTowardsCommand extends TurtleCommand {
 	@Override
 	public double execute() {
 		List<Variable> args = getArgs();
-		List<TurtleModel> turtles = getTurtlePool().getActiveTurtles();
+		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
 
 		for(TurtleModel t :turtles){
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
