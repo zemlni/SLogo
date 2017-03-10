@@ -1,6 +1,5 @@
 package frontend.preferences;
 
-import java.util.ResourceBundle;
 
 import frontend.views.TurtleScreenController;
 import javafx.scene.control.Label;
@@ -8,9 +7,6 @@ import javafx.scene.layout.HBox;
 import language.Language;
 
 public class PenPreferenceTab extends PreferenceTab {
-	
-	public static final String RESOURCE_PACKAGE = "English";
-	private ResourceBundle resources = ResourceBundle.getBundle("resources.ui/" + RESOURCE_PACKAGE);
 	
 	public PenPreferenceTab(TurtleScreenController controller){
 		super(controller, "PenPrefs");

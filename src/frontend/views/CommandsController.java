@@ -3,7 +3,6 @@ package frontend.views;
 import java.util.HashMap;
 import java.util.Map;
 
-import backend.Command;
 import backend.commands.UserCommand;
 import frontend.app.FrontEndController;
 import frontend.commands.CommandEntry;

@@ -6,7 +6,6 @@ import backend.BackendController;
 import backend.Variable;
 import backend.parser.Input;
 import backend.turtle.TurtleModel;
-import frontend.app.FrontEndController;
 
 public class ForwardCommand extends TurtleCommand {
 

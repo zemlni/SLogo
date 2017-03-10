@@ -2,10 +2,8 @@ package backend.turtlecommands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import backend.BackendController;
-import backend.parser.Expression;
 import backend.parser.Input;
 import backend.turtle.TurtleModel;
 

@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import backend.BackendController;
-import backend.Command;
 import backend.Variable;
 import backend.commands.UserCommand;
 import frontend.animation.AddCommandEvent;
@@ -26,9 +25,6 @@ import frontend.animation.turtle.ShowTurtleEvent;
 import frontend.nonfxml.FrontEndView;
 import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.InputView;
-import frontend.preferences.ColorNodePalette;
-import frontend.preferences.Palette;
-import frontend.preferences.PaletteEntry;
 import frontend.views.CommandsController;
 import frontend.views.DisplayController;
 import frontend.views.HistoryController;
@@ -39,7 +35,6 @@ import frontend.views.TurtleScreenController;
 import frontend.views.VariablesController;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.TabPane;
-import javafx.scene.paint.Color;
 import language.Language;
 
 /**
