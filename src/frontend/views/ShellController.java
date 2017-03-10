@@ -1,7 +1,7 @@
 package frontend.views;
 
 import frontend.app.FrontEndController;
-import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.ShellView;
 import frontend.shell.Shell;
 import language.Language;

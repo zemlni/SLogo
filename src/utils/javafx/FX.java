@@ -1,4 +1,4 @@
-package frontend.nonfxml;
+package utils.javafx;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

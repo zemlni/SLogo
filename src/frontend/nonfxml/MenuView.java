@@ -1,10 +1,10 @@
 package frontend.nonfxml;
 
 import frontend.app.MenuController;
-import frontend.nonfxml.view.IControllableView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
+import utils.javafx.FX;
 
 public class MenuView extends HBox implements IControllableView {
 

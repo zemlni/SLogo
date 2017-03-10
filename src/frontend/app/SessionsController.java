@@ -1,8 +1,8 @@
 package frontend.app;
 
 import frontend.nonfxml.FrontEndView;
+import frontend.nonfxml.IViewController;
 import frontend.nonfxml.SessionsView;
-import frontend.nonfxml.view.IViewController;
 
 public class SessionsController implements IViewController {
 	public static final String MAIN_PAGE_RESOURCE = "/frontend/app/app.fxml";
@@ -23,6 +23,10 @@ public class SessionsController implements IViewController {
 	}
 	public void addNewSession() {
 		view.addTab();
+		view.selectLastTab();
+	}
+	public void addSession(FrontEndView frontEndView) {
+		view.addTab(frontEndView);
 		view.selectLastTab();
 	}
 	

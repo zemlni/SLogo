@@ -1,9 +1,9 @@
 package frontend.nonfxml;
 
 import frontend.app.FrontEndController;
+import frontend.nonfxml.config.FrontEndConfig;
 import frontend.nonfxml.view.CommandsView;
 import frontend.nonfxml.view.HistoryView;
-import frontend.nonfxml.view.IControllableView;
 import frontend.nonfxml.view.ScriptView;
 import frontend.nonfxml.view.ShellView;
 import frontend.nonfxml.view.TurtleScreenView;
@@ -22,8 +22,10 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
+import utils.javafx.FX;
 
-public class FrontEndView extends SplitPane implements IControllableView {
+public class FrontEndView extends SplitPane implements IControllableView,
+	IConfigurableView {
 
 	private TurtleScreenView turtleScreenView;
 	private ScriptView scriptView;
@@ -37,12 +39,25 @@ public class FrontEndView extends SplitPane implements IControllableView {
 	private FrontEndController controller;
 	
 	public FrontEndView() {
-		turtleScreenView = new TurtleScreenView();
-		scriptView = new ScriptView();
-		shellView = new ShellView();
-		variablesView = new VariablesView();
-		commandsView = new CommandsView();
-		historyView = new HistoryView();
+		this(null);
+	}
+	
+	public FrontEndView(FrontEndConfig config) {
+		if (config == null) {
+			turtleScreenView = new TurtleScreenView();
+			scriptView = new ScriptView();
+			shellView = new ShellView();
+			variablesView = new VariablesView();
+			commandsView = new CommandsView();
+			historyView = new HistoryView(); 
+		} else {
+			turtleScreenView = new TurtleScreenView(config.getTurtleScreenConfig());
+			scriptView = new ScriptView();
+			shellView = new ShellView();
+			variablesView = new VariablesView(config.getVariablesConfig());
+			commandsView = new CommandsView(config.getCommandsConfig());
+			historyView = new HistoryView(config.getHistoryConfig()); 
+		}
 		
 		this.setOrientation(Orientation.HORIZONTAL);
 		
@@ -75,7 +90,7 @@ public class FrontEndView extends SplitPane implements IControllableView {
 		
 		this.getItems().addAll(leftPane, rightPane);
 		
-		controller = new FrontEndController(this);
+		controller = new FrontEndController(this);	
 	}
 	
 	public TurtleScreenController getTurtleScreenController() {
@@ -99,10 +114,22 @@ public class FrontEndView extends SplitPane implements IControllableView {
 	public TabPane getInputTabPane() {
 		return inputTabPane;
 	}
+	
 
 	@Override
 	public FrontEndController getController() {
 		return controller;
+	}
+
+	@Override
+	public FrontEndConfig getConfig() {
+		FrontEndConfig config = new FrontEndConfig(
+					turtleScreenView.getConfig(),
+					variablesView.getConfig(),
+					commandsView.getConfig(),
+					historyView.getConfig()
+				);
+		return config;
 	}
 	
 }

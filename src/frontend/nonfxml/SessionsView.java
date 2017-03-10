@@ -1,11 +1,11 @@
 package frontend.nonfxml;
 
 import frontend.app.SessionsController;
-import frontend.nonfxml.view.IControllableView;
 import javafx.geometry.Side;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import utils.javafx.FX;
 
 public class SessionsView extends TabPane implements IControllableView {
 
@@ -28,6 +28,10 @@ public class SessionsView extends TabPane implements IControllableView {
 	public void addTab() {
 		Tab tab = FX.tabRaw("tab"+tabCount(), new FrontEndView());
 		this.getTabs().add(tab);
+	}
+	public void addTab(FrontEndView frontEndView) {
+		Tab tab = FX.tabRaw("tab"+tabCount(), frontEndView);
+		this.getTabs().add(tab);	
 	}
 	private int numTabs() {
 		return this.getTabs().size();

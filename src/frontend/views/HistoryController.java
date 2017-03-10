@@ -2,8 +2,8 @@ package frontend.views;
 
 import frontend.app.FrontEndController;
 import frontend.history.HistoryEntry;
+import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.HistoryView;
-import frontend.nonfxml.view.IViewController;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 

@@ -24,7 +24,7 @@ import frontend.animation.turtle.MoveTurtleEvent;
 import frontend.animation.turtle.RotateTurtleEvent;
 import frontend.animation.turtle.ShowTurtleEvent;
 import frontend.nonfxml.FrontEndView;
-import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.InputView;
 import frontend.views.CommandsController;
 import frontend.views.HistoryController;

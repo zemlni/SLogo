@@ -3,8 +3,8 @@ package frontend.nonfxml;
 import frontend.app.AppController;
 import frontend.app.MenuController;
 import frontend.app.SessionsController;
-import frontend.nonfxml.view.IControllableView;
 import javafx.scene.layout.AnchorPane;
+import utils.javafx.FX;
 
 public class AppView extends AnchorPane implements IControllableView {
 	

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import frontend.app.FrontEndController;
-import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.TurtleScreenView;
 import frontend.turtles.ImageSelector;
 import frontend.turtles.InfiniteTransformer;
@@ -28,8 +28,8 @@ public class TurtleScreenController implements IViewController {
 	private Pane turtlePane;
 	public static final int INITIAL_X_OFFSET = 198;
 	public static final int INITIAL_Y_OFFSET = 143;
-	public static final int CANVAS_WIDTH = 4000;
-	public static final int CANVAS_HEIGHT = 4000;
+	public static final int CANVAS_WIDTH = 400;
+	public static final int CANVAS_HEIGHT = 400;
 	private FrontEndController frontEnd;
 	private Transformer locTransformer;
 	

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import backend.Variable;
 import frontend.app.FrontEndController;
-import frontend.nonfxml.view.IViewController;
+import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.VariablesView;
 import frontend.variables.VariableEntry;
 import javafx.scene.layout.VBox;
