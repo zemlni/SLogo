@@ -16,6 +16,7 @@ public class RightCommand extends TurtleCommand {
 	public double execute() {
 		double deltaDir = 0;
 		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
+		getTurtlePool().getFrontController().startEventGrouping();
 		for(TurtleModel t :turtles){
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
 			for (Variable var : getArgs()) {
@@ -23,6 +24,8 @@ public class RightCommand extends TurtleCommand {
 				t.rightAction(deltaDir);
 			}
 		}
+		getTurtlePool().getFrontController().endEventGrouping();
+
 		return deltaDir;
 	}
 }

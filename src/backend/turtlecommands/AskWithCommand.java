@@ -2,35 +2,42 @@ package backend.turtlecommands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import backend.BackendController;
-import backend.Variable;
 import backend.parser.Expression;
 import backend.parser.Input;
 import backend.turtle.TurtleModel;
 
-public class AskCommand extends TurtleCommand {
-	public AskCommand(Input in, BackendController controller) {
+public class AskWithCommand extends TurtleCommand{
+	public AskWithCommand(Input in, BackendController controller) {
 		super(in, controller, 2);
 	}
 	
 	@Override
 	public double execute(){
-		List<Expression> commandableList = getChildren().get(0).getChildren();
+		System.out.println("hi");
 		List<Integer> integerTellList = new ArrayList<Integer>();
-		for(Expression e: commandableList){
-			int id = (int) e.evaluate().getValue();
-			if(!getTurtlePool().cointainsTurtle(id)){
-				getTurtlePool().addTurtleUpTo(id);
+		System.out.println("hi1");
+
+		List<TurtleModel> allTurtleModels = getTurtlePool().getAllTurtleModels();
+		System.out.println("hi2");
+
+		System.out.println(allTurtleModels.size());
+		for(TurtleModel t: allTurtleModels){
+			System.out.println("hi");
+			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
+
+			boolean condition = getChildren().get(0).getChildren().get(0).evaluate().getValue() == 1;
+			if(condition){
+				integerTellList.add(t.getTurtleIDNumber());
 			}
-			integerTellList.add(id);
-			getTurtlePool().setCurrentActiveTurtle(id);
 		}
+		
 		getTurtlePool().setTurtleListToSpecified(integerTellList);
 		
 		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
 		for (TurtleModel t : turtles) {
-			System.out.println(turtles.size());
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
 			getArgs();
 		}

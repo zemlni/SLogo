@@ -21,6 +21,7 @@ public class SetPositionCommand extends TurtleCommand {
 	public double execute() {
 		List<Variable> args = getArgs();
 		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
+		getTurtlePool().getFrontController().startEventGrouping();
 
 		double newX = 0;
 		double newY = 0;
@@ -33,6 +34,8 @@ public class SetPositionCommand extends TurtleCommand {
 				t.setPositionAction(newX, newY);
 			}
 		}	 	
+		getTurtlePool().getFrontController().endEventGrouping();
+
 		return turtles.get(turtles.size()-1).getDistanceTraveled();
 	}
 }

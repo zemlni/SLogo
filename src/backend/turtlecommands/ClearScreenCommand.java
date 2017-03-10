@@ -14,10 +14,13 @@ public class ClearScreenCommand extends TurtleCommand{
 	@Override
 	public double execute() {
 		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
+		getTurtlePool().getFrontController().startEventGrouping();
 		for(TurtleModel t :turtles){
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
 			t.clearScreenAction();
-		}
+		}		
+		getTurtlePool().getFrontController().endEventGrouping();
+
 		return turtles.get(turtles.size() - 1).getDistanceTraveled();
 	}
 	

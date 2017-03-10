@@ -21,6 +21,7 @@ public class SetTowardsCommand extends TurtleCommand {
 	public double execute() {
 		List<Variable> args = getArgs();
 		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
+		getTurtlePool().getFrontController().startEventGrouping();
 
 		for(TurtleModel t :turtles){
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
@@ -31,6 +32,8 @@ public class SetTowardsCommand extends TurtleCommand {
 				t.setTowardsAction(towX, towY);
 			}
 		}
+		getTurtlePool().getFrontController().endEventGrouping();
+
 		return turtles.get(turtles.size() - 1).getAngleTurned();
 	}
 
