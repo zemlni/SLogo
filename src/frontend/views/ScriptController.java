@@ -9,6 +9,7 @@ import frontend.nonfxml.view.ScriptView;
 import javafx.scene.control.TextArea;
 import utils.FileChooserOption;
 import utils.MyFileIO;
+import utils.javafx.FX;
 
 
 /**
@@ -65,8 +66,8 @@ public class ScriptController implements InputController, IViewController {
 
 	
 	@Override
-	public void showError(String error, String bad) {
-		frontEnd.showErrorAlert(error, bad);
+	public void showError(String errorMsgKey, String content) {
+		FX.alertError("ErrorTitle", errorMsgKey, content);
 	}
 	@Override
 	public void showText(String text) {

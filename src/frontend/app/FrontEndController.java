@@ -9,7 +9,6 @@ import backend.Command;
 import backend.Variable;
 import frontend.animation.AddCommandEvent;
 import frontend.animation.AddVariableEvent;
-import frontend.animation.AlertEvent;
 import frontend.animation.AnimatedEvent;
 import frontend.animation.AppendTextEvent;
 import frontend.animation.RemoveCommandEvent;
@@ -282,13 +281,7 @@ public class FrontEndController implements IViewController {
 		return ((InputView) inputTabPane.getSelectionModel()
 				.getSelectedItem().getContent()).getController();
 	}
-	/**
-	 * Might be called in input controllers to show error in alert window.
-	 * @param errorMsg
-	 */
-	public void showErrorAlert(String errorMsg, String bad) {
-		eventReceiver().add(new AlertEvent(errorMsg, bad));
-	}
+
 	/**
 	 * Displays an error that has occurred during the processing of a certain command/function
 	 * @param errorMsg String representation of error

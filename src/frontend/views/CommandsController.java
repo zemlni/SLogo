@@ -9,7 +9,6 @@ import frontend.app.FrontEndController;
 import frontend.commands.CommandEntry;
 import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.CommandsView;
-import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 
 /**
