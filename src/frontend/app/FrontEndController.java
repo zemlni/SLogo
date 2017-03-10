@@ -15,7 +15,6 @@ import frontend.animation.AnimatedEvent;
 import frontend.animation.AppendTextEvent;
 import frontend.animation.RemoveCommandEvent;
 import frontend.animation.RemoveVariableEvent;
-import frontend.animation.ShowErrorEvent;
 import frontend.animation.ShowTextEvent;
 import frontend.animation.SynchronizedEventGroup;
 import frontend.animation.turtle.AddTurtleEvent;

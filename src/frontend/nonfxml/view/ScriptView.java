@@ -10,16 +10,25 @@ import utils.javafx.FX;
 public class ScriptView extends AnchorPane implements InputView {
 
 	private TextArea scriptArea;
+	private TextArea breakPointArea;
 	private ScriptController controller;
 	
 	public ScriptView() {
 		AnchorPane textPane = new AnchorPane();
 		FX.setAnchors(textPane, 0.0, 60.0, 0.0, 0.0);
-
-		scriptArea = new TextArea();
-		FX.setAnchors(scriptArea, 5.0, 5.0, 5.0, 5.0);
 		
-		textPane.getChildren().add(scriptArea);
+		scriptArea = new TextArea();
+		FX.setAnchors(scriptArea, 5.0, 5.0, 5.0, 70.0);
+
+		breakPointArea = new TextArea();
+		AnchorPane.setLeftAnchor(breakPointArea, 5.0);
+		AnchorPane.setTopAnchor(breakPointArea, 5.0);
+		AnchorPane.setBottomAnchor(breakPointArea, 5.0);
+		breakPointArea.setPrefWidth(57);
+		breakPointArea.prefHeightProperty().bind(scriptArea.heightProperty());
+		breakPointArea.setWrapText(true);
+		
+		textPane.getChildren().addAll(scriptArea, breakPointArea);
 
 		controller = new ScriptController(this);
 		
@@ -27,16 +36,26 @@ public class ScriptView extends AnchorPane implements InputView {
 		Button clearBtn = FX.button("Clear", e -> controller.clearArea());
 		Button openBtn = FX.button("Open", e -> controller.openFile());
 		Button saveBtn = FX.button("Save", e -> controller.saveFile());
+		Button debugBtn = FX.button("Debug", e -> controller.debug());
+		Button stepBtn = FX.button("Step", e -> controller.debug());
 		
 		VBox buttonsBox = new VBox();
-		buttonsBox.getChildren().addAll(runBtn, clearBtn, openBtn, saveBtn);
+		buttonsBox.getChildren().addAll(
+				runBtn, clearBtn, openBtn, saveBtn, debugBtn, stepBtn
+				);
 		AnchorPane.setRightAnchor(buttonsBox, 0.0);
 		
 		this.getChildren().addAll(textPane, buttonsBox);
 	}
 
-	public TextArea getScriptArea() {
-		return scriptArea;
+	public String getBreakPointsText() {
+		return breakPointArea.getText();
+	}
+	public String getScriptText() {
+		return scriptArea.getText();
+	}
+	public void setScriptText(String text) {
+		scriptArea.setText(text);
 	}
 	
 	@Override

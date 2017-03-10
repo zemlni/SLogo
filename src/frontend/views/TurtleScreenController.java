@@ -134,7 +134,6 @@ public class TurtleScreenController implements IViewController {
 	}
 	
 	public void setBackground(Color color){
-		System.out.println("Set background color in turtleScreenController: " + color);
 		turtlePane.setStyle("-fx-background-color: #" + color.toString().substring(2));
 	}
 	

@@ -2,11 +2,12 @@ package frontend.views;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import frontend.app.FrontEndController;
 import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.ScriptView;
-import javafx.scene.control.TextArea;
 import utils.FileChooserOption;
 import utils.MyFileIO;
 import utils.javafx.FX;
@@ -19,22 +20,40 @@ import utils.javafx.FX;
  */
 public class ScriptController implements InputController, IViewController {
 	
-	private TextArea scriptArea;
+
+	private ScriptView view;
 	private FrontEndController frontEnd;
 	
 	public ScriptController(ScriptView view){
-		scriptArea = view.getScriptArea();
-	}
+		this.view = view;
+	}	
 	
 	public void setFrontEndController(FrontEndController frontEnd) {
 		this.frontEnd = frontEnd;
 	}
-	private String getText() { return scriptArea.getText(); }
-	private void setText(String text) { scriptArea.setText(text); }
+	private String getText() { return view.getScriptText(); }
+	private void setText(String text) { view.setScriptText(text); }
 	
+	private List<Integer> getBreakPoints() {
+		String breakPointText = view.getBreakPointsText();
+		String[] strList = breakPointText.split("\\s+");
+		List<Integer> breakPoints = new ArrayList<>();
+		for (String pointText : strList) {
+			try {
+				breakPoints.add(Integer.parseInt(pointText)); 
+			} catch (NumberFormatException e) { }
+		}
+		return breakPoints;
+	}
 	
 	public void run() {
 		frontEnd.evaluate(getText());
+	}
+	public void debug() {
+		frontEnd.debug(getText(), getBreakPoints());
+	}
+	public void step() {
+		frontEnd.step();
 	}
 	
 	public void clearArea() {
