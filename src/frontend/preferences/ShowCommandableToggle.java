@@ -6,9 +6,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ToggleButton;
 import language.Language;
 
-public class showCommandableToggle extends ToggleButton {
+public class ShowCommandableToggle extends ToggleButton {
 
-	public showCommandableToggle(TurtleScreenController controller){
+	public ShowCommandableToggle(TurtleScreenController controller){
 		super();
 		this.textProperty().bind(Language.createStringBinding("ShowCommandable"));
 		
