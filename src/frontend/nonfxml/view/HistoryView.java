@@ -11,7 +11,7 @@ public class HistoryView extends ScrollPane implements IControllableView {
 	
 	public HistoryView() {
 		historyBox = new VBox();
-		this.getChildren().add(historyBox);
+		this.setContent(historyBox);
 		controller = new HistoryController(this);
 	}
 	

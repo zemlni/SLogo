@@ -11,7 +11,7 @@ public class CommandsView extends ScrollPane implements IControllableView {
 	
 	public CommandsView() {
 		commandsBox = new VBox();
-		this.getChildren().add(commandsBox);
+		this.setContent(commandsBox);
 		controller = new CommandsController(this);
 	}
 	

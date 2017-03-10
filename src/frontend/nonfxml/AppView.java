@@ -17,11 +17,8 @@ public class AppView extends AnchorPane implements IControllableView {
 		sessionsView = new SessionsView();
 		
 		this.getChildren().addAll(menuView, sessionsView);
-		AnchorPane.setTopAnchor(sessionsView, 37.0);
-		AnchorPane.setBottomAnchor(sessionsView, 0.0);
-		AnchorPane.setLeftAnchor(sessionsView, 0.0);
-		AnchorPane.setRightAnchor(sessionsView, 0.0);
-		
+		FX.setAnchors(sessionsView, 37.0, 0.0, 0.0, 0.0);
+
 		controller = new AppController(this);
 	}
 

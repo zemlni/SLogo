@@ -22,7 +22,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
-import language.Language;
 
 public class FrontEndView extends SplitPane implements IControllableView {
 
@@ -55,34 +54,24 @@ public class FrontEndView extends SplitPane implements IControllableView {
 		inputTabPane = new TabPane();
 		inputTabPane.setSide(Side.LEFT);
 		inputTabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-		Tab scriptTab = new Tab();
-		scriptTab.textProperty().bind(Language.createStringBinding("Script"));
-		scriptTab.setContent(scriptView);
-		Tab shellTab  = new Tab();
-		shellTab.textProperty().bind(Language.createStringBinding("Shell"));
-		shellTab.setContent(shellView);
+		Tab scriptTab = FX.tab("Script", scriptView);
+		Tab shellTab  = FX.tab("Shell", shellView);
 		inputTabPane.getTabs().addAll(scriptTab, shellTab);
 
 		leftPane.getItems().addAll(turtleScreenView, inputTabPane);
-		
 		
 		// right pane: variables, commands, and history windows
 		VBox rightPane = new VBox();
 		SplitPane.setResizableWithParent(rightPane, true);
 		rightPane.setMinWidth(0.0);
 		
-		TitledPane variablesPane = new TitledPane();
-		variablesPane.textProperty().bind(Language.createStringBinding("Variables"));
-		variablesPane.setContent(variablesView);
-		TitledPane commandsPane = new TitledPane();
-		commandsPane.textProperty().bind(Language.createStringBinding("Commands"));
-		commandsPane.setContent(commandsView);
-		TitledPane historyPane = new TitledPane();
-		historyPane.textProperty().bind(Language.createStringBinding("History"));
-		historyPane.setContent(historyView);
+		TitledPane variablesPane = FX.titledPane("Variables", variablesView);
+		TitledPane commandsPane = FX.titledPane("Commands", commandsView);
+		TitledPane historyPane = FX.titledPane("History", historyView);
 		
-		rightPane.getChildren().addAll(variablesPane,
-				commandsPane, historyPane);
+		rightPane.getChildren().addAll(
+					variablesPane, commandsPane, historyPane
+				);
 		
 		this.getItems().addAll(leftPane, rightPane);
 		

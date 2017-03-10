@@ -3,22 +3,41 @@ package frontend.nonfxml;
 import frontend.app.SessionsController;
 import frontend.nonfxml.view.IControllableView;
 import javafx.geometry.Side;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 public class SessionsView extends TabPane implements IControllableView {
 
+	private static final int INIT_TABS = 2;
+	private int tabCounter = 1;
 	private SessionsController controller;
 	
 	public SessionsView() {
 		this.setSide(Side.TOP);
-		// TODO initial tabs
-		Tab tab1 = new Tab("tab1");
-		tab1.setContent(new FrontEndView());
-		Tab tab2 = new Tab("tab2");
-		tab2.setContent(new FrontEndView());
-		this.getTabs().addAll(tab1, tab2);
+		for (int i = 0; i < INIT_TABS; i++) {
+			addTab();
+		}
 		controller = new SessionsController(this);
+	}
+	
+	private int tabCount() {
+		return tabCounter++;
+	}
+	
+	public void addTab() {
+		Tab tab = FX.tabRaw("tab"+tabCount(), new FrontEndView());
+		this.getTabs().add(tab);
+	}
+	private int numTabs() {
+		return this.getTabs().size();
+	}
+	public Tab getSelectedTab() {
+		return this.getSelectionModel().getSelectedItem();
+	}
+	public void selectLastTab() {
+		SingleSelectionModel<Tab> selectionModel = this.getSelectionModel();
+		selectionModel.select(numTabs() - 1);
 	}
 	
 	@Override
