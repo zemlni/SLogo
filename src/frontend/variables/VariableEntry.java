@@ -29,10 +29,13 @@ public class VariableEntry extends Button{
 		changeValue(Double.parseDouble(value));
 	}
 	
-	
 	public void changeValue(double value){
 		setText(variableName + NAME_VALUE_SPACE + value);
 		variable.update(value);
+	}
+	
+	public Variable getVariable(){
+		return variable;
 	}
 	
 	@Override

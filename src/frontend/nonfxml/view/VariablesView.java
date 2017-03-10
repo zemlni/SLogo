@@ -16,9 +16,11 @@ public class VariablesView extends ScrollPane implements IControllableView, ICon
 		this(null);
 	}
 	public VariablesView(VariablesConfig config) {
-		// TODO load config
 		variablesBox = new VBox();
 		this.setContent(variablesBox);
+		if(config != null){
+			controller.addVariable(config.getVariables());
+		}
 		controller = new VariablesController(this);
 	}
 
@@ -33,8 +35,7 @@ public class VariablesView extends ScrollPane implements IControllableView, ICon
 
 	@Override
 	public VariablesConfig getConfig() {
-		// TODO get config
-		return new VariablesConfig();
+		return new VariablesConfig(controller.getVariables());
 	}
 	
 }

@@ -7,7 +7,8 @@ package backend;
  *         also may have info associated with them
  * 
  */
-public class Variable implements VariableInterface {
+public class Variable implements VariableInterface, java.io.Serializable{
+
 	private double value;
 	private String key;
 
