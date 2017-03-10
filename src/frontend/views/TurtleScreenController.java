@@ -10,10 +10,10 @@ import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.TurtleScreenView;
 import frontend.turtles.ImageSelector;
 import frontend.turtles.InfiniteTransformer;
-import frontend.turtles.Point;
 import frontend.turtles.PreferencesWindow;
 import frontend.turtles.Transformer;
 import frontend.turtles.TurtleImage;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -64,8 +64,8 @@ public class TurtleScreenController implements IViewController {
 	}
 	
 	public void drawLine(double x0, double y0, double x1, double y1) {
-		Point original = locTransformer.translateLoc(x0, y0);
-		Point end = locTransformer.translateLoc(x1, y1);
+		Point2D original = locTransformer.translateLoc(x0, y0);
+		Point2D end = locTransformer.translateLoc(x1, y1);
 		locTransformer.drawLines(original, end, gc);
 	}
 	
@@ -75,6 +75,8 @@ public class TurtleScreenController implements IViewController {
 	
 	public void setPenColor(Color penColor){
 		gc.setStroke(penColor);
+		File folder = new File("src/resources.ui");
+		System.out.println(folder.listFiles());
 	}
 	
 	public Paint getPenColor(){

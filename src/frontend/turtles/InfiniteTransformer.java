@@ -1,6 +1,7 @@
 package frontend.turtles;
 
 
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -15,11 +16,11 @@ public class InfiniteTransformer extends Transformer{
 		super(xOffset, yOffset);
 	}
 	
-	public Point getTurtleLoc(Point location) {
+	public Point2D getTurtleLoc(Point2D location) {
 		return location;
 	}
 	
-	public void drawLines(Point start, Point end, GraphicsContext gc){	
+	public void drawLines(Point2D start, Point2D end, GraphicsContext gc){	
 		 gc.strokeLine(start.getX(), start.getY(), end.getX(), end.getY());
 	}	
 }
