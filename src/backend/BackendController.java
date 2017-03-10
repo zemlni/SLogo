@@ -139,6 +139,7 @@ public class BackendController implements BackendControllerInterface {
 			fcontroller.showText(String.valueOf(ret));
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			//TODO: notify frontend of new current line.
 			return false;
 		}

@@ -36,7 +36,7 @@ public class CommandTable implements CommandTableInterface {
 		// TODO: print 
 		System.out.println("Currnet command table:");
 		System.out.println(commands);
-		System.out.println("GETCOMMAND: " + name.toUpperCase() + " RESULT: " + commands.get(name.toUpperCase()));
+		System.out.println("GETCOMMAND: " + name.toUpperCase() + " RESULT: " + commands.get(name.toUpperCase()).getChildren());
 		if (ret == null)
 			throw new CommandException(name);
 		return ret;
@@ -61,7 +61,14 @@ public class CommandTable implements CommandTableInterface {
 	}
 	
 	public Map<String, Command> getCommands(){
-		return commands;
+		Map<String, Command> temp = new HashMap<String, Command>();
+		for(String str: commands.keySet()){
+			UserCommand tempCommand = (UserCommand)commands.get(str);
+			UserCommand command = new UserCommand(tempCommand.getString(), tempCommand.getBackendController(), tempCommand.getInfo(), tempCommand.getArgNames(),
+					tempCommand.getCommands());
+			temp.put(str, command);
+		}
+		return temp;
 	}
 
 	public void removeCommand(String key) {

@@ -39,6 +39,7 @@ public class UserCommand extends Command implements UserCommandInterface {
 	 */
 	@Override
 	public double execute() {
+		System.out.println(argNames.size() + " " + getChildren().size());
 		List<Double> old = new ArrayList<Double>();
 		for (int i = 0; i < argNames.size(); i++) {
 			String varName = argNames.get(i).getKey();

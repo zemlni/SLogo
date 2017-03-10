@@ -39,6 +39,8 @@ public abstract class Expression implements java.io.Serializable {
 	 * @return true if this expression should be evaluated. else false
 	 */
 	public boolean checkLines() {
+		System.out.println("I AM NULL" + controller + " " + this);
+		System.out.println(getChildren());
 		boolean sameLine = lineNumber == controller.getCurrentLine();
 		if (!sameLine)
 			getBackendController().setCurrentLine(lineNumber);
@@ -93,7 +95,11 @@ public abstract class Expression implements java.io.Serializable {
 	// TODO: written by Keping. This is bad code.
 	// Only to be used when reloading an expression
 	public void setBackendController(BackendController controller) {
+		System.out.println("CONTROLLER:" + controller);
 		this.controller = controller;
+		for (Expression childExpression : children) {
+			childExpression.setBackendController(controller);
+		}
 	}
 
 	public int getNumChildren() {

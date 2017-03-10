@@ -1,7 +1,9 @@
 package frontend.nonfxml;
 
 import frontend.app.FrontEndController;
+import frontend.nonfxml.config.CommandsConfig;
 import frontend.nonfxml.config.FrontEndConfig;
+import frontend.nonfxml.config.VariablesConfig;
 import frontend.nonfxml.view.CommandsView;
 import frontend.nonfxml.view.HistoryView;
 import frontend.nonfxml.view.ScriptView;
@@ -129,8 +131,8 @@ public class FrontEndView extends SplitPane implements IControllableView,
 	public FrontEndConfig getConfig() {
 		FrontEndConfig config = new FrontEndConfig(
 					turtleScreenView.getConfig(),
-					variablesView.getConfig(),
-					commandsView.getConfig(),
+					new VariablesConfig(controller.getVariables()),
+					new CommandsConfig(controller.getCommands()),
 					historyView.getConfig()
 				);
 		return config;

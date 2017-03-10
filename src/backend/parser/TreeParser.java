@@ -38,6 +38,7 @@ public class TreeParser implements ParserInterface {
 
 	public TreeParser(BackendController controller) {
 		this.controller = controller;
+		System.out.println("PARSER CONTROLLER" + controller);
 		ResourceBundle languageResources = ResourceBundle.getBundle(controller.getLanguage());
 		ResourceBundle syntaxResources = ResourceBundle.getBundle("Syntax");
 		commandSymbols = new ArrayList<Entry<String, Pattern>>();
@@ -142,9 +143,7 @@ public class TreeParser implements ParserInterface {
 				try {
 					Command temp = commandTable.getCommand(name.get());
 					cur = new Command(name, controller);
-					cur.setInfo(name);
 					cur.setNumArgs(temp.getNumArgs());
-					return cur;
 				} catch (Exception e2) {
 					cur = new Command(name, controller);
 				}
@@ -208,6 +207,7 @@ public class TreeParser implements ParserInterface {
 				in.incrementIndex();
 			}
 		}
+		System.out.println(top);
 		return top;
 	}
 

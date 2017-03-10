@@ -3,6 +3,7 @@ package frontend.app;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import backend.BackendController;
 import backend.Command;
@@ -271,6 +272,13 @@ public class FrontEndController implements IViewController {
 		eventReceiver().add(new RemoveCommandEvent(commandsController, command));
 	}
 
+	public Map<String, Variable> getVariables() {
+		return backendController.getVariables();
+	}
+	public Map<String, Command> getCommands() {
+		return backendController.getCommands();
+	}
+	
 	// change turtle view commands
 	/**
 	 * Move turtle(id) from (x0, y0) to (x1, y1), draw a line at the same time

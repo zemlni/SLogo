@@ -37,8 +37,6 @@ public class Command extends Expression implements CommandInterface, java.io.Ser
 
 	private boolean isDefinedLangCommand(String name) {
 		try {
-			// TODO
-			System.out.println("Null Pointer Exception here");
 			getBackendController().getParser().getCommandSymbol(name);
 			return true;
 		} catch (CommandException e) {
@@ -70,6 +68,8 @@ public class Command extends Expression implements CommandInterface, java.io.Ser
 				UserCommand command = new UserCommand(name, getBackendController(), getInfo(), temp.getArgNames(),
 						temp.getCommands());
 				command.addChildren(getChildren());
+				command.setBackendController(getBackendController());
+				command.getCommands().setBackendController(getBackendController());
 				return new Variable(null, command.execute());
 			} catch (CommandException e) {
 				getBackendController().getParser().complain(e);
