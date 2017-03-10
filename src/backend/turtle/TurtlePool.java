@@ -25,6 +25,7 @@ public class TurtlePool {
 		fcontrol = c;
 		currentActiveTurtle = 0;
 		addTurtleUpTo(5);
+		System.out.println(turtleMap.size());
 //		System.out.println(currentActiveTurtle);
 	}
 	
@@ -61,6 +62,7 @@ public class TurtlePool {
 				addToTurtleMap(currID);
 				addToCommandableTurtleList(currID);
 				currentActiveTurtle = currID;
+				fcontrol.addTurtle(currID);
 				
 			}
 		}
