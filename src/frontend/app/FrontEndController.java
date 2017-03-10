@@ -26,6 +26,7 @@ import frontend.nonfxml.FrontEndView;
 import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.InputView;
 import frontend.views.CommandsController;
+import frontend.views.DisplayController;
 import frontend.views.HistoryController;
 import frontend.views.InputController;
 import frontend.views.ScriptController;
@@ -61,6 +62,7 @@ public class FrontEndController implements IViewController {
 	private CommandsController commandsController;
 	private HistoryController historyController;
 	private BackendController backendController;
+	private DisplayController displayController;
 
 	private TabPane inputTabPane;
 
@@ -95,6 +97,7 @@ public class FrontEndController implements IViewController {
 		timer.start();
 
 		backendController = new BackendController(this);
+		displayController = new DisplayController();
 
 	}
 
@@ -355,5 +358,9 @@ public class FrontEndController implements IViewController {
 
 	public void changeSelect(int id) {
 		// backendController.changeSelect(id)
+	}
+	
+	public DisplayController getDisplayController(){
+		return displayController;
 	}
 }
