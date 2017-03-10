@@ -99,17 +99,26 @@ public class TreeParser {
 			return cur;
 		} catch (Exception e) {
 			// e.printStackTrace();
-			try {
-				Command temp = commandTable.getCommand(name.get());
-				cur = new Command(name, controller);
+			try{
+				Class<?> clazz = Class.forName("backend.turtlecommands." + getCommandSymbol(name.get()) + "Command");
+				Constructor<?> ctor = clazz.getDeclaredConstructor(name.getClass(), controller.getClass());
+				cur = (Command) ctor.newInstance(name, controller);
 				cur.setInfo(name);
-				cur.setNumArgs(temp.getNumArgs());
-				System.out.println("INSIDE CREATION: " + temp.getNumArgs());
 				return cur;
-			} catch (Exception e1) {
-				cur = new Command(name, controller);
-				return cur;
+			} catch (Exception e1){
+				try {
+					Command temp = commandTable.getCommand(name.get());
+					cur = new Command(name, controller);
+					cur.setInfo(name);
+					cur.setNumArgs(temp.getNumArgs());
+					System.out.println("INSIDE CREATION: " + temp.getNumArgs());
+					return cur;
+				} catch (Exception e2) {
+					cur = new Command(name, controller);
+					return cur;
+				}
 			}
+			
 		}
 	}
 

@@ -25,7 +25,7 @@ public class TurtlePool {
 		fcontrol = c;
 		currentActiveTurtle = 0;
 		addTurtleUpTo(1);
-		System.out.println(currentActiveTurtle);
+//		System.out.println(currentActiveTurtle);
 	}
 	
 	public void setCurrentActiveTurtle(int active){
@@ -34,6 +34,10 @@ public class TurtlePool {
 	
 	public int getCurrentActiveTurtleID(){
 		return currentActiveTurtle;
+	}
+	
+	public boolean cointainsTurtle(int id){
+		return turtleMap.containsKey(id);
 	}
 	
 	public TurtleModel getTurtle(int id){
@@ -47,14 +51,13 @@ public class TurtlePool {
 	 * adds new turtles up to the id
 	 */
 	public void addTurtleUpTo(int id){
-		System.out.println("timeeeee");
+		/*
+		 * TODO: needs to call the frontEndController to create a new turtle in the frontEnd
+		 */
+//		System.out.println("timeeeee");
 		if(!turtleMap.containsKey(id)){
 			for(int currID = highestTurtleID() + 1; currID <= (int)id; currID++){
 				totalTurtles++;
-//				System.out.println(highestTurtleID());
-				System.out.println(currID);
-				System.out.println(id);
-				System.out.println("Should see");
 				addToTurtleMap(currID);
 				addToCommandableTurtleList(currID);
 				currentActiveTurtle = currID;
