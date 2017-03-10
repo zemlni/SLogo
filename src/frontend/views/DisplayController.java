@@ -38,6 +38,7 @@ public class DisplayController {
 			put(6, Color.YELLOW);
 		}};
 		
+		//default values
 		turtleImages = new HashMap<Integer, File>(){{
 			put(0, new File("turtle.png"));
 			put(1, new File("turtle2.png"));
@@ -106,7 +107,7 @@ public class DisplayController {
 		return penColor;
 	}
 
-	//Needs work
+	
 	public int getShape(){
 		return shape;
 	}
