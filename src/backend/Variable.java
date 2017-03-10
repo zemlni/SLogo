@@ -1,6 +1,6 @@
 package backend;
 
-public class Variable implements VariableInterface {
+public class Variable implements VariableInterface, java.io.Serializable{
 	private double value;
 	private String key;
 	private String info;

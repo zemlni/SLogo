@@ -36,7 +36,7 @@ public class TurtleImage {
 	private void switchState(){
 		current = !current;
 		currentCircle.setVisible(current && currentOn);
-		frontEnd.changeSelect(id);
+		frontEnd.toggleTurtle(id);
 	}
 	
 	private void setInitialImage(){
