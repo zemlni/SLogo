@@ -3,7 +3,6 @@ package frontend.preferences;
 import frontend.views.TurtleScreenController;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import language.Language;
 import utils.javafx.FX;
 
 public class PenUpDownButtons extends HBox {
