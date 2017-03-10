@@ -311,6 +311,10 @@ public class FrontEndController implements IViewController {
 	public void hideTurtle(int id) {
 		eventReceiver().add(new HideTurtleEvent(turtleScreenController, id));
 	}
+	
+	public void updateCommandable(List<Integer> turtleIds){
+		turtleScreenController.updateCommandable(turtleIds);
+	}
 
 	/**
 	 * Clears the drawing screen, resets the turtle back to initial position and
@@ -356,6 +360,14 @@ public class FrontEndController implements IViewController {
 
 	public void toggleTurtle(int id) {
 		backendController.toggleTurtle(id);
+	}
+
+	public void allPensUp() {
+		backendController.setAllPenUp();
+	}
+	
+	public void allPensDown(){
+		backendController.setAllPenDown();
 	}
 	
 	
