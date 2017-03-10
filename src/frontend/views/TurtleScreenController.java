@@ -2,6 +2,7 @@ package frontend.views;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import frontend.app.FrontEndController;
@@ -41,7 +42,6 @@ public class TurtleScreenController implements IViewController {
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		gc = canvas.getGraphicsContext2D();
 		turtlePane.getChildren().add(canvas);
-		addTurtle(1);
 		
 		turtlePane.widthProperty().addListener(e -> {locTransformer.setXBound(turtlePane.getWidth());});
 		turtlePane.heightProperty().addListener(e -> {locTransformer.setYBound(turtlePane.getHeight());});
@@ -88,12 +88,6 @@ public class TurtleScreenController implements IViewController {
 		turtlePane.getChildren().add(preferences);
 	}
 	
-	public void updateTurtles(){
-		for(TurtleImage turtle : turtles.values()){
-			turtle.updateCurrent();
-		}
-	}
-	
 	public void changeTurtleImage(){
 		
 		ImageSelector imageSelector = new ImageSelector("Turtle Image");
@@ -122,5 +116,19 @@ public class TurtleScreenController implements IViewController {
 	
 	public void hideTurtle(int id){
 		turtles.get(id).hide();
+	}
+	
+	public void penUp(){
+		frontEnd.penUp();
+	}
+	
+	public void penDown(){
+		frontEnd.penDown();
+	}
+
+	public void updateCommandable(List<Integer> turtleIds) {
+		for(Integer id : turtleIds){
+			turtles.get(id).updateCommandable();
+		}
 	}
 }
