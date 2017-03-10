@@ -7,13 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import frontend.preferences.ColorNodePalette;
-import frontend.preferences.ImageNodePalette;
 import frontend.preferences.Palette;
 import frontend.preferences.PaletteEntry;
 import frontend.preferences.PaletteIndexAlert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import utils.javafx.FX;
 /**@author matt nikita

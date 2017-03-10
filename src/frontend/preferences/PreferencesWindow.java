@@ -4,12 +4,9 @@ package frontend.preferences;
 import java.util.ResourceBundle;
 
 import frontend.views.TurtleScreenController;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class PreferencesWindow {
