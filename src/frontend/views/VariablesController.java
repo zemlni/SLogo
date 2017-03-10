@@ -7,7 +7,6 @@ import java.util.Map;
 
 import backend.Variable;
 import frontend.app.FrontEndController;
-import frontend.history.HistoryEntry;
 import frontend.nonfxml.IViewController;
 import frontend.nonfxml.view.VariablesView;
 import frontend.variables.VariableEntry;
@@ -72,6 +71,10 @@ public class VariablesController implements IViewController {
 			variables.put(varKey.toUpperCase(), variableEntries.get(varKey).getVariable());
 		}
 		return variables;
+	}
+
+	public void clear() {
+		variablesBox = new VBox();
 	}
 	
 }

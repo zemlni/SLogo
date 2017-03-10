@@ -56,8 +56,8 @@ public class FrontEndView extends SplitPane implements IControllableView,
 			turtleScreenView = new TurtleScreenView(config.getTurtleScreenConfig());
 			scriptView = new ScriptView();
 			shellView = new ShellView();
-			variablesView = new VariablesView(config.getVariablesConfig());
-			commandsView = new CommandsView(config.getCommandsConfig());
+			variablesView = new VariablesView();
+			commandsView = new CommandsView();
 			historyView = new HistoryView(config.getHistoryConfig()); 
 		}
 		

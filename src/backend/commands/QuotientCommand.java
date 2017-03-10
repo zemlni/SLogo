@@ -10,26 +10,26 @@ import backend.parser.Input;
 /**
  * @author nikita This is the implementation of the Quotient command. An
  *         instance of this class gets created when the parser identifies that
- *         the user typed a Quotient command
+ *         the user typed a Quotient command. Supports unlimited parameters.
  */
-public class QuotientCommand extends Command {
+public class QuotientCommand extends SimpleCommand {
 
 	public QuotientCommand(Input in, BackendController controller) {
 		super(in, controller, 2);
 	}
 
 	/**
-	 * returns the quotient of the first argument and the rest of the arguments.
-	 * supports unlimited parameters.
+	 * return the quotient of the current dividend and the current divisor.
 	 * 
-	 * @return the quotient of the first argument and the rest of the arguments.
+	 * @param result
+	 *            the current dividend
+	 * @param curArg
+	 *            the current divisor.
+	 * 
+	 * @return the quotient of the parameters
 	 */
 	@Override
-	public double execute() {
-		List<Variable> args = getArgs();
-		double result = args.get(0).getValue();
-		for (int i = 1; i < args.size(); i++)
-			result /= args.get(i).getValue();
-		return result;
+	public double run(double result, Variable curArg) {
+		return result / curArg.getValue();
 	}
 }

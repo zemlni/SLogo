@@ -1,7 +1,10 @@
 package backend.commands;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import backend.BackendController;
 import backend.Command;
@@ -39,24 +42,20 @@ public class UserCommand extends Command implements UserCommandInterface {
 	 */
 	@Override
 	public double execute() {
-		System.out.println(argNames.size() + " " + getChildren().size());
-		List<Double> old = new ArrayList<Double>();
+
+		Map<String, Variable> map = getBackendController().getParser().getVariableTable().getVariables();
+		Map<String, Variable> newMap = new HashMap<String, Variable>();
+		for (String key: map.keySet())
+			newMap.put(key, map.get(key));
+
 		for (int i = 0; i < argNames.size(); i++) {
 			String varName = argNames.get(i).getKey();
 			double newVal = getChildren().get(i).evaluate().getValue();
-			try{
-				double oldVal = getBackendController().getParser().getVariableTable().getVariable(varName).getValue();
-				old.add(oldVal);
-			}
-			catch (VariableException e){}
 			getBackendController().setVariable(new Variable(varName, newVal));
 		}
 		double ret = commands.evaluate().getValue();
-		for (int i = 0; i < old.size(); i++) {
-			String varName = argNames.get(i).getKey();
-			double oldVal = old.get(i);
-			getBackendController().getParser().getVariableTable().setVariable(new Variable(varName, oldVal));
-		}
+
+		getBackendController().getParser().getVariableTable().setVariables(newMap);
 		return ret;
 	}
 

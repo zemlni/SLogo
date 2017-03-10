@@ -8,6 +8,7 @@ import java.util.Map;
 import backend.BackendController;
 import backend.Command;
 import backend.Variable;
+import backend.commands.UserCommand;
 import frontend.animation.AddCommandEvent;
 import frontend.animation.AddVariableEvent;
 import frontend.animation.AnimatedEvent;
@@ -251,6 +252,10 @@ public class FrontEndController implements IViewController {
 		eventReceiver().add(new RemoveVariableEvent(variablesController, variable));
 	}
 
+	public void clearVariables(){
+		variablesController.clear();
+	}
+	
 	// commands view
 	/**
 	 * Adds a command to the Commands Controller which keep tracks of Commands
@@ -258,7 +263,7 @@ public class FrontEndController implements IViewController {
 	 * 
 	 * @param command
 	 */
-	public void addCommand(Command command) {
+	public void addCommand(UserCommand command) {
 		eventReceiver().add(new AddCommandEvent(commandsController, command));
 	}
 
@@ -268,8 +273,12 @@ public class FrontEndController implements IViewController {
 	 * 
 	 * @param command
 	 */
-	public void removeCommand(Command command) {
+	public void removeCommand(UserCommand command) {
 		eventReceiver().add(new RemoveCommandEvent(commandsController, command));
+	}
+	
+	public void clearCommands(){
+		commandsController.clear();
 	}
 
 	public Map<String, Variable> getVariables() {

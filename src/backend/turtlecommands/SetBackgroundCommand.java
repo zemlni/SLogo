@@ -1,26 +1,28 @@
 package backend.turtlecommands;
 
 import backend.BackendController;
-import backend.Command;
 import backend.Variable;
+import backend.commands.SimpleCommand;
 import backend.parser.Input;
-
-public class SetBackgroundCommand extends Command {
+/**@author nikita Set the background. Supports unlimited parameters.
+ * */
+public class SetBackgroundCommand extends SimpleCommand {
 
 	public SetBackgroundCommand(Input in, BackendController controller) {
 		super(in, controller, 1);
 	}
-	/**Set the background. Supports unlimited Parameters
+	/**
+	 * set the background color to the index indicated by result
 	 * 
-	 * @return the value of the last argument
-	 * */
+	 * @param result
+	 *            the index to be set
+	 * @param curArg
+	 *            the next argument, not needed for this example
+	 * @return the index that was set
+	 */
 	@Override
-	public double execute(){
-		double ret = 0;
-		for (Variable var: getArgs()){
-			ret = var.getValue();
-			getBackendController().getFrontEndController().getDisplayController().setBackground((int)ret);
-		}
-		return ret;
+	public double run(double result, Variable curArg) {
+		getBackendController().getFrontEndController().getDisplayController().setBackground((int)result);
+		return result;
 	}
 }

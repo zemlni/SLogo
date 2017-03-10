@@ -53,23 +53,28 @@ public class CommandTable implements CommandTableInterface {
 		commands.remove(newCommand.getKey().toUpperCase());
 		commands.put(newCommand.getKey().toUpperCase(), newCommand);
 		if (newCommand instanceof UserCommand)
-			frontEndController.addCommand(newCommand);
-	}
-	
-	public void setCommands(Map<String, Command> commands) {
-		this.commands = commands;
+			frontEndController.addCommand((UserCommand) newCommand);
 	}
 	
 	public Map<String, Command> getCommands(){
-		Map<String, Command> temp = new HashMap<String, Command>();
-		for(String str: commands.keySet()){
-			UserCommand tempCommand = (UserCommand)commands.get(str);
-			UserCommand command = new UserCommand(tempCommand.getString(), tempCommand.getBackendController(), tempCommand.getInfo(), tempCommand.getArgNames(),
-					tempCommand.getCommands());
-			temp.put(str, command);
-		}
-		return temp;
+		return commands;
 	}
+	
+	public void setCommands(Map<String, Command> commands){
+		this.commands = commands;
+		frontEndController.clearCommands();
+		for (String key: commands.keySet()){
+			if(commands.get(key) instanceof UserCommand){
+				frontEndController.addCommand((UserCommand) commands.get(key));
+			}
+		}
+	}
+	
+//  // Not informing frontend
+//	public void setCommands(Map<String, Command> commands) {
+//		this.commands = commands;
+//	}
+//	
 
 	public void removeCommand(String key) {
 		commands.remove(key.toUpperCase());
