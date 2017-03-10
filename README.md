@@ -39,3 +39,7 @@ A saved session stores the information of variables, commands, history, and user
 The Help button shows a JavaFX browser with the commands website as the default help page.
 
 There is a language button, which allows the user to choose language for both the user interface and the language of the SLogo commands.
+
+#### SLogo Commands:
+
+We have covered all of the [SLogo basic commands](http://www.cs.duke.edu/courses/compsci308/spring17/assign/03_slogo/commands.php) and [SLogo extended commands](http://www.cs.duke.edu/courses/compsci308/spring17/assign/03_slogo/commands2_J2W.php). 
