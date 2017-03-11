@@ -45,10 +45,32 @@ endEventGrouping();
 ```
 These are to allow for different priorities of the commands passed from backend, and for grouped events that shall be executed simultaneously.
 
-####Internal API for Front-End
+4. Added API for debugging:  
+```
+debug(String input, List<Integer> breakpoints);
+step();
+```
 
-#####public abstract class LocationTransformer 
+5. Allow display preference to be changed:  
+Added: 
+```
+DisplayController frontEndController::getDisplayController();
+displayController::showColorPalette();
+displayController::setPalette(int[] params);
+displayController::setPenSize(int width);
+displayController::setShape(int index);
+displayController::setBackground(int index);
+displayController::setPenColor(int index);
+displayController::getPenColor();
+displayController::getShape();
+```
+
+#### Internal API for Front-End
+
+##### public abstract class LocationTransformer 
+
 This is a new class that has been added to allow for different strategies in turtle screen movement. For example different implementations of it could mean the screen is infinite, unbounded, etc. 
+
 1. Constructor: public LocationTransformer(double xOffset, double yOffset)
 2. Translate Points to understandable for JavaFX canvas (meaning 0,0 is in top left corner): public Point2D translateLoc(double x, double y)
 3. Finds turtle adjusted Location based on new location: public abstract void findTurtleLoc(Point2D location) 
@@ -56,7 +78,8 @@ This is a new class that has been added to allow for different strategies in tur
 5. Sets bounds for when screen shift size: public void setBounds(double xBoundary, double yBoundary)
 6. Gets turtle current location: public Point2D getTurtleLoc()
 
-#####TurtleScreenController: 
+##### TurtleScreenController: 
+
 formerly titled Turtle Controller. Changed name to more accurately reflect that this controller was for handling the screen where turtle moves.
 1. Sets instance variable: public void setFrontEndController(FrontEndController frontEndController)
 2. Adds new turtle to the screen: Needed for multiple turtles: public void addTurtle(int idNumber)
@@ -69,7 +92,7 @@ formerly titled Turtle Controller. Changed name to more accurately reflect that 
 9. Method needed to hide a turtle, left out of the original API: public void hideTurtle(int id)
 
 
-######public class TurtleImage { 
+##### public class TurtleImage
 This is a new class which is used to represent a single turtle. Originally just had a single Turtle Controller without necessarily a way to implement the turtle. TurtleImage contains visual components that make a turtle on the turtle screen.
 1. Constructor: public TurtleImage(int idNumber, LocationTransformer locationTransformer, double startingX, double startingY, FrontEndController frontEnd)
 2. Second Constructor with initial spot of (0,0): public TurtleImage(int idNumber, LocationTransformer locationTransformer, FrontEndController frontEnd)
@@ -82,7 +105,7 @@ This is a new class which is used to represent a single turtle. Originally just 
 9. Gets the circle which visually shows if turtle is selected or not, Needed for advanced features: public Circle getCircle() 
 10. Updates whether the turtle is selected or not, Needed for advanced features: public void updateCurrent() 
 
-#####public class VariableEntry extends Button
+##### public class VariableEntry extends Button
 Class which visually shows a variable entry. Used by the VariableController. Necessary if you wish to extend the basic visual display of a variable. New class for this API. 
 1. Constructor: public VariableEntry(Variable variable)
 2. Gets variable name: public String getName()
@@ -90,36 +113,37 @@ Class which visually shows a variable entry. Used by the VariableController. Nec
 4. Changes value visually: public void changeValue(double value)
 5. Overwriting of equals method in order use the method remove: public boolean equals(Object o) 
 
-#####public class CommandEntry extends Button 
+##### public class CommandEntry extends Button 
 Class which visually shows a command entry. Used by the CommandsController. Necessary if you
 wish to extend the basic visual display of a command.
 1. Constructor: public CommandEntry(UserCommand command)
 2. Gets Command Name: public String getName()
 3. Visually updates command: public void updateCommand(UserCommand command)
 
-#####public class Palette 
+##### public class Palette 
 Class which is flexibly designed to be a basis for palettes of different varieties. Needed to show different colors assigned to indices. Could be useful for extension. 
 1. Constructor: public Palette(List<PaletteEntry> entries)
 2. Shows the palette: public void show(){
 3. Hides the palette: public void hide(){
 4. Adds to the palette / replaces old index: public void add(PaletteEntry entry)
 
-#####public class PaletteEntry extends VBox {
+##### public class PaletteEntry extends VBox 
 Flexible class which is designed to allow for a wide range of JavaFX components to be made into a suitable entry into the Palette class mentioned above. Kept it general by accepting a node as a parameter.
 1. Constructor: public PaletteEntry(Node node, int index){
 2. Index associated with node value: public int getIndex(){
 
-######public class PreferencesWindow 
+##### public class PreferencesWindow 
 Basis for building a selection of preferences for the user. The important method in this class is addTab which lets you add to the pre-existing tabs of preferences, ideal for extensions. 
 1. constructor: public PreferencesWindow(TurtleScreenController turtleScreenControl){
 2. Add tab to window: public void addTab(Tab tab)
 
-#####public abstract class PreferenceTab extends Tab{
+##### public abstract class PreferenceTab extends Tab
 This class is useful for being a building block for a preferences tab to put in the preferences window.
-1. Constructor: public PreferenceTab(TurtleScreenController controller, String titleKey){	
+1. Constructor: public PreferenceTab(TurtleScreenController controller, String titleKey);
 2. Implemented in a way specific to each tab: public abstract void addButtons();	
-3. Used to allow subclasses to access controller: public TurtleScreenController getController(){
-	
+3. Used to allow subclasses to access controller: public TurtleScreenController getController();
+
+
 ## Backend External API Changes:
 ```
 class BackendController{
@@ -178,11 +202,14 @@ class Expression{
 	BackendController getBackendController() 
 	int getNumChildren() 
 	void setNumChildren(int numChildren)
-	void addChildren(List<Expression> children) 
+	void addChildren(List<Expression> children)
+	int getLineNumber()
+	void setLineNumber(int lineNumber)
+	void setCurrentLine(int lineNumber)
 }
 ```
 
-This class was added in relation to the TreeParser effort. All elements of the syntax are an `Expression` in the tree. `evaluate` is the method that all elements of syntax extending `Expression` have to implement. `getInfo`, `setInfo`, `getString`, `addChild`, `setParent`, `getParent`, `getNumChildren`, `setNumChildren` and `addChildren` were added in order to facilitate the proper creation of Expressions inside of the `TreeParser` class.  `getChildren`, `getBackendController` were added in order to enable the execution of commands, which inherit from this class. Classes that extend this were created for every element of syntax: `ListStartExpression`, `GroupStartExpression`, `VariableExpression`, `Command`, `ConstantExpression` and `BreakPointExpression`.
+This class was added in relation to the TreeParser effort. All elements of the syntax are an `Expression` in the tree. `evaluate` is the method that all elements of syntax extending `Expression` have to implement. `getInfo`, `setInfo`, `getString`, `addChild`, `setParent`, `getParent`, `getNumChildren`, `setNumChildren` and `addChildren` were added in order to facilitate the proper creation of Expressions inside of the `TreeParser` class.  `getChildren`, `getBackendController` were added in order to enable the execution of commands, which inherit from this class. Classes that extend this were created for every element of syntax: `ListStartExpression`, `GroupStartExpression`, `VariableExpression`, `Command`, `ConstantExpression` and `BreakPointExpression`. `getLineNumber` and `setLineNumber` were added in the effort make the debugger. `setCurrentLine` was also added in order to make the debugger work. This sets the current line in the frontend on an update in the expressions.
 ```
 class Input {
 	void setExpression(Expression expr) 
@@ -222,7 +249,15 @@ The `update` method's signature was changed as discussed in the external API cha
 class CommandTable{
 	//removed
 	void removeCommand(String name)
+	void setCommands(Map<String, Command> commands)
+    Map<String, Command> getCommands()
 }
 ```
-The method `removeCommand` was removed from the API as this was never used and not specified in the language specification.
-
+The method `removeCommand` was removed from the API as this was never used and not specified in the language specification. `setCommands` and `getCommands` were added in order to enable saving and loading the state of the IDE.
+```
+class VariableTable{
+    void setVariables(Map<String, Variable> variables)
+    Map<String, Variable> getVariables()
+}
+```
+The methods `getVariables` and `setVariables` were added in order to enable saving and loading the state of the IDE.
