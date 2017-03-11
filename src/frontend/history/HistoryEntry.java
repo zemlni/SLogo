@@ -1,6 +1,6 @@
 package frontend.history;
 
-import frontend.app.FrontEndController;
+import frontend.frontend.FrontEndController;
 import javafx.scene.control.Button;
 
 public class HistoryEntry extends Button {

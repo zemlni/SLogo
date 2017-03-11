@@ -1,6 +1,6 @@
 package backend.turtle;
 
-import frontend.app.FrontEndController;
+import frontend.frontend.FrontEndController;
 
 public class TurtleModel {
 	private boolean penDown;

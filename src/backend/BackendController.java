@@ -3,11 +3,10 @@ package backend;
 import java.util.List;
 
 import java.util.Map;
-
 import backend.parser.Expression;
 import backend.parser.TreeParser;
 import backend.turtle.TurtlePool;
-import frontend.app.FrontEndController;
+import frontend.frontend.FrontEndController;
 
 /**
  * @author nikita This class is the main backend controller. It has an instance

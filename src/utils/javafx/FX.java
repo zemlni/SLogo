@@ -9,7 +9,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
-import language.Language;
+import utils.language.Language;
 
 /**
  * Class with static methods to help build JavaFX components.
