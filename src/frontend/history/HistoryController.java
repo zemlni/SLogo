@@ -28,13 +28,18 @@ public class HistoryController implements IViewController {
 	
 	public void setFrontEndController(FrontEndController frontEnd) {
 		this.frontEnd = frontEnd;
+		for (Node entry : historyBox.getChildren()) {
+			((HistoryEntry) entry).setFrontEndController(frontEnd);
+		}
 	}
 	
 	public void addHistory(String history) {
 		historyBox.getChildren().add(new HistoryEntry(frontEnd, history));
 	}
 	public void addHistory(List<String> histories) {
-		histories.forEach(this::addHistory);
+		for (String history : histories) {
+			addHistory(history);
+		}
 	}
 	public List<String> getHistories() {
 		List<String> histories = new ArrayList<>();

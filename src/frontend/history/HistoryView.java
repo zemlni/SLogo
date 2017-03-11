@@ -11,15 +11,13 @@ public class HistoryView extends ScrollPane implements IControllableView, IConfi
 	private HistoryController controller;
 	
 	public HistoryView() {
-		this(null);
-	}
-	public HistoryView(HistoryConfig config) {
 		historyBox = new VBox();
 		this.setContent(historyBox);
 		controller = new HistoryController(this);
-		if (config != null) {
-			controller.addHistory(config.getHistories());
-		}
+	}
+	public HistoryView(HistoryConfig config) {
+		this();
+		controller.addHistory(config.getHistories());
 	}
 	
 	public VBox getHistoryBox() {

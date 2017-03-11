@@ -23,7 +23,6 @@ public class Main extends Application {
 	public void start(Stage stage) throws Exception {
 		resourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
 
-		
         scene = new Scene(new AppView(), WIDTH, HEIGHT);
 		URL url = getClass().getResource("/resources/ui/app-style.css");
 	    String css = url.toExternalForm(); 
