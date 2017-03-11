@@ -72,10 +72,6 @@ public class VariableTable implements VariableTableInterface {
 		return variables.keySet().contains(name.toUpperCase());
 	}
 
-//	// Not informing frontend
-//	public void setVariables(Map<String, Variable> variables) {
-//		this.variables = variables;
-//	}
 	public Map<String, Variable> getVariables(){
 		return variables;
 	}

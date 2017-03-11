@@ -63,6 +63,7 @@ public class Command extends Expression implements CommandInterface, java.io.Ser
 		if (isDefinedLangCommand(name))
 			return new Variable(null, execute());
 		else if (isDefinedUserCommand(name)) {
+			System.out.println("TEST");
 			try {
 				UserCommand temp = (UserCommand) getBackendController().getParser().getCommandTable().getCommand(name);
 				UserCommand command = new UserCommand(name, getBackendController(), getInfo(), temp.getArgNames(),

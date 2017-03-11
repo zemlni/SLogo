@@ -1,4 +1,4 @@
-package backend.turtlecommands;
+package backend.commands;
 
 import backend.BackendController;
 import backend.parser.Input;
@@ -10,7 +10,6 @@ public class TurtlesCommand extends TurtleCommand{
 	
 	@Override
 	public double execute(){
-		System.out.println("hi");
 		return getTurtlePool().getTotalTurtles();
 	}
 }

@@ -1,4 +1,4 @@
-package backend.turtlecommands;
+package backend.commands;
 
 import java.util.List;
 
@@ -7,28 +7,26 @@ import backend.Variable;
 import backend.parser.Input;
 import backend.turtle.TurtleModel;
 
-public class ForwardCommand extends TurtleCommand {
-
-	public ForwardCommand(Input in, BackendController controller) {
+public class LeftCommand extends TurtleCommand {
+	public LeftCommand(Input in, BackendController controller) {
 		super(in, controller, 1);
 	}
-	
+
 	@Override
 	public double execute() {
-		double forwardAmount = 0;
+		double deltaDir = 0;
 		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
 		getTurtlePool().getFrontController().startEventGrouping();
-		for (TurtleModel t : turtles) {
+		for(TurtleModel t :turtles){
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
-			for (Variable var: getArgs()) {
-				System.out.println("TEST" + getTurtlePool().getCurrentActiveTurtleID());
-				forwardAmount = var.getValue();
-				t.moveForwardsAction(forwardAmount);
+			for (Variable var : getArgs()) {
+				deltaDir = var.getValue();
+				t.leftAction(deltaDir);
 			}
 		}
-		
 		getTurtlePool().getFrontController().endEventGrouping();
-		return forwardAmount;
-	}
-}
 
+		return deltaDir;
+	}
+
+}

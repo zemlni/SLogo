@@ -165,7 +165,7 @@ public class FrontEndController implements IViewController {
             }
         };
         Map<Integer, String> map = new HashMap<>();
-        
+
     }
 
     // Switch event queue and group modes.
@@ -261,6 +261,8 @@ public class FrontEndController implements IViewController {
         syncBackendLanguage();
         System.out.println("Break points: " + breakpoints);
         backendController.evaluate(input, breakpoints);
+        historyController.addHistory(input);
+        setDebugging(true);
     }
 
     public void step () {

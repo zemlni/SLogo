@@ -39,12 +39,12 @@ public abstract class Expression implements java.io.Serializable {
 	 * @return true if this expression should be evaluated. else false
 	 */
 	public boolean checkLines() {
-		System.out.println("I AM NULL" + controller + " " + this);
-		System.out.println(getChildren());
 		boolean sameLine = lineNumber == controller.getCurrentLine();
-		if (!sameLine)
-			getBackendController().setCurrentLine(lineNumber);
 		return sameLine || !controller.getByLine();
+	}
+	
+	public void setCurrentLine(int i){
+		controller.setCurrentLine(i);
 	}
 
 	/**
@@ -92,10 +92,10 @@ public abstract class Expression implements java.io.Serializable {
 	public BackendController getBackendController() {
 		return controller;
 	}
+
 	// TODO: written by Keping. This is bad code.
 	// Only to be used when reloading an expression
 	public void setBackendController(BackendController controller) {
-		System.out.println("CONTROLLER:" + controller);
 		this.controller = controller;
 		for (Expression childExpression : children) {
 			childExpression.setBackendController(controller);
@@ -116,5 +116,9 @@ public abstract class Expression implements java.io.Serializable {
 
 	public void setLineNumber(int lineNumber) {
 		this.lineNumber = lineNumber;
+	}
+
+	public int getLineNumber() {
+		return lineNumber;
 	}
 }

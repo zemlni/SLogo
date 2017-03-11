@@ -46,16 +46,12 @@ public class TurtleComputationsUnit {
 		} else if (currY == towY && towX < currX) {
 			return 270;
 		}
-		if (
-//				towX > currX && 
-				towY > currY) {
+		if (towY > currY) {
 			return 0 + atan;
 		} else if (towY < currY) {
 			return 180 + atan;
 		} 
-//		else if (towX < currX && towY > currY) {
-//			return 360 + atan;
-//		} 
+
 		else {
 			return dir;
 		}

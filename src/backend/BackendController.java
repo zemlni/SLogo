@@ -21,9 +21,10 @@ public class BackendController implements BackendControllerInterface {
 	private String language;
 	private TurtlePool turtlePool;
 	private FrontEndController fcontroller;
-	private Expression breakPointExpression;
 	private boolean byLine;
 	private int currentLine;
+	private int totalLines;
+	private Expression root;
 
 	public BackendController(FrontEndController frontEndController) {
 		this.fcontroller = frontEndController;
@@ -48,14 +49,6 @@ public class BackendController implements BackendControllerInterface {
 		turtlePool.toggleTurtle(id);
 	}
 	
-//	public void setPenDown(int id){
-//		turtlePool.setPenDown(id);
-//	}
-//	
-//	public void setPenUp(int id){
-//		turtlePool.setPenUp(id);
-//	}
-	
 	public void setAllPenDown(){
 		turtlePool.setAllPenDown();
 	}
@@ -79,7 +72,7 @@ public class BackendController implements BackendControllerInterface {
 	@Override
 	public boolean evaluate(String command, List<Integer> breakPoints) {
 		byLine = false;
-		Expression root = parser.parse(command, breakPoints);
+		root = parser.parse(command, breakPoints);
 		return evaluateFromExpression(root);
 	}
 
@@ -117,9 +110,6 @@ public class BackendController implements BackendControllerInterface {
 	public Map<String, Variable> getVariables(){
 		return parser.getVariableTable().getVariables();
 	}
-	public void setBreakPointExpression(Expression expression) {
-		this.breakPointExpression = expression;
-	}
 
 	/**
 	 * Continue the evaluation of the commands already entered, when stopped at
@@ -128,7 +118,7 @@ public class BackendController implements BackendControllerInterface {
 	 * @return true if the commmads finished executing, else false
 	 */
 	public boolean evaluateFromCurrentBreakPoint() {
-		return evaluateFromExpression(breakPointExpression);
+		return evaluateFromExpression(root);
 	}
 
 	private boolean evaluateFromExpression(Expression expr) {
@@ -136,12 +126,15 @@ public class BackendController implements BackendControllerInterface {
 			Variable eval = expr.evaluate();
 			double ret = eval.getValue();
 			fcontroller.showText(String.valueOf(ret));
-			return true;
+			if (currentLine < totalLines){
+				return false;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			//TODO: notify frontend of new current line.
 			return false;
 		}
+		return true;
 	}
 
 	public boolean getByLine() {
@@ -158,11 +151,17 @@ public class BackendController implements BackendControllerInterface {
 	 * @return whether the program has completed execution or not
 	 */
 	public boolean evaluateStep() {
+		root.setLineNumber(currentLine);
 		byLine = true;
-		return evaluateFromCurrentBreakPoint();
+		boolean test = evaluateFromCurrentBreakPoint();
+		return test;
 	}
 
 	public void setCurrentLine(int lineNumber) {
 		this.currentLine = lineNumber;
+	}
+	
+	public void setTotalLines(int totalLines){
+		this.totalLines = totalLines;
 	}
 }
