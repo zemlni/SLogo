@@ -9,7 +9,6 @@ public class Shell extends VBox {
 	
 	public Shell() {
 		this.getStyleClass().add("shell");
-		this.setMinHeight(500);
 		this.getChildren().add(new ShellTextField(this));
 	}
 	public void setFrontEndController(FrontEndController frontEnd) {

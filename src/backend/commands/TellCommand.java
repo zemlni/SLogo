@@ -1,30 +1,17 @@
 package backend.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import backend.BackendController;
-import backend.parser.Expression;
+import backend.commands.abstracts.AskTellCommand;
 import backend.parser.Input;
 
-public class TellCommand extends TurtleCommand{
+public class TellCommand extends AskTellCommand{
 	public TellCommand(Input in, BackendController controller) {
 		super(in, controller, 1);
 	}
 	
 	@Override
 	public double execute(){
-		List<Expression> tellList = getChildren().get(0).getChildren();
-		List<Integer> integerTellList = new ArrayList<Integer>();
-		for(Expression e: tellList){
-			int id = (int) e.evaluate().getValue();
-			if(!getTurtlePool().cointainsTurtle(id)){
-				getTurtlePool().addTurtleUpTo(id);
-			}
-			integerTellList.add(id);
-			getTurtlePool().setCurrentActiveTurtle(id);
-		}
-		getTurtlePool().setTurtleListToSpecified(integerTellList);
+		loopChildrenDoSomething();
 		// TODO: call the frontend api to tell it which turtles are "selected"
 		//frontendmethod(getTurtlePool().getCommandableTurtleList());
 		return getTurtlePool().getCurrentActiveTurtleID();
