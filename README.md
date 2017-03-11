@@ -1,6 +1,14 @@
 ## SLogo IDE
 
+#### Team 8: Gabriel, Keping, Matt, and Nikita
+
 Our IDE for SLogo let users run (and debug?) SLogo programs interactively. Users are shown various states of the workspace, and are allowed to change some preferences.
+
+We started from Feb 17, and ended at March 9. Different members put different time and overall it should be 40 hours for each person on average.
+
+Keping and Matt work on the front-end, and Gabriel and Nikita work on the backend. 
+
+The file to start the project is `main.Main`.
 
 #### User Input View - Run and Debug:
 
@@ -44,4 +52,14 @@ There is a language button, which allows the user to choose language for both th
 
 #### SLogo Commands:
 
-We have covered all of the [SLogo basic commands](http://www.cs.duke.edu/courses/compsci308/spring17/assign/03_slogo/commands.php) and [SLogo extended commands](http://www.cs.duke.edu/courses/compsci308/spring17/assign/03_slogo/commands2_J2W.php). Specifically, we can allow multiple turtles, unlimited arguments, self recursion, and dynamic variable scopes. Commands that may take unlimited arguments are as follows: and, backward, difference, equal, forward, left, notequal, or, product, quotient, remainder, right, setHeading, setPosition, setTowards, sum and make variable. However, a command has to be defined before it is called (even when "called" inside another command body), so mutual recursion is not allowed.
+We have covered all of the [SLogo basic commands](http://www.cs.duke.edu/courses/compsci308/spring17/assign/03_slogo/commands.php) and [SLogo extended commands](http://www.cs.duke.edu/courses/compsci308/spring17/assign/03_slogo/commands2_J2W.php). Specifically, we can allow multiple turtles, unlimited arguments, self recursion, and dynamic variable scopes. 
+
+Commands that may take unlimited arguments are as follows: and, backward, difference, equal, forward, left, notequal, or, product, quotient, remainder, right, setHeading, setPosition, setTowards, sum and make variable. However, a command has to be defined before it is called (even when "called" inside another command body), so mutual recursion is not allowed.
+
+#### Bugs:
+
+1. The debugger is still not fully functional. It only steps one line (cannot step into function body).
+
+#### How the assignment could be improved:
+
+
