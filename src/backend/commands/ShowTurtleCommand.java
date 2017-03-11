@@ -1,4 +1,4 @@
-package backend.turtlecommands;
+package backend.commands;
 
 import java.util.List;
 
@@ -6,9 +6,8 @@ import backend.BackendController;
 import backend.parser.Input;
 import backend.turtle.TurtleModel;
 
-public class HideTurtleCommand extends TurtleCommand{
-
-	public HideTurtleCommand(Input in, BackendController controller) {
+public class ShowTurtleCommand extends TurtleCommand{
+	public ShowTurtleCommand(Input in, BackendController controller) {
 		super(in, controller, 0);
 	}
 
@@ -17,9 +16,9 @@ public class HideTurtleCommand extends TurtleCommand{
 		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
 		for(TurtleModel t :turtles){
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
-			t.hideAction();
+			t.showAction();
 		}
-		return 0;
+		return 1;
 	}
 
 }

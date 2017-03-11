@@ -124,28 +124,24 @@ public class TreeParser implements ParserInterface {
 		}
 		controller.getFrontEndController().showError(error, message);
 	}
-	
+
 	private Object getInstance(String path, Input name) throws Exception {
 		Class<?> clazz = Class.forName(path);
 		Constructor<?> ctor = clazz.getDeclaredConstructor(name.getClass(), controller.getClass());
 		return ctor.newInstance(name, controller);
 	}
-	
+
 	private Command makeCommand(Input name) throws CommandException {
 		Command cur = null;
 		try {
 			cur = (Command) getInstance("backend.commands." + getCommandSymbol(name.get()) + "Command", name);
 		} catch (Exception e) {
 			try {
-				cur = (Command) getInstance("backend.turtlecommands." + getCommandSymbol(name.get()) + "Command", name);
-			} catch (Exception e1) {
-				try {
-					Command temp = commandTable.getCommand(name.get());
-					cur = new Command(name, controller);
-					cur.setNumArgs(temp.getNumArgs());
-				} catch (Exception e2) {
-					cur = new Command(name, controller);
-				}
+				Command temp = commandTable.getCommand(name.get());
+				cur = new Command(name, controller);
+				cur.setNumArgs(temp.getNumArgs());
+			} catch (Exception e2) {
+				cur = new Command(name, controller);
 			}
 		}
 		cur.setInfo(name);

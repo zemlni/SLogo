@@ -1,8 +1,7 @@
-package backend.turtlecommands;
+package backend.commands;
 
 import backend.BackendController;
 import backend.Variable;
-import backend.commands.SimpleCommand;
 import backend.parser.Input;
 /**@author nikita Set the background. Supports unlimited parameters.
  * */
