@@ -3,6 +3,7 @@ package backend.commands;
 import backend.BackendController;
 import backend.Command;
 import backend.Variable;
+import backend.commands.abstracts.SimpleFoldCommand;
 import backend.parser.Input;
 
 /**
@@ -10,7 +11,7 @@ import backend.parser.Input;
  *         this class gets created when the parser identifies that the user
  *         typed a Sum command
  */
-public class SumCommand extends SimpleCommand {
+public class SumCommand extends SimpleFoldCommand {
 
 	public SumCommand(Input in, BackendController controller) {
 		super(in, controller, 2);

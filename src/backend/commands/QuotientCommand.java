@@ -3,6 +3,7 @@ package backend.commands;
 
 import backend.BackendController;
 import backend.Variable;
+import backend.commands.abstracts.SimpleFoldCommand;
 import backend.parser.Input;
 
 /**
@@ -10,7 +11,7 @@ import backend.parser.Input;
  *         instance of this class gets created when the parser identifies that
  *         the user typed a Quotient command. Supports unlimited parameters.
  */
-public class QuotientCommand extends SimpleCommand {
+public class QuotientCommand extends SimpleFoldCommand {
 
 	public QuotientCommand(Input in, BackendController controller) {
 		super(in, controller, 2);

@@ -5,6 +5,7 @@ import java.util.List;
 import backend.BackendController;
 import backend.Command;
 import backend.Variable;
+import backend.commands.abstracts.SimpleFoldCommand;
 import backend.parser.Input;
 
 /**
@@ -12,7 +13,7 @@ import backend.parser.Input;
  *         of this class gets created when the parser identifies that the user
  *         typed a Product command
  */
-public class ProductCommand extends SimpleCommand {
+public class ProductCommand extends SimpleFoldCommand {
 
 	public ProductCommand(Input in, BackendController controller) {
 		super(in, controller, 2);

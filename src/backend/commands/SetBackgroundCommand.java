@@ -1,27 +1,19 @@
 package backend.commands;
 
 import backend.BackendController;
-import backend.Variable;
+import backend.commands.abstracts.SimpleMapCommand;
 import backend.parser.Input;
 /**@author nikita Set the background. Supports unlimited parameters.
  * */
-public class SetBackgroundCommand extends SimpleCommand {
+public class SetBackgroundCommand extends SimpleMapCommand {
 
 	public SetBackgroundCommand(Input in, BackendController controller) {
 		super(in, controller, 1);
 	}
-	/**
-	 * set the background color to the index indicated by result
-	 * 
-	 * @param result
-	 *            the index to be set
-	 * @param curArg
-	 *            the next argument, not needed for this example
-	 * @return the index that was set
-	 */
+
 	@Override
-	public double run(double result, Variable curArg) {
-		getBackendController().getFrontEndController().getDisplayController().setBackground((int)result);
-		return result;
+	public double run(double argValue) {
+		getBackendController().getFrontEndController().getDisplayController().setBackground((int)argValue);
+		return argValue;
 	}
 }
