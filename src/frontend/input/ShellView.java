@@ -11,6 +11,8 @@ public class ShellView extends ScrollPane implements InputView {
 	
 	public ShellView() {
 		shell = new Shell();
+		shell.prefWidthProperty().bind(this.widthProperty());
+		shell.prefHeightProperty().bind(this.heightProperty());
 		this.setContent(shell);
 		controller = new ShellController(this);
 	}

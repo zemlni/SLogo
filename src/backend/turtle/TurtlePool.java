@@ -63,7 +63,7 @@ public class TurtlePool {
 	 */
 	public void addTurtleUpTo(int id){
 		if(!turtleMap.containsKey(id)){
-			for(int currID = highestTurtleID() + 1; currID <= (int)id; currID++){
+			for(int currID = highestTurtleID() + 1; currID <= id; currID++){
 				totalTurtles++;
 				addToTurtleMap(currID);
 				addToCommandableTurtleList(currID);

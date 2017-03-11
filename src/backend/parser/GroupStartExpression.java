@@ -2,7 +2,6 @@ package backend.parser;
 
 import backend.BackendController;
 import backend.Variable;
-import backend.parser.Expression;
 
 /**
  * This class is the implementation of the Group Expression. An instance of this

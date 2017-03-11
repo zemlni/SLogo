@@ -17,9 +17,8 @@ public class Shell extends VBox {
 	}
 	
 	private void replaceLastLineWithLabel() {
-		int size = this.getChildren().size();
-		String text = ((ShellTextField) this.getChildren().get(size-1)).getText();
-		this.getChildren().remove(size-1);
+		String text = ((ShellTextField) this.getChildren().get(size()-1)).getText();
+		this.getChildren().remove(size()-1);
 		this.getChildren().add(new ShellTextLabel(ShellTextField.PROMPT_STRING+" "+text));
 	}
 	
@@ -28,19 +27,25 @@ public class Shell extends VBox {
 		this.getChildren().add(new ShellTextField(this));
 	}
 	
-	public void appendToLabel(String text) {
-		int size = this.getChildren().size();
-		this.getChildren().add(size-1, new ShellTextLabel(text));
+	private int size() {
+	    return this.getChildren().size();
 	}
-	
+	public void appendToLabel(String text) {
+		this.getChildren().add(size()-1, new ShellTextLabel(text));
+		setFocus();
+	}
 	public void appendToField(String text) {
-		int size = this.getChildren().size();
-		ShellTextField field = ((ShellTextField) this.getChildren().get(size-1));
+		ShellTextField field = ((ShellTextField) this.getChildren().get(size()-1));
 		field.setText(field.getText() + text);
+		setFocus();
 	}
 	
 	public void evaluate(String text) {
 		frontEnd.evaluate(text);
 	}
 		
+	private void setFocus() {
+	    this.getChildren().get(size()-1).requestFocus();
+	}
+	
 }

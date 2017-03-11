@@ -1,13 +1,11 @@
 package frontend.variables;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import backend.Variable;
 import frontend.IViewController;
 import frontend.frontend.FrontEndController;
-import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
 

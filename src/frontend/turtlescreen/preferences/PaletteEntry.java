@@ -19,12 +19,19 @@ public class PaletteEntry extends VBox {
 	
 	@Override
 	public boolean equals(Object o) {
+	        if (o == this) { return true; }
 		if(o instanceof PaletteEntry){
 			if(((PaletteEntry) o).index == this.index){
 				return true;
 			}
 		}
 		return false;
-		
+	}
+	
+	@Override
+	public int hashCode() {
+	    int ans = 17;
+	    ans *= 37 + index;
+	    return ans;
 	}
 }
