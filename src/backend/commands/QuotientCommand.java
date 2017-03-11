@@ -28,6 +28,6 @@ public class QuotientCommand extends SimpleCommand {
 	 */
 	@Override
 	public double run(double result, Variable curArg) {
-		return result / curArg.getValue();
+			return result / curArg.getValue();
 	}
 }

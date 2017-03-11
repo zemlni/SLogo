@@ -113,6 +113,7 @@ public class TreeParser implements ParserInterface {
 	 *            the exception that was thrown
 	 */
 	public void complain(Exception e) {
+		e.printStackTrace();
 		String error = "";
 		String message = "";
 		if (e instanceof IndexOutOfBoundsException)

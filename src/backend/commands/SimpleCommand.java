@@ -16,12 +16,8 @@ public abstract class SimpleCommand extends Command {
 	public double execute(){
 		List<Variable> args = getArgs();
 		double result = args.get(0).getValue();
-		for (int i = 1; i < args.size() + 1; i++){
-			Variable curArg = null;
-			if (i < args.size())
-				curArg = args.get(i);
-			result = run(result, curArg);
-		}
+		for (int i = 1; i < args.size(); i++)
+			result = run(result, args.get(i));
 		return result;
 	}
 	

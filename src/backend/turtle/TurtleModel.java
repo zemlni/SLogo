@@ -232,6 +232,5 @@ public class TurtleModel {
 	public void setPenUp(){
 		this.penDown = false;
 	}
-	
-	
+
 }

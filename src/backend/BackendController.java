@@ -131,6 +131,7 @@ public class BackendController implements BackendControllerInterface {
 				return false;
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			//TODO: notify frontend of new current line.
 			return false;
 		}
