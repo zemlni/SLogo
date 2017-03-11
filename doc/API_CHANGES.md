@@ -178,11 +178,14 @@ class Expression{
 	BackendController getBackendController() 
 	int getNumChildren() 
 	void setNumChildren(int numChildren)
-	void addChildren(List<Expression> children) 
+	void addChildren(List<Expression> children)
+	int getLineNumber()
+	void setLineNumber(int lineNumber)
+	void setCurrentLine(int lineNumber)
 }
 ```
 
-This class was added in relation to the TreeParser effort. All elements of the syntax are an `Expression` in the tree. `evaluate` is the method that all elements of syntax extending `Expression` have to implement. `getInfo`, `setInfo`, `getString`, `addChild`, `setParent`, `getParent`, `getNumChildren`, `setNumChildren` and `addChildren` were added in order to facilitate the proper creation of Expressions inside of the `TreeParser` class.  `getChildren`, `getBackendController` were added in order to enable the execution of commands, which inherit from this class. Classes that extend this were created for every element of syntax: `ListStartExpression`, `GroupStartExpression`, `VariableExpression`, `Command`, `ConstantExpression` and `BreakPointExpression`.
+This class was added in relation to the TreeParser effort. All elements of the syntax are an `Expression` in the tree. `evaluate` is the method that all elements of syntax extending `Expression` have to implement. `getInfo`, `setInfo`, `getString`, `addChild`, `setParent`, `getParent`, `getNumChildren`, `setNumChildren` and `addChildren` were added in order to facilitate the proper creation of Expressions inside of the `TreeParser` class.  `getChildren`, `getBackendController` were added in order to enable the execution of commands, which inherit from this class. Classes that extend this were created for every element of syntax: `ListStartExpression`, `GroupStartExpression`, `VariableExpression`, `Command`, `ConstantExpression` and `BreakPointExpression`. `getLineNumber` and `setLineNumber` were added in the effort make the debugger. `setCurrentLine` was also added in order to make the debugger work. This sets the current line in the frontend on an update in the expressions.
 ```
 class Input {
 	void setExpression(Expression expr) 
@@ -222,7 +225,15 @@ The `update` method's signature was changed as discussed in the external API cha
 class CommandTable{
 	//removed
 	void removeCommand(String name)
+	void setCommands(Map<String, Command> commands)
+    Map<String, Command> getCommands()
 }
 ```
-The method `removeCommand` was removed from the API as this was never used and not specified in the language specification.
-
+The method `removeCommand` was removed from the API as this was never used and not specified in the language specification. `setCommands` and `getCommands` were added in order to enable saving and loading the state of the IDE.
+```
+class VariableTable{
+    void setVariables(Map<String, Variable> variables)
+    Map<String, Variable> getVariables()
+}
+```
+The methods `getVariables` and `setVariables` were added in order to enable saving and loading the state of the IDE.
