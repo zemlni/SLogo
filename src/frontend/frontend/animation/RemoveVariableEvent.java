@@ -18,7 +18,7 @@ public class RemoveVariableEvent extends VariablesViewEvent {
 			// TODO: Hey! Don't throw this to me!
 			control.removeVariable(variable);
 		} catch (Exception e) {
-			e.printStackTrace();
+			setFinishedTrue();
 		}
 		setFinishedTrue();
 		return dt;

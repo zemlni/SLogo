@@ -18,7 +18,7 @@ public class RemoveCommandEvent extends CommandsViewEvent {
 			// TODO: Hey! Don't throw this to me!
 			control.removeCommand(command);
 		} catch (Exception e) {
-			e.printStackTrace();
+			setFinishedTrue();
 		}
 		setFinishedTrue();
 		return 0;
