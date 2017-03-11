@@ -39,19 +39,16 @@ public class UserCommand extends Command implements UserCommandInterface {
 	 */
 	@Override
 	public double execute() {
-
 		Map<String, Variable> map = getBackendController().getParser().getVariableTable().getVariables();
 		Map<String, Variable> newMap = new HashMap<String, Variable>();
-		for (String key: map.keySet())
+		for (String key : map.keySet())
 			newMap.put(key, map.get(key));
-
 		for (int i = 0; i < argNames.size(); i++) {
 			String varName = argNames.get(i).getKey();
 			double newVal = getChildren().get(i).evaluate().getValue();
 			getBackendController().setVariable(new Variable(varName, newVal));
 		}
 		double ret = commands.evaluate().getValue();
-
 		getBackendController().getParser().getVariableTable().setVariables(newMap);
 		return ret;
 	}
@@ -68,5 +65,4 @@ public class UserCommand extends Command implements UserCommandInterface {
 	public Expression getCommands() {
 		return commands;
 	}
-
 }
