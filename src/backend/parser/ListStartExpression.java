@@ -13,6 +13,7 @@ public class ListStartExpression extends MultiExpression {
 
 	private int numChildrenEvaluated;
 	private boolean setLines;
+
 	public ListStartExpression(Input info, BackendController controller) {
 		super(info, controller, "List");
 		if (getArg().length() > 0) {
@@ -39,11 +40,15 @@ public class ListStartExpression extends MultiExpression {
 		if (checkLines()) {
 			List<Expression> children = getChildren();
 			Variable ret = new Variable(null, 0);
-			for (int i = numChildrenEvaluated; i < children.size(); i++){
-				if(setLines && getBackendController().getByLine()){
+			int start = getBackendController().getByLine() ? numChildrenEvaluated : 0;
+			for (int i = start; i < children.size(); i++) {
+				// for (int i = 0; i < children.size(); i++) {
+
+				if (setLines && getBackendController().getByLine()) {
 					setCurrentLine(children.get(i).getLineNumber());
 					setLines = false;
 				}
+
 				ret = children.get(i).evaluate();
 				if (ret == null)
 					return null;

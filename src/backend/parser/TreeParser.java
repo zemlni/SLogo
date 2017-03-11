@@ -194,7 +194,8 @@ public class TreeParser implements ParserInterface {
 		}
 		String[] split = tempString.split(WHITESPACE_NEWLINE);
 		Input in = new Input(split, breakPoints, lineNumbers);
-		controller.setTotalLines(lineNumbers.get(lineNumbers.size() - 1));
+		if (lineNumbers.size() > 0)
+			controller.setTotalLines(lineNumbers.get(lineNumbers.size() - 1));
 		Expression top = new ListStartExpression(controller);
 		while (in.getIndex() < in.getLength()) {
 			in = parse(in);
