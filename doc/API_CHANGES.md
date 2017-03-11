@@ -63,7 +63,6 @@ displayController::setBackground(int index);
 displayController::setPenColor(int index);
 displayController::getPenColor();
 displayController::getShape();
-
 ```
 
 #### Internal API for Front-End
