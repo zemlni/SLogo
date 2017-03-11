@@ -243,6 +243,7 @@ public class FrontEndController implements IViewController {
 		syncBackendLanguage();
 		System.out.println("Break points: "+ breakpoints);
 		backendController.evaluate(input, breakpoints);
+		setDebugging(true);
 	}
 	public void step() {
 		if (!isDebugging()) { return; }

@@ -10,10 +10,13 @@ import backend.Variable;
  */
 public class BreakPointExpression extends Expression {
 
+	private boolean evaluate;
+
 	public BreakPointExpression(Input info, BackendController controller) {
 		super(info, controller, 1);
 		info.set(info.get().substring(1));
 		info.decrementIndex();
+		evaluate = false;
 	}
 
 	/**
@@ -22,8 +25,12 @@ public class BreakPointExpression extends Expression {
 	 */
 	@Override
 	public Variable evaluate() {
-		if (checkLines())
-			getBackendController().setBreakPointExpression(this.getChildren().get(0));
-		return null;
+		if (!evaluate) {
+			evaluate = true;
+			return null;
+		}
+		Variable ret = getChildren().get(0).evaluate();
+		setCurrentLine(getChildren().get(0).getLineNumber());
+		return ret;
 	}
 }

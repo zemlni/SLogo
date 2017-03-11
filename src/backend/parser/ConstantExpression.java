@@ -21,9 +21,12 @@ public class ConstantExpression extends Expression {
 	 */
 	@Override
 	public Variable evaluate() {
-		if (checkLines())
-			return new Variable(null, Double.parseDouble(getString()));
-		return null;
+		Variable ret = null;
+		if (checkLines()){
+			ret = new Variable(null, Double.parseDouble(getString()));
+			setCurrentLine(getParent().getLineNumber());
+		}
+		return ret;
 	}
 
 }

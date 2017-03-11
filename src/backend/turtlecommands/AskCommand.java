@@ -29,7 +29,6 @@ public class AskCommand extends TurtleCommand {
 		
 		List<TurtleModel> turtles = getTurtlePool().getCommandableTurtleModels();
 		for (TurtleModel t : turtles) {
-			System.out.println(turtles.size());
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
 			getArgs();
 		}

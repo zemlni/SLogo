@@ -14,16 +14,9 @@ public class AskWithCommand extends TurtleCommand{
 	
 	@Override
 	public double execute(){
-		System.out.println("hi");
 		List<Integer> integerTellList = new ArrayList<Integer>();
-		System.out.println("hi1");
-
 		List<TurtleModel> allTurtleModels = getTurtlePool().getAllTurtleModels();
-		System.out.println("hi2");
-
-		System.out.println(allTurtleModels.size());
 		for(TurtleModel t: allTurtleModels){
-			System.out.println("hi");
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
 
 			boolean condition = getChildren().get(0).getChildren().get(0).evaluate().getValue() == 1;

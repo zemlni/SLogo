@@ -21,7 +21,6 @@ public class ForwardCommand extends TurtleCommand {
 		for (TurtleModel t : turtles) {
 			getTurtlePool().setCurrentActiveTurtle(t.getTurtleIDNumber());
 			for (Variable var: getArgs()) {
-				System.out.println("TEST" + getTurtlePool().getCurrentActiveTurtleID());
 				forwardAmount = var.getValue();
 				t.moveForwardsAction(forwardAmount);
 			}

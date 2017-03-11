@@ -10,7 +10,6 @@ public class TurtlesCommand extends TurtleCommand{
 	
 	@Override
 	public double execute(){
-		System.out.println("hi");
 		return getTurtlePool().getTotalTurtles();
 	}
 }

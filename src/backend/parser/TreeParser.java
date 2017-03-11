@@ -38,7 +38,6 @@ public class TreeParser implements ParserInterface {
 
 	public TreeParser(BackendController controller) {
 		this.controller = controller;
-		System.out.println("PARSER CONTROLLER" + controller);
 		ResourceBundle languageResources = ResourceBundle.getBundle(controller.getLanguage());
 		ResourceBundle syntaxResources = ResourceBundle.getBundle("Syntax");
 		commandSymbols = new ArrayList<Entry<String, Pattern>>();
@@ -114,7 +113,6 @@ public class TreeParser implements ParserInterface {
 	 *            the exception that was thrown
 	 */
 	public void complain(Exception e) {
-		e.printStackTrace();
 		String error = "";
 		String message = "";
 		if (e instanceof IndexOutOfBoundsException)
@@ -154,6 +152,7 @@ public class TreeParser implements ParserInterface {
 	}
 
 	private Expression makeExpression(Input name) throws VariableException {
+		int lineNumber = name.getLineNumber();
 		Expression expr = null;
 		try {
 			if (getSyntaxSymbol(name.get()).equals("Command")) {
@@ -165,7 +164,7 @@ public class TreeParser implements ParserInterface {
 			throw new VariableException(name.get());
 		}
 		if (expr != null)
-			expr.setLineNumber(name.getLineNumber());
+			expr.setLineNumber(lineNumber);
 		return expr;
 	}
 
@@ -191,13 +190,14 @@ public class TreeParser implements ParserInterface {
 			String[] spaceSplit = lineSplit[i].split(WHITESPACE);
 			for (int j = 0; j < spaceSplit.length; j++) {
 				if (lineSplit[i].trim().length() > 0 && !(lineSplit[i].trim().charAt(0) == '#')) {
-					lineNumbers.add(i + 1);
+					lineNumbers.add(i);
 					tempString += spaceSplit[j] + " ";
 				}
 			}
 		}
 		String[] split = tempString.split(WHITESPACE_NEWLINE);
 		Input in = new Input(split, breakPoints, lineNumbers);
+		controller.setTotalLines(lineNumbers.get(lineNumbers.size() - 1));
 		Expression top = new ListStartExpression(controller);
 		while (in.getIndex() < in.getLength()) {
 			in = parse(in);
@@ -207,7 +207,6 @@ public class TreeParser implements ParserInterface {
 				in.incrementIndex();
 			}
 		}
-		System.out.println(top);
 		return top;
 	}
 

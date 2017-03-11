@@ -37,7 +37,7 @@ public class ScriptView extends AnchorPane implements InputView {
 		Button openBtn = FX.button("Open", e -> controller.openFile());
 		Button saveBtn = FX.button("Save", e -> controller.saveFile());
 		Button debugBtn = FX.button("Debug", e -> controller.debug());
-		Button stepBtn = FX.button("Step", e -> controller.debug());
+		Button stepBtn = FX.button("Step", e -> controller.step());
 		
 		VBox buttonsBox = new VBox();
 		buttonsBox.getChildren().addAll(

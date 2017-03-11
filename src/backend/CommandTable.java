@@ -33,10 +33,6 @@ public class CommandTable implements CommandTableInterface {
 	@Override
 	public Command getCommand(String name) throws CommandException {
 		Command ret = commands.get(name.toUpperCase());
-		// TODO: print 
-		System.out.println("Currnet command table:");
-		System.out.println(commands);
-		System.out.println("GETCOMMAND: " + name.toUpperCase() + " RESULT: " + commands.get(name.toUpperCase()).getChildren());
 		if (ret == null)
 			throw new CommandException(name);
 		return ret;
@@ -69,12 +65,6 @@ public class CommandTable implements CommandTableInterface {
 			}
 		}
 	}
-	
-//  // Not informing frontend
-//	public void setCommands(Map<String, Command> commands) {
-//		this.commands = commands;
-//	}
-//	
 
 	public void removeCommand(String key) {
 		commands.remove(key.toUpperCase());
