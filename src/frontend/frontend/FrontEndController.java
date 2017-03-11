@@ -259,7 +259,6 @@ public class FrontEndController implements IViewController {
             return;
         }
         syncBackendLanguage();
-        System.out.println("Break points: " + breakpoints);
         backendController.evaluate(input, breakpoints);
         historyController.addHistory(input);
         setDebugging(true);

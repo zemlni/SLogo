@@ -7,8 +7,10 @@ import frontend.help.BrowserWindow;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
+import utils.javafx.FX;
 
 public class MenuController implements IViewController {
+	private static final String HELP_PAGE_URL = "http://www.cs.duke.edu/courses/compsci308/spring17/assign/03_slogo/commands.php";
 
 	private ComboBox<String> languageBox;
 	private AppController appController;
@@ -45,12 +47,12 @@ public class MenuController implements IViewController {
 		appController.saveSession();
 	}
 	public void openHelpPage() {
+		String url = HELP_PAGE_URL;
 		try {
-			BrowserWindow helpPage = new BrowserWindow(
-					"http://www.cs.duke.edu/courses/compsci308/spring17/assign/03_slogo/commands.php");
+			BrowserWindow helpPage = new BrowserWindow(url);
 			helpPage.show();
 		} catch (IOException e) {
-			System.out.println("Sorry Cannot show help page :(");
+			FX.alertError("ErrorTitle", "CannotShowHelpPage", url);
 		}
 	}
 
