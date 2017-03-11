@@ -6,7 +6,9 @@ Our IDE for SLogo let users run (and debug?) SLogo programs interactively. Users
 
 There are two tabs for user input, one is a script window, the other is a shell window. 
 
-Inside script view, the user runs the input by clicking the "run" button. There are buttons for the user to open a text file and load it to the script window, and to save the current script to a file. The user can also enter debug mode by clicking the "debug" button, and specifying the line numbers by entering space/newline separated numbers in the thin left text area. In debug mode, the program stops executing on the breakpoint, and then when "step" button is clicked, it steps one line.
+Inside script view, the user runs the input by clicking the "run" button. There are buttons for the user to open a text file and load it to the script window, and to save the current script to a file. 
+
+The user can also enter debug mode by clicking the "debug" button, and specifying the line numbers by entering space/newline separated numbers in the thin left text area. In debug mode, the program stops executing on the breakpoint. Then when "step" button is clicked, it steps one line.
 
 Inside shell view, the user runs the input by pressing enter. Return value from the command will be shown in the shell.
 
