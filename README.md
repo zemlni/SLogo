@@ -58,7 +58,7 @@ Commands that may take unlimited arguments are as follows: and, backward, differ
 
 #### Bugs:
 
-1. The debugger is still not fully functional. It only steps one line (cannot step into function body).
+None
 
 #### How the assignment could be improved:
 
